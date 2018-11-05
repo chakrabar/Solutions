@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Wikipedia.AppContracts\Wikipedia.AppContracts.csproj" />
     <ProjectReference Include="..\Wikipedia.Models\Wikipedia.Models.csproj" />
   </ItemGroup>
 
