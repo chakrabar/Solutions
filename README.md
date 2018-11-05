@@ -1,0 +1,2 @@
+# Solutions
+Collection of solutions
