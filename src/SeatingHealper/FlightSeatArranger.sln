@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightSeatArranger", "FlightSeatArranger\FlightSeatArranger.csproj", "{682E45CC-B9C0-4305-B041-86C82258D5E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{B8816FCA-408F-48B0-8407-A211D6326F5D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{682E45CC-B9C0-4305-B041-86C82258D5E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{682E45CC-B9C0-4305-B041-86C82258D5E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{682E45CC-B9C0-4305-B041-86C82258D5E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{682E45CC-B9C0-4305-B041-86C82258D5E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8816FCA-408F-48B0-8407-A211D6326F5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8816FCA-408F-48B0-8407-A211D6326F5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8816FCA-408F-48B0-8407-A211D6326F5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8816FCA-408F-48B0-8407-A211D6326F5D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6978984B-AFE0-4BD2-94A6-380204A4C591}
+	EndGlobalSection
+EndGlobal
