@@ -8,7 +8,8 @@ namespace Wikipedia.Helpers
         public static IEnumerable<string> GetWordsLower(string sentence)
         {
             sentence = sentence.ToLower();
-            return sentence.Split(new[] { ' ', '.', ',', ':', ';', '-', '~', '`', '!', '@', '#', '&', '_', '+', '/', '?' })
+            return sentence.Split(new[] 
+                { ' ', '.', ',', ':', ';', '-', '~', '`', '!', '@', '#', '&', '_', '+', '/', '?', '(', ')', '{', '}', '[', ']' })
                 .Where(part => !string.IsNullOrWhiteSpace(part));
         }
 
