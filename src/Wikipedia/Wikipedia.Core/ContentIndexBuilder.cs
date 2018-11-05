@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Wikipedia.Core.TextHelpers;
+using Wikipedia.Helpers;
 using Wikipedia.Models.Index;
 
 namespace Wikipedia.Core
@@ -18,7 +18,8 @@ namespace Wikipedia.Core
 
             var lines = paragraph
                 .Split(".")
-                .Select(l => l.Trim());
+                .Select(l => l.Trim())
+                .Where(s => !string.IsNullOrWhiteSpace(s));
 
             var lineIndex = 0;
             foreach (var line in lines)

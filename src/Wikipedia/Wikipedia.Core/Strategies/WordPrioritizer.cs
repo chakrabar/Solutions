@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Wikipedia.Core.TextHelpers;
+using Wikipedia.AppContracts;
+using Wikipedia.Helpers;
 using Wikipedia.Models;
 using Wikipedia.Models.Index;
 
-namespace Wikipedia.Core
+namespace Wikipedia.Core.Strategies
 {
-    public class WordPrioritizer
+    public class WordPrioritizer : IKeywordPrioritizer
     {
         readonly string[] questionWords = QuestionWordFactory.GetCommonQuestionWords();
 

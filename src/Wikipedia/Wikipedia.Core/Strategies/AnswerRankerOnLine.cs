@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Wikipedia.AppContracts;
-using Wikipedia.Core.TextHelpers;
+using Wikipedia.Helpers;
 using Wikipedia.Models;
 
 namespace Wikipedia.Core.Strategies

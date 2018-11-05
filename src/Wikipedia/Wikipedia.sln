@@ -13,6 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikipedia.Models", "Wikiped
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wikipedia.AppContracts", "Wikipedia.AppContracts\Wikipedia.AppContracts.csproj", "{7407D537-82FE-4178-A64B-8AB8E6FFA71A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wikipedia.Helpers", "Wikipedia.Helpers\Wikipedia.Helpers.csproj", "{1F015AA7-533D-4E3F-8E8F-D6BE863C1300}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{87B4AC76-8BD7-4BD5-8178-B115C61E5236}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wikipedia.UnitTests", "Wikipedia.UnitTests\Wikipedia.UnitTests.csproj", "{E100F4A0-4675-44B1-8186-6AEED302972F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wikipedia.IntegrationTests", "Wikipedia.IntegrationTests\Wikipedia.IntegrationTests.csproj", "{E329972F-69DF-4438-AA83-171F8D0D1D45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +47,25 @@ Global
 		{7407D537-82FE-4178-A64B-8AB8E6FFA71A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7407D537-82FE-4178-A64B-8AB8E6FFA71A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7407D537-82FE-4178-A64B-8AB8E6FFA71A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F015AA7-533D-4E3F-8E8F-D6BE863C1300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F015AA7-533D-4E3F-8E8F-D6BE863C1300}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F015AA7-533D-4E3F-8E8F-D6BE863C1300}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F015AA7-533D-4E3F-8E8F-D6BE863C1300}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E100F4A0-4675-44B1-8186-6AEED302972F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E100F4A0-4675-44B1-8186-6AEED302972F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E100F4A0-4675-44B1-8186-6AEED302972F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E100F4A0-4675-44B1-8186-6AEED302972F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E329972F-69DF-4438-AA83-171F8D0D1D45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E329972F-69DF-4438-AA83-171F8D0D1D45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E329972F-69DF-4438-AA83-171F8D0D1D45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E329972F-69DF-4438-AA83-171F8D0D1D45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E100F4A0-4675-44B1-8186-6AEED302972F} = {87B4AC76-8BD7-4BD5-8178-B115C61E5236}
+		{E329972F-69DF-4438-AA83-171F8D0D1D45} = {87B4AC76-8BD7-4BD5-8178-B115C61E5236}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C8103980-C5F1-456E-86C2-84E3C01F9F5A}

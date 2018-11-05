@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
-namespace Wikipedia.Core.TextHelpers
+namespace Wikipedia.Helpers
 {
     public static class StringProcessor
     {
         public static IEnumerable<string> GetWordsLower(string sentence)
         {
             sentence = sentence.ToLower();
-            return Regex.Split(sentence, @"\b[\w']*\b"); //TODO: check
+            return sentence.Split(new[] { ' ', '.', ',', ':', ';', '-', '~', '`', '!', '@', '#', '&', '_', '+', '/', '?' })
+                .Where(part => !string.IsNullOrWhiteSpace(part));
         }
 
         public static IEnumerable<string> RemoveWords(IEnumerable<string> target, IEnumerable<string> toRemove)
