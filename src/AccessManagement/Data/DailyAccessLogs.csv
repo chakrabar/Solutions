@@ -1,0 +1,4 @@
+LogId,Type,AccessPointId,EmployeeId,TimeStamp
+1,entry,1,102,08/01/2016 22:29:00
+2,exit,1,102,08/01/2016 22:52:00
+3,deny,7,102,08/01/2016 23:05:00
