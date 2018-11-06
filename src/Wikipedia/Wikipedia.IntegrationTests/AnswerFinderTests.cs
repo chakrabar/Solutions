@@ -19,16 +19,9 @@ namespace Wikipedia.IntegrationTests
         {
             _paragraph = TestConstants.Wiki;
             _questions = TestConstants.Questions;
+            _correctAnswers = TestConstants.CorrectAnswers;
             _answerFinder = new AnswerFinder();
-            _contentIndex = new ContentIndexBuilder().Build(_paragraph);
-            _correctAnswers = new[]
-            {
-                @"Grévy's zebra and the mountain zebra",
-                @"aims to breed zebras that are phenotypically similar to the quagga",
-                @"horses and donkeys",
-                @"the plains zebra, the Grévy's zebra and the mountain zebra",
-                @"subgenus Hippotigris"
-            };
+            _contentIndex = new ContentIndexBuilder().Build(_paragraph);            
         }
 
         //intentioanlly keeping separate test cases for better understanding

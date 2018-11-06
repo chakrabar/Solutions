@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Wikipedia.AppContracts;
+using Wikipedia.AppContracts.Strategies;
 using Wikipedia.Helpers;
 using Wikipedia.Models;
 using Wikipedia.Models.Index;

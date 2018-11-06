@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Wikipedia.AppContracts;
 using Wikipedia.Helpers;
 using Wikipedia.Models.Index;
 
 namespace Wikipedia.Core
 {
-    public class ContentIndexBuilder
+    public class ContentIndexBuilder : IContentIndexBuilder
     {
         public ContentIndex Build(string paragraph)
         {

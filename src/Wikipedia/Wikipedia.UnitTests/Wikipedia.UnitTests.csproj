@@ -13,7 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Wikipedia.Data\Wikipedia.Data.csproj" />
     <ProjectReference Include="..\Wikipedia.Helpers\Wikipedia.Helpers.csproj" />
+    <ProjectReference Include="..\Wikipedia.IntegrationTests\Wikipedia.IntegrationTests.csproj" />
   </ItemGroup>
 
 </Project>

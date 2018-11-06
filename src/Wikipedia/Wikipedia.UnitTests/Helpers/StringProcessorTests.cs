@@ -2,7 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using Wikipedia.Helpers;
 
-namespace Wikipedia.UnitTests
+namespace Wikipedia.UnitTests.Helpers
 {
     [TestClass]
     public class StringProcessorTests

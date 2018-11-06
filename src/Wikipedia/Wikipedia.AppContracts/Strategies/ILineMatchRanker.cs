@@ -2,7 +2,7 @@
 using Wikipedia.Models;
 using Wikipedia.Models.Index;
 
-namespace Wikipedia.AppContracts
+namespace Wikipedia.AppContracts.Strategies
 {
     public interface ILineMatchRanker
     {

@@ -1,11 +1,13 @@
-﻿using Wikipedia.AppContracts;
+﻿using System.Collections.Generic;
+using Wikipedia.AppContracts;
+using Wikipedia.AppContracts.Strategies;
 using Wikipedia.Core.Strategies;
 using Wikipedia.Helpers;
 using Wikipedia.Models.Index;
 
 namespace Wikipedia.Core
 {
-    public class AnswerFinder
+    public class AnswerFinder : IAnswerFinder
     {
         private readonly IKeywordPrioritizer _keywordPrioritizer;
         private readonly ILineMatchRanker _lineMatchRanker;
@@ -23,7 +25,7 @@ namespace Wikipedia.Core
             _answerRanker = answerRanker;
         }
 
-        public string FindBestAnswer(ContentIndex indexData, string question, string[] answers)
+        public string FindBestAnswer(ContentIndex indexData, string question, IEnumerable<string> answers)
         {
             var questionTermWithPriority = _keywordPrioritizer.GetWordsWithPriority(indexData, question);
 

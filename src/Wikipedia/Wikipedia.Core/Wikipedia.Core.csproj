@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Wikipedia.AppContracts\Wikipedia.AppContracts.csproj" />
+    <ProjectReference Include="..\Wikipedia.Data\Wikipedia.Data.csproj" />
     <ProjectReference Include="..\Wikipedia.Helpers\Wikipedia.Helpers.csproj" />
     <ProjectReference Include="..\Wikipedia.Models\Wikipedia.Models.csproj" />
   </ItemGroup>
