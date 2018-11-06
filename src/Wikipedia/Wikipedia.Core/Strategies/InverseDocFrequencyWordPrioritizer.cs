@@ -7,12 +7,13 @@ using Wikipedia.Models.Index;
 
 namespace Wikipedia.Core.Strategies
 {
-    public class WordPrioritizer : IKeywordPrioritizer
+    public class InverseDocFrequencyWordPrioritizer : IKeywordPrioritizer
     {
-        readonly string[] _questionWords = CommonWordsFactory.GetQuestionWords();
-        readonly string[] _frequentWords = CommonWordsFactory.GetFrequentWords();
+        readonly string[] _questionWords = CommonWordsStore.GetQuestionWords();
+        readonly string[] _frequentWords = CommonWordsStore.GetFrequentWords();
 
-        public IEnumerable<WordPriority> GetWordsWithPriority(ContentIndex indexData, string sentence)
+        public IEnumerable<WordPriority> GetWordsWithPriority(string sentence,
+            IEnumerable<WordFrequency> docWordFrequency)
         {
             if (string.IsNullOrWhiteSpace(sentence))
                 return null;
@@ -22,12 +23,12 @@ namespace Wikipedia.Core.Strategies
             var meaningfulWords = StringProcessor.RemoveWords(nonQuestionWords, _frequentWords);
 
             //arrange by descending order of frequency in original content (take 0 if not found)
-            var standardUpperLimit = indexData.AllWords.Max(w => w.Frequency);
+            var standardUpperLimit = docWordFrequency.Max(w => w.Frequency);
             var nonQuestionWordsByValue = meaningfulWords
                 .Select(w => new WordPriority
                 {
                     Word = w,
-                    Priority = standardUpperLimit - (indexData.AllWords.FirstOrDefault(iw => iw.Word == w)?.Frequency ?? 0)
+                    Priority = standardUpperLimit - (docWordFrequency.FirstOrDefault(iw => iw.Word == w)?.Frequency ?? 0)
                 })
                 .OrderBy(wp => wp.Priority);
                 //.Select((wp, idx) => new WordPriority { Word = wp.Word, Priority = idx + 1 });

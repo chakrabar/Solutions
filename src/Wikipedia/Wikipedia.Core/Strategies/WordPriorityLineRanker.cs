@@ -6,15 +6,17 @@ using Wikipedia.Models.Index;
 
 namespace Wikipedia.Core.Strategies
 {
-    public class LineRankerOnKeywords : ILineMatchRanker
+    public class WordPriorityLineRanker : ILineMatchRanker
     {
-        public IEnumerable<LineRank> GetRelevantLinesWithRank(IEnumerable<WordPriority> keywords, IEnumerable<LineIndex> lines)
+        public IEnumerable<LineRank> GetRelevantLinesWithRank(IEnumerable<WordPriority> targetKeywordPriorities,
+            IEnumerable<LineIndex> candidateLinesWithWordIndex)
         {
             var allLinesWithInitialRank = new List<LineRank>();
 
-            foreach (var term in keywords)
+            foreach (var term in targetKeywordPriorities)
             {
-                var allLinesWithTerm = lines.Where(l => l.WordIndex.Any(w => w.Word == term.Word));
+                var allLinesWithTerm = candidateLinesWithWordIndex
+                    .Where(l => l.WordIndex.Any(w => w.Word == term.Word));
                 foreach (var match in allLinesWithTerm)
                 {
                     allLinesWithInitialRank.Add(new LineRank

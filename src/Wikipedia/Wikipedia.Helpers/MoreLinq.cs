@@ -25,5 +25,10 @@ namespace Wikipedia.Helpers
             }
             return maxItem;
         }
+
+        public static bool IsEmpty<T>(this IEnumerable<T> data)
+        {
+            return data == null || data.Count() == 0;
+        }
     }
 }

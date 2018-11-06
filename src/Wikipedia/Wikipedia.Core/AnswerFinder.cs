@@ -14,7 +14,7 @@ namespace Wikipedia.Core
         private readonly IAnswerRanker _answerRanker;
 
         public AnswerFinder()
-            : this(new WordPrioritizer(), new LineRankerOnKeywords(), new AnswerRankerOnLine())
+            : this(new InverseDocFrequencyWordPrioritizer(), new WordPriorityLineRanker(), new InverseDocFrequencyTextRanker())
         { }
         public AnswerFinder(IKeywordPrioritizer keywordPrioritizer,
             ILineMatchRanker lineMatchRanker,
@@ -27,7 +27,7 @@ namespace Wikipedia.Core
 
         public string FindBestAnswer(ContentIndex indexData, string question, IEnumerable<string> answers)
         {
-            var questionTermWithPriority = _keywordPrioritizer.GetWordsWithPriority(indexData, question);
+            var questionTermWithPriority = _keywordPrioritizer.GetWordsWithPriority(question, indexData.AllWords);
 
             var relevantLinesWithRank = _lineMatchRanker
                 .GetRelevantLinesWithRank(questionTermWithPriority, indexData.Lines);

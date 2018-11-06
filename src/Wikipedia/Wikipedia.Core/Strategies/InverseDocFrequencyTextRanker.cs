@@ -8,17 +8,18 @@ using Wikipedia.Models.Index;
 
 namespace Wikipedia.Core.Strategies
 {
-    public class AnswerRankerOnLine : IAnswerRanker
+    public class InverseDocFrequencyTextRanker : IAnswerRanker
     {
-        readonly string[] _commonWords = CommonWordsFactory.GetFrequentWords();
+        readonly string[] _commonWords = CommonWordsStore.GetFrequentWords();
 
-        public IEnumerable<AnswerRank> GetWordMatchRanks(string lineToMatch, IEnumerable<string> targets, IEnumerable<WordFrequency> docWordFrequency)
+        public IEnumerable<AnswerRank> GetWordMatchRanks(string textToMatch, 
+            IEnumerable<string> candidates, IEnumerable<WordFrequency> docWordFrequency)
         {
             var ranks = new List<AnswerRank>();
 
-            foreach (var target in targets)
+            foreach (var target in candidates)
             {
-                var scores = GetAnswerScore(lineToMatch, target, docWordFrequency);
+                var scores = GetAnswerScore(textToMatch, target, docWordFrequency);
                 ranks.Add(new AnswerRank
                 {
                     Answer = target,

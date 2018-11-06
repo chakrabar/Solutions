@@ -10,6 +10,9 @@ namespace Wikipedia.Core
     {
         public ContentIndex Build(string paragraph)
         {
+            if (string.IsNullOrWhiteSpace(paragraph))
+                return null;
+
             var result = new ContentIndex
             {
                 Content = paragraph,

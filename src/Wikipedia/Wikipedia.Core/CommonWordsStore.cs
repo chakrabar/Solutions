@@ -1,6 +1,6 @@
 ﻿namespace Wikipedia.Core
 {
-    public class CommonWordsFactory
+    public class CommonWordsStore
     {
         public static string[] GetQuestionWords()
         {

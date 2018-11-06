@@ -6,7 +6,7 @@ namespace Wikipedia.AppContracts.Strategies
 {
     public interface IAnswerRanker
     {
-        IEnumerable<AnswerRank> GetWordMatchRanks(string lineToMatch, 
-            IEnumerable<string> targets, IEnumerable<WordFrequency> docWordFrequency);
+        IEnumerable<AnswerRank> GetWordMatchRanks(string textToMatch, 
+            IEnumerable<string> candidates, IEnumerable<WordFrequency> docWordFrequency);
     }
 }

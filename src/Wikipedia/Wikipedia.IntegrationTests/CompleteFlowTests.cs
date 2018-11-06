@@ -11,7 +11,7 @@ namespace Wikipedia.IntegrationTests
         {
             var inputData = TestConstants.SampleInput;
 
-            var answers = new AnswerFinderFacade()
+            var answers = new WikiSolutionFacade()
                 .GetAnswersInOrder(inputData);
 
             Assert.IsNotNull(answers);

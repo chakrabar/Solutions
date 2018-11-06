@@ -6,6 +6,7 @@ namespace Wikipedia.AppContracts.Strategies
 {
     public interface ILineMatchRanker
     {
-        IEnumerable<LineRank> GetRelevantLinesWithRank(IEnumerable<WordPriority> keywords, IEnumerable<LineIndex> lines);
+        IEnumerable<LineRank> GetRelevantLinesWithRank(IEnumerable<WordPriority> targetKeywordPriorities,
+            IEnumerable<LineIndex> candidateLinesWithWordIndex);
     }
 }
