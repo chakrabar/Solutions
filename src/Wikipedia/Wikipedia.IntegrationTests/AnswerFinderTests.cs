@@ -20,6 +20,7 @@ namespace Wikipedia.IntegrationTests
             _paragraph = TestConstants.Wiki;
             _questions = TestConstants.Questions;
             _correctAnswers = TestConstants.CorrectAnswers;
+            _answers = TestConstants.Answers;
             _answerFinder = new AnswerFinder();
             _contentIndex = new ContentIndexBuilder().Build(_paragraph);            
         }
@@ -28,34 +29,34 @@ namespace Wikipedia.IntegrationTests
         [TestMethod]
         public void App_should_find_best_answer_1()
         {
-            App_should_find_best_answer(0);
+            Should_find_best_answer(0);
         }
 
         [TestMethod]
         public void App_should_find_best_answer_2()
         {
-            App_should_find_best_answer(1);
+            Should_find_best_answer(1);
         }
 
         [TestMethod]
         public void App_should_find_best_answer_3()
         {
-            App_should_find_best_answer(2);
+            Should_find_best_answer(2);
         }
 
         [TestMethod]
         public void App_should_find_best_answer_4()
         {
-            App_should_find_best_answer(3);
+            Should_find_best_answer(3);
         }
 
         [TestMethod]
         public void App_should_find_best_answer_5()
         {
-            App_should_find_best_answer(4);
+            Should_find_best_answer(4);
         }
 
-        public void App_should_find_best_answer(int index)
+        public void Should_find_best_answer(int index)
         {
             var question = _questions[index];
             var expectedAnswer = _correctAnswers[index];
