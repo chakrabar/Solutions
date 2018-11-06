@@ -12,6 +12,16 @@ namespace Wikipedia.Core.Strategies
     {
         readonly string[] _commonWords = CommonWordsStore.GetFrequentWords();
 
+        /// <summary>
+        /// Ranks candidate texts against textToMatch based on:
+        /// 1. How many words match (excluding common words)
+        /// 2. Their relative significance (inverse document frequency)
+        /// 3. Calculates weighted rank by dividing by candiate length
+        /// </summary>
+        /// <param name="textToMatch"></param>
+        /// <param name="candidates"></param>
+        /// <param name="docWordFrequency"></param>
+        /// <returns></returns>
         public IEnumerable<AnswerRank> GetWordMatchRanks(string textToMatch, 
             IEnumerable<string> candidates, IEnumerable<WordFrequency> docWordFrequency)
         {

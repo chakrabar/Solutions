@@ -4,9 +4,9 @@ using Wikipedia.Models.Index;
 
 namespace Wikipedia.AppContracts.Strategies
 {
-    public interface ILineMatchRanker
+    public interface IQuestionToILineMatcher
     {
-        IEnumerable<LineRank> GetRelevantLinesWithRank(IEnumerable<WordPriority> targetKeywordPriorities,
+        IEnumerable<LineRank> GetRelevantLinesWithRank(IEnumerable<WordPriority> questionKeywordPriorities,
             IEnumerable<LineIndex> candidateLinesWithWordIndex);
     }
 }

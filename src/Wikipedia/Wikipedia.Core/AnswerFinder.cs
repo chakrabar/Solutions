@@ -10,14 +10,14 @@ namespace Wikipedia.Core
     public class AnswerFinder : IAnswerFinder
     {
         private readonly IKeywordPrioritizer _keywordPrioritizer;
-        private readonly ILineMatchRanker _lineMatchRanker;
+        private readonly IQuestionToILineMatcher _lineMatchRanker;
         private readonly IAnswerRanker _answerRanker;
 
         public AnswerFinder()
             : this(new InverseDocFrequencyWordPrioritizer(), new WordPriorityLineRanker(), new InverseDocFrequencyTextRanker())
         { }
         public AnswerFinder(IKeywordPrioritizer keywordPrioritizer,
-            ILineMatchRanker lineMatchRanker,
+            IQuestionToILineMatcher lineMatchRanker,
             IAnswerRanker answerRanker)
         {
             _keywordPrioritizer = keywordPrioritizer;

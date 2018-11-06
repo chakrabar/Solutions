@@ -12,6 +12,14 @@ namespace Wikipedia.Core.Strategies
         readonly string[] _questionWords = CommonWordsStore.GetQuestionWords();
         readonly string[] _frequentWords = CommonWordsStore.GetFrequentWords();
 
+        /// <summary>
+        /// Gets relative priority of words from a sentence
+        /// 1. Removes common and question words
+        /// 2. Finds relative word priority with inverse doc frequency
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <param name="docWordFrequency"></param>
+        /// <returns></returns>
         public IEnumerable<WordPriority> GetWordsWithPriority(string sentence,
             IEnumerable<WordFrequency> docWordFrequency)
         {
