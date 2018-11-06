@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Wikipedia.AppContracts;
 using Wikipedia.Helpers;
 using Wikipedia.Models;
@@ -9,22 +10,29 @@ namespace Wikipedia.Core.Strategies
     {
         readonly string[] _commonWords = CommonWordsFactory.GetFrequentWords();
 
-        public IEnumerable<LineRank> GetWordMatchRanks(string lineToMatch, IEnumerable<string> targets)
+        public IEnumerable<AnswerRank> GetWordMatchRanks(string lineToMatch, IEnumerable<string> targets)
         {
-            var ranks = new List<LineRank>();
+            var ranks = new List<AnswerRank>();
 
             foreach (var target in targets)
             {
-                ranks.Add(new LineRank
+                var scores = GetAnswerScore(lineToMatch, target);
+                ranks.Add(new AnswerRank
                 {
-                    Line = target,
-                    Score = StringProcessor.GetUniqueWordMatchCount(lineToMatch, target, _commonWords)
+                    Answer = target,
+                    WordMatch = scores.WordMatch,
+                    WeightedScore = scores.WeightedScore
                 });
             }
 
             return ranks;
         }
 
-        
+        private (int WordMatch, decimal WeightedScore) GetAnswerScore(string lineToMatch, string answer)
+        {
+            var simpleScore = StringProcessor.GetUniqueWordMatchCount(lineToMatch, answer, _commonWords);
+            var weightedScore = (simpleScore / (decimal)answer.Length) * 10000;
+            return (simpleScore, Math.Round(weightedScore, 2));
+        }
     }
 }
