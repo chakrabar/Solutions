@@ -26,7 +26,7 @@ namespace Wikipedia.Core.Strategies
                 }
             }
 
-            var result = allLinesWithInitialRank
+            var linesWithAgreegatedRank = allLinesWithInitialRank
                 .GroupBy(l => l.LineId)
                 .Select(g => new LineRank
                 {
@@ -34,6 +34,9 @@ namespace Wikipedia.Core.Strategies
                     Line = g.First().Line,
                     Rank = g.Sum(sameLine => sameLine.Rank)
                 });
+
+            var result = linesWithAgreegatedRank.Where(lr => lr.Rank > 0);
+
             return result;
         }
     }

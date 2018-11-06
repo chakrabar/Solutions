@@ -25,7 +25,7 @@ namespace Wikipedia.Core
 
         public string FindBestAnswer(ContentIndex indexData, string question, string[] answers)
         {
-            var questionTermWithPriority = _keywordPrioritizer.ArrangeByPriority(indexData, question);
+            var questionTermWithPriority = _keywordPrioritizer.GetWordsWithPriority(indexData, question);
 
             var relevantLinesWithRank = _lineMatchRanker
                 .GetRelevantLinesWithRank(questionTermWithPriority, indexData.Lines);

@@ -16,10 +16,7 @@ namespace Wikipedia.Core
                 AllWords = new List<WordFrequency>()
             };
 
-            var lines = paragraph
-                .Split(".")
-                .Select(l => l.Trim())
-                .Where(s => !string.IsNullOrWhiteSpace(s));
+            var lines = StringProcessor.GetSentences(paragraph);
 
             var lineIndex = 0;
             foreach (var line in lines)

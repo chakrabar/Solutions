@@ -6,6 +6,6 @@ namespace Wikipedia.AppContracts
 {
     public interface IKeywordPrioritizer
     {
-        IEnumerable<WordPriority> ArrangeByPriority(ContentIndex indexData, string sentence);
+        IEnumerable<WordPriority> GetWordsWithPriority(ContentIndex indexData, string sentence);
     }
 }
