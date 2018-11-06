@@ -21,6 +21,13 @@ namespace Wikipedia.Helpers
                 .Where(part => !string.IsNullOrWhiteSpace(part));
         }
 
+        public static IEnumerable<string> GetAllParts(string paragraph, params char[] separators)
+        {
+            return paragraph.Split(separators)
+                .Select(s => s.Trim())
+                .Where(part => !string.IsNullOrWhiteSpace(part));
+        }
+
         public static IEnumerable<string> RemoveWords(IEnumerable<string> target, IEnumerable<string> toRemove)
         {
             var words = target.Distinct();
