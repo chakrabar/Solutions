@@ -21,7 +21,7 @@ namespace Wikipedia.Core.Strategies
                     {
                         LineId = match.Id,
                         Line = match.Line,
-                        Rank = match.WordIndex.First(wi => wi.Word == term.Word).Frequency * term.Priority
+                        Score = match.WordIndex.First(wi => wi.Word == term.Word).Frequency * term.Priority
                     });
                 }
             }
@@ -32,10 +32,10 @@ namespace Wikipedia.Core.Strategies
                 {
                     LineId = g.Key,
                     Line = g.First().Line,
-                    Rank = g.Sum(sameLine => sameLine.Rank)
+                    Score = g.Sum(sameLine => sameLine.Score)
                 });
 
-            var result = linesWithAgreegatedRank.Where(lr => lr.Rank > 0);
+            var result = linesWithAgreegatedRank.Where(lr => lr.Score > 0);
 
             return result;
         }

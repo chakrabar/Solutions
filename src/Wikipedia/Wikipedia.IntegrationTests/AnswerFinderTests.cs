@@ -35,7 +35,7 @@ namespace Wikipedia.IntegrationTests
             var indexData = new ContentIndexBuilder()
                 .Build(_paragraph);
 
-            for (int i = 1; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 var question = _questions[i];
                 var answer = _answerFinder.FindBestAnswer(indexData, question, _answers);

@@ -31,12 +31,12 @@ namespace Wikipedia.Core
                 .GetRelevantLinesWithRank(questionTermWithPriority, indexData.Lines);
 
             var predictedLine = relevantLinesWithRank
-                .MaxBy(lr => lr.Rank)
+                .MaxBy(lr => lr.Score)
                 .Line;
 
             var answersWithRank = _answerRanker.GetWordMatchRanks(predictedLine, answers);
 
-            var predictedAnswer = answersWithRank.MaxBy(ans => ans.Rank);
+            var predictedAnswer = answersWithRank.MaxBy(ans => ans.Score);
 
             return predictedAnswer.Line;
         }

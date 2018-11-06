@@ -7,6 +7,8 @@ namespace Wikipedia.Core.Strategies
 {
     public class AnswerRankerOnLine : IAnswerRanker
     {
+        readonly string[] _commonWords = CommonWordsFactory.GetFrequentWords();
+
         public IEnumerable<LineRank> GetWordMatchRanks(string lineToMatch, IEnumerable<string> targets)
         {
             var ranks = new List<LineRank>();
@@ -16,11 +18,13 @@ namespace Wikipedia.Core.Strategies
                 ranks.Add(new LineRank
                 {
                     Line = target,
-                    Rank = StringProcessor.GetWordMatchCount(lineToMatch, target)
+                    Score = StringProcessor.GetUniqueWordMatchCount(lineToMatch, target, _commonWords)
                 });
             }
 
             return ranks;
         }
+
+        
     }
 }

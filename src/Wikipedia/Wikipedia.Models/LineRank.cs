@@ -4,6 +4,6 @@
     {
         public int LineId { get; set; }
         public string Line { get; set; }
-        public int Rank { get; set; }
+        public int Score { get; set; }
     }
 }
