@@ -30,9 +30,9 @@ namespace Wikipedia.Core.Strategies
 
         private (int WordMatch, decimal WeightedScore) GetAnswerScore(string lineToMatch, string answer)
         {
-            var simpleScore = StringProcessor.GetUniqueWordMatchCount(lineToMatch, answer, _commonWords);
-            var weightedScore = (simpleScore / (decimal)answer.Length) * 10000;
-            return (simpleScore, Math.Round(weightedScore, 2));
+            var wordMatchCount = StringProcessor.GetUniqueWordMatchCount(lineToMatch, answer, _commonWords);
+            var weightedScore = (wordMatchCount / (decimal)answer.Length) * 10000;
+            return (wordMatchCount, Math.Round(weightedScore, 2));
         }
     }
 }

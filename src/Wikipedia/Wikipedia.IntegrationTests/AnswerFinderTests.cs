@@ -42,6 +42,11 @@ namespace Wikipedia.IntegrationTests
 
                 Assert.AreEqual(_correctAnswers[i], answer);
             }
+
+            //var question = _questions[0];
+            //var answer = _answerFinder.FindBestAnswer(indexData, question, _answers);
+
+            //Assert.AreEqual(_correctAnswers[0], answer);
         }
     }
 }

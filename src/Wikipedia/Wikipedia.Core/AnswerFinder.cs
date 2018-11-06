@@ -38,9 +38,7 @@ namespace Wikipedia.Core
             var answersWithRank = _answerRanker.GetWordMatchRanks(predictedLine, answers);
 
             var predictedAnswer = answersWithRank
-                .OrderByDescending(a => a.WordMatch)
-                .ThenByDescending(m => m.WeightedScore)
-                .First();
+                .MaxBy(ar => ar.WeightedScore); //.OrderByDescending(a => a.WordMatch).ThenByDescending(m => m.WeightedScore).First();
 
             return predictedAnswer.Answer;
         }
