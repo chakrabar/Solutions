@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Wikipedia.AppContracts;
+﻿using Wikipedia.AppContracts;
 using Wikipedia.Core.Strategies;
 using Wikipedia.Helpers;
 using Wikipedia.Models.Index;
@@ -35,10 +34,11 @@ namespace Wikipedia.Core
                 .MaxBy(lr => lr.Score)
                 .Line;
 
-            var answersWithRank = _answerRanker.GetWordMatchRanks(predictedLine, answers);
+            var answersWithRank = _answerRanker.GetWordMatchRanks(predictedLine, answers, indexData.AllWords);
 
             var predictedAnswer = answersWithRank
-                .MaxBy(ar => ar.WeightedScore); //.OrderByDescending(a => a.WordMatch).ThenByDescending(m => m.WeightedScore).First();
+                .MaxBy(ar => ar.WeightedScore);
+            //.OrderByDescending(a => a.WordMatch).ThenByDescending(m => m.WeightedScore).First();
 
             return predictedAnswer.Answer;
         }

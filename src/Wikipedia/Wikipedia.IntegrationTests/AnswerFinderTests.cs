@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wikipedia.Core;
+using Wikipedia.Models.Index;
 
 namespace Wikipedia.IntegrationTests
 {
@@ -11,14 +12,15 @@ namespace Wikipedia.IntegrationTests
         string[] _questions = null;
         string[] _correctAnswers = null;
         AnswerFinder _answerFinder = null;
+        ContentIndex _contentIndex = null;
 
         [TestInitialize]
         public void Setup()
         {
             _paragraph = TestConstants.Wiki;
-            _answers = TestConstants.AllAnswers;
             _questions = TestConstants.Questions;
             _answerFinder = new AnswerFinder();
+            _contentIndex = new ContentIndexBuilder().Build(_paragraph);
             _correctAnswers = new[]
             {
                 @"Grévy's zebra and the mountain zebra",
@@ -29,24 +31,45 @@ namespace Wikipedia.IntegrationTests
             };
         }
 
+        //intentioanlly keeping separate test cases for better understanding
         [TestMethod]
-        public void App_should_find_best_answer()
+        public void App_should_find_best_answer_1()
         {
-            var indexData = new ContentIndexBuilder()
-                .Build(_paragraph);
+            App_should_find_best_answer(0);
+        }
 
-            for (int i = 0; i < 5; i++)
-            {
-                var question = _questions[i];
-                var answer = _answerFinder.FindBestAnswer(indexData, question, _answers);
+        [TestMethod]
+        public void App_should_find_best_answer_2()
+        {
+            App_should_find_best_answer(1);
+        }
 
-                Assert.AreEqual(_correctAnswers[i], answer);
-            }
+        [TestMethod]
+        public void App_should_find_best_answer_3()
+        {
+            App_should_find_best_answer(2);
+        }
 
-            //var question = _questions[0];
-            //var answer = _answerFinder.FindBestAnswer(indexData, question, _answers);
+        [TestMethod]
+        public void App_should_find_best_answer_4()
+        {
+            App_should_find_best_answer(3);
+        }
 
-            //Assert.AreEqual(_correctAnswers[0], answer);
+        [TestMethod]
+        public void App_should_find_best_answer_5()
+        {
+            App_should_find_best_answer(4);
+        }
+
+        public void App_should_find_best_answer(int index)
+        {
+            var question = _questions[index];
+            var expectedAnswer = _correctAnswers[index];
+
+            var answer = _answerFinder.FindBestAnswer(_contentIndex, question, _answers);
+
+            Assert.AreEqual(expectedAnswer, answer);
         }
     }
 }

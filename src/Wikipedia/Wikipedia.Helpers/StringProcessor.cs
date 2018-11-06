@@ -34,12 +34,18 @@ namespace Wikipedia.Helpers
             return words.Except(toRemove);
         }
 
-        public static int GetUniqueWordMatchCount(string left, string right, string[] wordsToIgnore)
+        public static IEnumerable<string> GetUniqueWordMatch(string left, string right, string[] wordsToIgnore)
         {
             var leftWords = GetQniqueWordsLower(left, wordsToIgnore);
             var rightWords = GetQniqueWordsLower(right, wordsToIgnore);
 
-            return leftWords.Intersect(rightWords).Count();
+            return leftWords.Intersect(rightWords);
+        }
+
+        public static int GetUniqueWordMatchCount(string left, string right, string[] wordsToIgnore)
+        {
+            return GetUniqueWordMatch(left, right, wordsToIgnore)
+                .Count();
         }
 
         public static IEnumerable<string> GetQniqueWordsLower(string sentence, params string[] wordsToRemove)

@@ -30,6 +30,7 @@ namespace Wikipedia.Core.Strategies
                     Priority = standardUpperLimit - (indexData.AllWords.FirstOrDefault(iw => iw.Word == w)?.Frequency ?? 0)
                 })
                 .OrderBy(wp => wp.Priority);
+                //.Select((wp, idx) => new WordPriority { Word = wp.Word, Priority = idx + 1 });
 
             return nonQuestionWordsByValue;
         }
