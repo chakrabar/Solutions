@@ -14,7 +14,7 @@ namespace Wikipedia.UnitTests.Data
             [TestMethod]
             public void Should_read_all_parts_of_input()
             {
-                var inputData = TestConstants.SampleInput;
+                var inputData = TestData.SampleInput;
 
                 WikiInput parsedData = InputParser.Parse(inputData);
 
@@ -29,7 +29,7 @@ namespace Wikipedia.UnitTests.Data
             [ExpectedException(typeof(ArgumentException))]
             public void Throws_if_invalid_input_data()
             {
-                var incompleteData = new[] { TestConstants.Wiki };
+                var incompleteData = new[] { TestData.Wiki };
                 WikiInput parsedData = InputParser.Parse(incompleteData);
             }
         }

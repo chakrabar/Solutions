@@ -9,15 +9,15 @@ namespace Wikipedia.IntegrationTests
         [TestMethod]
         public void App_should_parse_input_and_generate_output()
         {
-            var inputData = TestConstants.SampleInput;
+            var inputData = TestData.SampleInput;
 
             var answers = new WikiSolutionFacade()
                 .GetAnswersInOrder(inputData);
 
             Assert.IsNotNull(answers);
-            for (int i = 0; i < TestConstants.CorrectAnswers.Length; i++)
+            for (int i = 0; i < TestData.CorrectAnswers.Length; i++)
             {
-                Assert.AreEqual(TestConstants.CorrectAnswers[i], answers[i]);
+                Assert.AreEqual(TestData.CorrectAnswers[i], answers[i]);
             }
         }
     }

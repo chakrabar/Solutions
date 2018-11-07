@@ -1,0 +1,127 @@
+@"Which Zebras are endangered?",
+@"What is the aim of the Quagga Project?",
+@"Which animals are some of their closest relatives?",
+@"Which are the three species of zebras?",
+@"Which subgenus do the plains zebra and the mountain zebra belong to?"
+
+
+subgenus Hippotigris; the plains zebra, the Grévy's zebra and the mountain zebra;horses and donkeys;aims to breed zebras that are phenotypically similar to the quagga; Grévy's zebra and the mountain zebra
+
+
+@"Grévy's zebra and the mountain zebra",
+@"aims to breed zebras that are phenotypically similar to the quagga",
+@"horses and donkeys",
+@"the plains zebra, the Grévy's zebra and the mountain zebra",
+@"subgenus Hippotigris"
+
+
+
+Line: Grévy's zebra and the mountain zebra are endangered
+
+Answers:
+the plains zebra, the Grévy's zebra and the mountain zebra (5)
+aims to breed zebras that are phenotypically similar to the quagga (2)
+Grévy's zebra and the mountain zebra (5)
+
+
+the plains zebra, the Grévy's zebra and the mountain zebra (3)
+Grévy's zebra and the mountain zebra (3)
+
+the plains zebra, the Grévy's zebra and the mountain zebra (517)
+aims to breed zebras that are phenotypically similar to the quagga (151)
+Grévy's zebra and the mountain zebra (833)
+
+
+
+=====
+[1]
+Which subgenus do the plains zebra and the mountain zebra belong to?
+
+zebra 8
+plains 14
+mountain 14
+subgenus 15
+belong 15
+
+The plains zebra and the mountain zebra belong to the subgenus Hippotigris, but Grévy's zebra is the sole species of subgenus Dolichohippus
+
+subgenus Hippotigris - 2 - 1000
+the plains zebra, the Grévy's zebra and the mountain zebra - 4 - 690
+horses and donkeys - 0 - 0
+aims to breed zebras that are phenotypically similar to the quagga - 0 - 0
+Grévy's zebra and the mountain zebra - 3 - 833
+
+[1.2]
+Which subgenus do the plains zebra and the mountain zebra belong to?
+
+zebra 8
+plains 14
+mountain 14
+subgenus 15
+belong 15
+
+The plains zebra and the mountain zebra belong to the subgenus Hippotigris, but Grévy's zebra is the sole species of subgenus Dolichohippus
+
+subgenus Hippotigris - 31 - 15500
+the plains zebra, the Grévy's zebra and the mountain zebra - 50 - 8620
+horses and donkeys - 0 - 0
+aims to breed zebras that are phenotypically similar to the quagga - 0 - 0
+Grévy's zebra and the mountain zebra - 36 - 1000
+
+[2]
+Which Zebras are endangered?
+
+zebras 11
+endangered 16
+
+Grévy's zebra and the mountain zebra are endangered
+
+subgenus Hippotigris - 0 - 0
+the plains zebra, the Grévy's zebra and the mountain zebra - 3 - 517
+horses and donkeys - 0 - 0
+aims to breed zebras that are phenotypically similar to the quagga - 1 - 151
+Grévy's zebra and the mountain zebra - 3 - 833
+
+[2.2]
+Which Zebras are endangered?
+
+zebras 11
+endangered 16
+
+Grévy's zebra and the mountain zebra are endangered
+
+subgenus Hippotigris - 0 - 0
+the plains zebra, the Grévy's zebra and the mountain zebra - 36 - 6206
+horses and donkeys - 0 - 0
+aims to breed zebras that are phenotypically similar to the quagga - 10 - 1515
+Grévy's zebra and the mountain zebra - 36 - 10000
+
+[3]
+Which are the three species of zebras?
+
+zebras 11
+species 14
+three 15
+
+There are three species of zebras: the plains zebra, the Grévy's zebra and the mountain zebra
+
+subgenus Hippotigris - 0 - 0
+the plains zebra, the Grévy's zebra and the mountain zebra - 4 - 690
+horses and donkeys - 0 - 0
+aims to breed zebras that are phenotypically similar to the quagga - 2 - 303
+Grévy's zebra and the mountain zebra - 3 - 833
+
+[3.2]
+Which are the three species of zebras?
+
+zebras 11
+species 14
+three 15
+
+There are three species of zebras: the plains zebra, the Grévy's zebra and the mountain zebra
+
+subgenus Hippotigris - 0 - 0
+the plains zebra, the Grévy's zebra and the mountain zebra - 50 - 8620
+horses and donkeys - 0 - 0
+aims to breed zebras that are phenotypically similar to the quagga - 21 - 3181
+Grévy's zebra and the mountain zebra - 36 - 10000

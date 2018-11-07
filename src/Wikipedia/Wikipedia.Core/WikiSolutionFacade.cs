@@ -26,7 +26,7 @@ namespace Wikipedia.Core
 
                 var indexedData = _contentIndexBuilder.Build(parsedInput.Paragraph);
 
-                var answers = new string[5];
+                var answers = new string[parsedInput.Questions.Count];
                 for (int i = 0; i < parsedInput.Questions.Count; i++)
                 {
                     answers[i] = _answerFinder.FindBestAnswer(indexedData,

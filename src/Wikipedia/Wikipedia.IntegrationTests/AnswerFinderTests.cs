@@ -17,10 +17,10 @@ namespace Wikipedia.IntegrationTests
         [TestInitialize]
         public void Setup()
         {
-            _paragraph = TestConstants.Wiki;
-            _questions = TestConstants.Questions;
-            _correctAnswers = TestConstants.CorrectAnswers;
-            _answers = TestConstants.Answers;
+            _paragraph = TestData.Wiki;
+            _questions = TestData.Questions;
+            _correctAnswers = TestData.CorrectAnswers;
+            _answers = TestData.Answers;
             _answerFinder = new AnswerFinder();
             _contentIndex = new ContentIndexBuilder().Build(_paragraph);            
         }
