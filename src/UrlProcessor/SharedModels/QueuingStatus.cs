@@ -1,4 +1,4 @@
-﻿namespace ViewModels
+﻿namespace SharedModels
 {
     public enum QueuingStatus
     {

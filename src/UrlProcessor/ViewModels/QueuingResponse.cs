@@ -1,4 +1,6 @@
-﻿namespace ViewModels
+﻿using SharedModels;
+
+namespace ViewModels
 {
     public class QueuingResponse
     {
