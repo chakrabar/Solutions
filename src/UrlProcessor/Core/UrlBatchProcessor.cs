@@ -3,12 +3,13 @@ using DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Core
 {
     public class UrlBatchProcessor : IUrlBatchProcessor
     {
-        private static bool _isRunning = false;
+        private static volatile bool _isRunning = false;
         private static readonly object _syncLock = new object();
         private static readonly HttpClient _client = new HttpClient();
         private readonly IProcessQueue _processQueue;
@@ -21,7 +22,7 @@ namespace Core
         public void Trigger()
         {
             if (!_isRunning)
-                Process();
+                Task.Run(() => Process()); //start processing on a separate thread
         }
 
         private void Process()
