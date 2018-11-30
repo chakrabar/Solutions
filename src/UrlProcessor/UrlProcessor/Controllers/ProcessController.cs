@@ -1,6 +1,7 @@
 ﻿using AppContracts;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using UrlProcessor.Helpers;
 using ViewModels;
 
 namespace UrlProcessor.Controllers

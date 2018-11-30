@@ -1,7 +1,7 @@
 ﻿using SharedModels;
 using ViewModels;
 
-namespace UrlProcessor
+namespace UrlProcessor.Helpers
 {
     public class ResponseMapper
     {
