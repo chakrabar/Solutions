@@ -33,6 +33,9 @@ namespace Core
 
         public static ResourceBatch Dequeue()
         {
+            if (_requestQueue.Count == 0)
+                return null;
+
             var data = _requestQueue.Dequeue();
             _statusLookup[data.BatchId] = QueuingStatus.INPROGRESS;
             return data;

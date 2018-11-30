@@ -11,6 +11,7 @@ namespace Core
             try
             {
                 var batchId = ProcessQueue.Enqueue(resources);
+                UrlBatchProcessor.Trigger(); //trigger processing of the batch
                 return (batchId, QueuingStatus.QUEUED);
             }
             catch (System.Exception ex)
@@ -22,7 +23,15 @@ namespace Core
 
         public QueuingStatus GetBatchStatus(int batchId)
         {
-            return ProcessQueue.GetStatus(batchId);
+            try
+            {
+                return ProcessQueue.GetStatus(batchId);
+            }
+            catch (System.Exception)
+            {
+                //log error details
+                return QueuingStatus.FAILED;
+            }            
         }
     }
 }
