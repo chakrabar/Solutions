@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AppContracts;
+using Microsoft.AspNetCore.Mvc;
 using SharedModels;
 
 namespace UrlProcessor.Controllers
@@ -7,10 +8,17 @@ namespace UrlProcessor.Controllers
     [ApiController]
     public class QueueStatusController : ControllerBase
     {
+        private readonly IResourceProcessor _resourceProcessor;
+
+        public QueueStatusController(IResourceProcessor resourceProcessor)
+        {
+            _resourceProcessor = resourceProcessor;
+        }
+
         [HttpGet("{id}")]
         public QueuingStatus Get(int id)
         {
-            return QueuingStatus.QUEUED;
+            return _resourceProcessor.GetBatchStatus(id);
         }
     }
 }

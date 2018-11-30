@@ -1,12 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using AppContracts;
+using SharedModels;
+using System.Collections.Generic;
 
 namespace Core
 {
-    public class ResourceProcessor
+    public class ResourceProcessor : IResourceProcessor
     {
-        public int AddResourceBatchToQueue(IEnumerable<string> resources)
+        public (int BatchId, QueuingStatus Status) AddResourceBatchToQueue(IEnumerable<string> resources)
         {
-            return ProcessQueue.Enqueue(resources);
+            try
+            {
+                var batchId = ProcessQueue.Enqueue(resources);
+                return (batchId, QueuingStatus.QUEUED);
+            }
+            catch (System.Exception ex)
+            {
+                //log error details
+                return (0, QueuingStatus.FAILED);
+            }
+        }
+
+        public QueuingStatus GetBatchStatus(int batchId)
+        {
+            return ProcessQueue.GetStatus(batchId);
         }
     }
 }

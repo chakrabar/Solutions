@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace Core
 {
+    //if we want to make the queue and status details durable and/or usable across multiple instances of application
+    //we need to persist the queue and the dictionary to database. And every change must be updated to DB as well.
     public static class ProcessQueue
     {
         private static readonly Dictionary<int, QueuingStatus> _statusLookup;
