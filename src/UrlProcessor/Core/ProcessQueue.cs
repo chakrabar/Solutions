@@ -1,4 +1,5 @@
-﻿using DomainModels;
+﻿using AppContracts;
+using DomainModels;
 using SharedModels;
 using System.Collections.Generic;
 
@@ -6,21 +7,22 @@ namespace Core
 {
     //if we want to make the queue and status details durable and/or usable across multiple instances of application
     //we need to persist the queue and the dictionary to database. And every change must be updated to DB as well.
-    public static class ProcessQueue
+    public class ProcessQueue : IProcessQueue
     {
         private static readonly Dictionary<int, QueuingStatus> _statusLookup;
         private static readonly Queue<ResourceBatch> _requestQueue;
         private static int _queueSequence;
-        private static readonly object _syncLock = new object();
+        private static readonly object _syncLock;
 
         static ProcessQueue()
         {
             _statusLookup = new Dictionary<int, QueuingStatus>();
             _requestQueue = new Queue<ResourceBatch>();
             _queueSequence = 0;
+            _syncLock =  new object();
         }
 
-        public static int Enqueue(IEnumerable<string> resources)
+        public int Enqueue(IEnumerable<string> resources)
         {
             lock(_syncLock)
             {
@@ -35,7 +37,7 @@ namespace Core
             }            
         }
 
-        public static ResourceBatch Dequeue()
+        public ResourceBatch Dequeue()
         {
             if (_requestQueue.Count == 0)
                 return null;
@@ -48,17 +50,17 @@ namespace Core
             }            
         }
 
-        public static void MarkComplete(int id)
+        public void MarkComplete(int id)
         {
             _statusLookup[id] = QueuingStatus.COMPLETED;
         }
 
-        public static void MarkFailed(int id)
+        public void MarkFailed(int id)
         {
             _statusLookup[id] = QueuingStatus.FAILED;
         }
 
-        public static QueuingStatus GetStatus(int id)
+        public QueuingStatus GetStatus(int id)
         {
             return _statusLookup.ContainsKey(id)
                 ? _statusLookup[id] : QueuingStatus.NOTFOUND;

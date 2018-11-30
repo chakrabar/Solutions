@@ -1,23 +1,30 @@
-﻿using DomainModels;
+﻿using AppContracts;
+using DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 
 namespace Core
 {
-    public static class UrlBatchProcessor
+    public class UrlBatchProcessor : IUrlBatchProcessor
     {
         private static bool _isRunning = false;
         private static readonly object _syncLock = new object();
         private static readonly HttpClient _client = new HttpClient();
+        private readonly IProcessQueue _processQueue;
 
-        public static void Trigger()
+        public UrlBatchProcessor(IProcessQueue processQueue)
+        {
+            _processQueue = processQueue;
+        }
+
+        public void Trigger()
         {
             if (!_isRunning)
                 Process();
         }
 
-        private static void Process()
+        private void Process()
         {
             if (_isRunning)
                 return;
@@ -26,7 +33,7 @@ namespace Core
             {
                 _isRunning = true;
 
-                var batchToProcess = ProcessQueue.Dequeue();
+                var batchToProcess = _processQueue.Dequeue();
                 while (batchToProcess != null)
                 {
                     try
@@ -34,12 +41,12 @@ namespace Core
                         var processedBatchData = ProcessUrlBatch(batchToProcess);
                         //the actual processing is done
                         //do something with the processed data....
-                        ProcessQueue.MarkComplete(batchToProcess.BatchId);
+                        _processQueue.MarkComplete(batchToProcess.BatchId);
                     }
                     catch (Exception)
                     {
                         //log the error
-                        ProcessQueue.MarkFailed(batchToProcess.BatchId);
+                        _processQueue.MarkFailed(batchToProcess.BatchId);
                     }
                 }
 
@@ -47,7 +54,7 @@ namespace Core
             }            
         }
 
-        private static IEnumerable<string> ProcessUrlBatch(ResourceBatch batch)
+        private IEnumerable<string> ProcessUrlBatch(ResourceBatch batch)
         {
             var urlData = new List<string>();
             foreach (var url in batch.Resources)

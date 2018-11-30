@@ -6,15 +6,24 @@ namespace Core
 {
     public class ResourceProcessor : IResourceProcessor
     {
+        private readonly IProcessQueue _processQueue;
+        private readonly IUrlBatchProcessor _urlBatchProcessor;
+
+        public ResourceProcessor(IProcessQueue processQueue, IUrlBatchProcessor urlBatchProcessor)
+        {
+            _processQueue = processQueue;
+            _urlBatchProcessor = urlBatchProcessor;
+        }
+
         public (int BatchId, QueuingStatus Status) AddResourceBatchToQueue(IEnumerable<string> resources)
         {
             try
             {
-                var batchId = ProcessQueue.Enqueue(resources);
-                UrlBatchProcessor.Trigger(); //trigger processing of the batch
+                var batchId = _processQueue.Enqueue(resources);
+                _urlBatchProcessor.Trigger(); //trigger processing of the batch
                 return (batchId, QueuingStatus.QUEUED);
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 //log error details
                 return (0, QueuingStatus.FAILED);
@@ -25,7 +34,7 @@ namespace Core
         {
             try
             {
-                return ProcessQueue.GetStatus(batchId);
+                return _processQueue.GetStatus(batchId);
             }
             catch (System.Exception)
             {
