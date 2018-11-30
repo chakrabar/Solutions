@@ -11,6 +11,7 @@ namespace Core
         private static readonly Dictionary<int, QueuingStatus> _statusLookup;
         private static readonly Queue<ResourceBatch> _requestQueue;
         private static int _queueSequence;
+        private static readonly object _syncLock = new object();
 
         static ProcessQueue()
         {
@@ -21,14 +22,17 @@ namespace Core
 
         public static int Enqueue(IEnumerable<string> resources)
         {
-            var id = ++_queueSequence;
-            _requestQueue.Enqueue(new ResourceBatch
+            lock(_syncLock)
             {
-                BatchId = id,
-                Resources = resources
-            });
-            _statusLookup.Add(id, QueuingStatus.QUEUED);
-            return id;
+                var id = ++_queueSequence;
+                _requestQueue.Enqueue(new ResourceBatch
+                {
+                    BatchId = id,
+                    Resources = resources
+                });
+                _statusLookup.Add(id, QueuingStatus.QUEUED);
+                return id;
+            }            
         }
 
         public static ResourceBatch Dequeue()
@@ -36,9 +40,12 @@ namespace Core
             if (_requestQueue.Count == 0)
                 return null;
 
-            var data = _requestQueue.Dequeue();
-            _statusLookup[data.BatchId] = QueuingStatus.INPROGRESS;
-            return data;
+            lock (_syncLock)
+            {
+                var data = _requestQueue.Dequeue();
+                _statusLookup[data.BatchId] = QueuingStatus.INPROGRESS;
+                return data;
+            }            
         }
 
         public static void MarkComplete(int id)

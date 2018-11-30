@@ -12,7 +12,8 @@ namespace UrlProcessor
                 QueueId = batchId,
                 QueueStatus = queuingStatus
             };
-            result.RequestStatus = queuingStatus == QueuingStatus.FAILED ? RequestStatus.Failed : RequestStatus.Successful;
+            result.RequestStatus = (queuingStatus == QueuingStatus.FAILED || queuingStatus == QueuingStatus.NOTFOUND) 
+                ? RequestStatus.Failed : RequestStatus.Successful;
             return result;
         }
     }
