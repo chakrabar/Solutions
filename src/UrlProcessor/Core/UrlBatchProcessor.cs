@@ -2,7 +2,6 @@
 using DomainModels;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Core
@@ -11,12 +10,13 @@ namespace Core
     {
         private static volatile bool _isRunning = false;
         private static readonly object _syncLock = new object();
-        private static readonly HttpClient _client = new HttpClient();
         private readonly IProcessQueue _processQueue;
+        private readonly IWebClient _webClient;
 
-        public UrlBatchProcessor(IProcessQueue processQueue)
+        public UrlBatchProcessor(IProcessQueue processQueue, IWebClient webClient)
         {
             _processQueue = processQueue;
+            _webClient = webClient;
         }
 
         public void Trigger()
@@ -42,13 +42,15 @@ namespace Core
                         var processedBatchData = ProcessUrlBatch(batchToProcess);
                         //the actual processing is done
                         //do something with the processed data....
-                        _processQueue.MarkComplete(batchToProcess.BatchId);
+                        _processQueue.MarkComplete(batchToProcess.BatchId);                        
                     }
                     catch (Exception)
                     {
                         //log the error
                         _processQueue.MarkFailed(batchToProcess.BatchId);
                     }
+                    //get the next batch
+                    batchToProcess = _processQueue.Dequeue();
                 }
 
                 _isRunning = false;
@@ -60,7 +62,7 @@ namespace Core
             var urlData = new List<string>();
             foreach (var url in batch.Resources)
             {
-                var dataTask = _client.GetStringAsync(url);
+                var dataTask = _webClient.GetWebData(url);
                 //we could read the url ASYNChronously. But we already have a backing queue, so we'll process them in sequence
                 urlData.Add(dataTask.Result);
             }

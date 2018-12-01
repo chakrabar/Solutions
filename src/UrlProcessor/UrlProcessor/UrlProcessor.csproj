@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AppContracts\AppContracts.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\SharedModels\SharedModels.csproj" />
     <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
   </ItemGroup>
