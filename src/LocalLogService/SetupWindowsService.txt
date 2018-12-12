@@ -1,0 +1,56 @@
+https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?view=aspnetcore-2.2#create-a-user-account
+Run in cmd as admin
+
+Create user:
+net user {USER ACCOUNT} {PASSWORD} /add
+::
+net user WinSvcUser QWEasd123 /add
+
+
+Grant read/write/execute permissions to executable folder:
+icacls "{PATH}" /grant {USER ACCOUNT}:(OI)(CI){PERMISSION FLAGS} /t
+::
+icacls "C:\UiPath\PublishedSites\LocalLogService\win-svc-scd-win10-x64" /grant WinSvcUser:(OI)(CI)WRX /t
+and logs - read/write/modify
+icacls "C:\UiPath\Logs" /grant WinSvcUser:(OI)(CI)WRM /t
+
+
+>>>> Create the service <<<<
+sc create {SERVICE NAME} binPath= "{PATH}" obj= "{DOMAIN}\{USER ACCOUNT}" password= "{PASSWORD}"
+::
+sc create LocalLogService binPath= "C:\UiPath\PublishedSites\LocalLogService\win-svc-scd-win10-x64\LocalLogService.exe" obj= "lptp-blr-argcha\WinSvcUser" password= "QWEasd123"
+
+start the service
+sc start LocalLogService
+
+ERROR:
+C:\Windows\system32>sc start LocalLogService
+[SC] StartService FAILED 1069:
+
+The service did not start due to a logon failure.
+
+>>>>
+Manually open Services > find service > retype password > start
+
+
+
+ENDPOINT CONFIGURATION
+https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-2.2#endpoint-configuration
+
+appsettings.json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "RobotLogPath": "C:\\UiPath\\Logs",
+  "Kestrel": {
+    "EndPoints": {
+      "Http": {
+        "Url": "http://localhost:9001"
+      }
+    }
+  }
+}
