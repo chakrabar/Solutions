@@ -1,4 +1,104 @@
 https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/windows-service?view=aspnetcore-2.2#create-a-user-account
+
+===============================================
+csproj
+===============================================
+
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+	<RuntimeIdentifier>win10-x64</RuntimeIdentifier> --THIS
+	<IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled> --THIS
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.1.1" /> --THIS
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="2.1.1" /> --THIS
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+  </ItemGroup>
+
+</Project>
+
+===============================================
+Change in Program.cs
+===============================================
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.WindowsServices;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+
+namespace LocalLogService
+{
+    public class Program
+    {
+        public static void Main2(string[] args)
+        {
+            CreateWebHostBuilder2(args).Build().Run();
+        }
+
+        public static IWebHostBuilder CreateWebHostBuilder2(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
+
+        public static void Main(string[] args)
+        {
+            var isService = !(Debugger.IsAttached || args.Contains("--console"));
+            var builder = CreateWebHostBuilder(
+                args
+                .Where(arg => arg != "--console")
+                .ToArray());
+
+            if (isService)
+            {
+                var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
+                var pathToContentRoot = Path.GetDirectoryName(pathToExe);
+                builder.UseContentRoot(pathToContentRoot);
+            }
+
+            var host = builder.Build();
+
+            if (isService)
+            {
+                // To run the app without the CustomWebHostService change the
+                // next line to host.RunAsService();
+                // host.RunAsCustomService(); //commented - no custom web service
+                host.RunAsService();
+            }
+            else
+            {
+                host.Run();
+            }
+        }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging((hostingContext, logging) =>
+                {
+                    logging.AddEventLog();
+                })
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                // Configure the app here.
+            })
+                .UseStartup<Startup>();
+    }
+}
+
+
+===============================================
+Setting up user and creating the service
+===============================================
+
 Run in cmd as admin
 
 Create user:
@@ -33,8 +133,10 @@ The service did not start due to a logon failure.
 Manually open Services > find service > retype password > start
 
 
-
+===============================================
 ENDPOINT CONFIGURATION
+===============================================
+
 https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-2.2#endpoint-configuration
 
 appsettings.json
