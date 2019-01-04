@@ -46,14 +46,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GetFeed.cs" />
+    <Compile Include="MyParallel.cs" />
+    <Compile Include="MySequence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="WaitForData.cs" />
     <Compile Include="WithValidation.cs" />
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="GetSum.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="ApproveInvoice.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </XamlAppDef>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
