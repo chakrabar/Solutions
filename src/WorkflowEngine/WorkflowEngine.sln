@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowEngine.Utilities", "WorkflowEngine.Utilities\WorkflowEngine.Utilities.csproj", "{A517CBBE-24D8-4B60-8D6B-044BF911EE19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowEngine.Cmd", "WorkflowEngine.Cmd\WorkflowEngine.Cmd.csproj", "{81386FB4-ACDC-49AB-9FB7-1D097848BCB0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A517CBBE-24D8-4B60-8D6B-044BF911EE19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A517CBBE-24D8-4B60-8D6B-044BF911EE19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A517CBBE-24D8-4B60-8D6B-044BF911EE19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A517CBBE-24D8-4B60-8D6B-044BF911EE19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81386FB4-ACDC-49AB-9FB7-1D097848BCB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81386FB4-ACDC-49AB-9FB7-1D097848BCB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81386FB4-ACDC-49AB-9FB7-1D097848BCB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81386FB4-ACDC-49AB-9FB7-1D097848BCB0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2DC21E62-C6AE-4A96-A2F8-D06DDC4670A1}
+	EndGlobalSection
+EndGlobal
