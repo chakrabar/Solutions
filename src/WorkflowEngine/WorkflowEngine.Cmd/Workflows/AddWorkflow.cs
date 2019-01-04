@@ -2,17 +2,19 @@
 
 namespace WorkflowEngine.Cmd.Workflows
 {
-    public class AddWorkflow : CodeActivity<int>
+    public class AddWorkflow : CodeActivity
     {
-        [RequiredArgument]
+        //[RequiredArgument]
         public InArgument<int> LeftVal { get; set; }
 
-        [RequiredArgument]
+        //[RequiredArgument]
         public InArgument<int> RightVal { get; set; }
 
-        protected override int Execute(CodeActivityContext context)
+        public OutArgument<int> Sum { get; set; }
+
+        protected override void Execute(CodeActivityContext context)
         {
-            return LeftVal.Get(context) + RightVal.Get(context);
+            Sum.Set(context, LeftVal.Get(context) + RightVal.Get(context));
         }
     }
 }

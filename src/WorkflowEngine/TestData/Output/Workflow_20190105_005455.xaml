@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><Activity x:Class="activity" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:wcw="clr-namespace:WorkflowEngine.Cmd.Workflows;assembly=WorkflowEngine.Cmd" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"><wcw:AddWorkflow LeftVal="{x:Null}" RightVal="{x:Null}" Sum="{x:Null}" /></Activity>

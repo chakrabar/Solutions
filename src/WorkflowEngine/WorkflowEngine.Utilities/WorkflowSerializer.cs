@@ -55,6 +55,20 @@ namespace WorkflowEngine.Utilities
             return xaml.ToString();
         }
 
+        public static void WriteToXamlFile3(this Activity activity, string filepath)
+        {
+            XamlServices.Save(filepath, activity);
+        }
+
+        public static void WriteToXamlFile4(this Activity activity, string filepath)
+        {
+            // Serialize the workflow to XAML and save it to a file.  
+            StreamWriter sw = File.CreateText(filepath);
+            XamlWriter xw2 = ActivityXamlServices.CreateBuilderWriter(new XamlXmlWriter(sw, new XamlSchemaContext()));
+            XamlServices.Save(xw2, activity);
+            sw.Close();
+        }
+
         #region options
 
         public static string ToXamlString(this ActivityBuilder ab)
