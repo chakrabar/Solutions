@@ -43,7 +43,7 @@ namespace WorkflowEngine.ConsoleHost
                 {
                     idleEvent.Set(); //when goes idle, let the process continue
                 }
-        };
+            };
 
             wfApp.Run();
 
