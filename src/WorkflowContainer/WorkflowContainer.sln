@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowContainer.Core", "WorkflowContainer.Core\WorkflowContainer.Core.csproj", "{86AC35CE-4324-43EB-B5C6-31A41D1B0B05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowContainer.Activities", "WorkflowContainer.Activities\WorkflowContainer.Activities.csproj", "{131550EA-A0BA-406F-B41A-C2A9477B2D8D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86AC35CE-4324-43EB-B5C6-31A41D1B0B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86AC35CE-4324-43EB-B5C6-31A41D1B0B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86AC35CE-4324-43EB-B5C6-31A41D1B0B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86AC35CE-4324-43EB-B5C6-31A41D1B0B05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{131550EA-A0BA-406F-B41A-C2A9477B2D8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{131550EA-A0BA-406F-B41A-C2A9477B2D8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{131550EA-A0BA-406F-B41A-C2A9477B2D8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{131550EA-A0BA-406F-B41A-C2A9477B2D8D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {264F94B5-E177-4932-93B1-EAE4B0FF1BF5}
+	EndGlobalSection
+EndGlobal
