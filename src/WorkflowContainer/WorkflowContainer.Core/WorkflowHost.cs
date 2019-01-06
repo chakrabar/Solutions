@@ -20,8 +20,8 @@ namespace WorkflowContainer.Core
         }
 
         // >>>> START A WORKFLOW <<<<
-        public void Start(Func<WorkflowIdentity, Activity> workflowMap,
-            WorkflowIdentity workflowIdentity, IDictionary<string, object> inputs)
+        public void Start(Func<WorkflowIdentity, Activity> workflowMap, WorkflowIdentity workflowIdentity,
+            IDictionary<string, object> inputs, Action<string> writelineListener = null)
         {
             if (inputs == null)
                 inputs = new Dictionary<string, object>();
@@ -31,15 +31,15 @@ namespace WorkflowContainer.Core
 
             // Configure the instance store, extensions, and   
             // workflow lifecycle handlers.  
-            ConfigureWorkflowApplication(wfApp);
+            ConfigureWorkflowApplication(wfApp, writelineListener);
 
             // Start the workflow.  
             wfApp.Run();
         }
 
         // >>>> RESUME A WORKFLOW <<<<
-        public void ResumeBookmark(Guid workflowInstanceId,
-            Func<WorkflowIdentity, Activity> workflowMap, string bookmarkName, object bookmarkResumeContext)
+        public void ResumeBookmark(Guid workflowInstanceId, Func<WorkflowIdentity, Activity> workflowMap,
+            string bookmarkName, object bookmarkResumeContext, Action<string> writelineListener = null)
         {
             WorkflowApplicationInstance instance = WorkflowApplication.GetInstance(workflowInstanceId, _store);
 
@@ -51,7 +51,7 @@ namespace WorkflowContainer.Core
             // Configure the extensions and lifecycle handlers.  
             // Do this before the instance is loaded. Once the instance is  
             // loaded it is too late to add extensions.  
-            ConfigureWorkflowApplication(wfApp);
+            ConfigureWorkflowApplication(wfApp, writelineListener);
 
             // Load the workflow.  
             wfApp.Load(instance); //takes a Guid InstanceId or WorkflowApplicationInstance instance from store
@@ -60,7 +60,7 @@ namespace WorkflowContainer.Core
             wfApp.ResumeBookmark(bookmarkName, bookmarkResumeContext);
         }
 
-        private void ConfigureWorkflowApplication(WorkflowApplication wfApp)
+        private void ConfigureWorkflowApplication(WorkflowApplication wfApp, Action<string> writelineListener = null)
         {
             // Configure the persistence store.  
             wfApp.InstanceStore = _store;
@@ -74,48 +74,63 @@ namespace WorkflowContainer.Core
             {
                 if (e.CompletionState == ActivityInstanceState.Faulted)
                 {
-                    var message = string.Format("Workflow Terminated. Exception: {0}\r\n{1}",
-                        e.TerminationException.GetType().FullName,
-                        e.TerminationException.Message);
-                    sw.WriteLine(message);
+                    var message = string.Format(wfApp.WorkflowDefinition?.DisplayName +
+                                " Workflow Terminated. Exception: {0}\r\n{1}",
+                                    e.TerminationException.GetType().FullName,
+                                    e.TerminationException.Message);
+                    LogMessages(e, sw, message, writelineListener);
                 }
                 else if (e.CompletionState == ActivityInstanceState.Canceled)
                 {
-                    sw.WriteLine("Workflow Canceled.");
+                    var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} Canceled.";
+                    LogMessages(e, sw, message, writelineListener);
                 }
                 else
                 {
-                    sw.WriteLine("Workflow COMPLETED.");
+                    var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} COMPLETED.";
+                    LogMessages(e, sw, message, writelineListener);
                 }
             };
 
             wfApp.Aborted = delegate (WorkflowApplicationAbortedEventArgs e)
             {
-                var message = string.Format("Workflow Aborted. Exception: {0}\r\n{1}",
+                var message = string.Format(wfApp.WorkflowDefinition?.DisplayName +
+                    " Workflow Aborted. Exception: {0}\r\n{1}",
                         e.Reason.GetType().FullName,
                         e.Reason.Message);
-                sw.WriteLine(message);
+                LogMessages(e, sw, message, writelineListener);
             };
 
             wfApp.OnUnhandledException = delegate (WorkflowApplicationUnhandledExceptionEventArgs e)
             {
-                var message = string.Format("Unhandled Exception: {0}\r\n{1}",
+                var message = string.Format(wfApp.WorkflowDefinition?.DisplayName +
+                    " Unhandled Exception: {0}\r\n{1}",
                         e.UnhandledException.GetType().FullName,
                         e.UnhandledException.Message);
-                sw.WriteLine(message);
+                LogMessages(e, sw, message, writelineListener);
                 return UnhandledExceptionAction.Terminate;
             };
 
             wfApp.PersistableIdle = delegate (WorkflowApplicationIdleEventArgs e)
             {
-                // Send the current WriteLine outputs to the status window.  
+                var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} getting to IDLE.";
+                LogMessages(e, sw, message, writelineListener);
+                return PersistableIdleAction.Unload;
+            };
+        }
+
+        private static void LogMessages(WorkflowApplicationEventArgs e, StringWriter sw, string message, Action<string> writelineListener)
+        {
+            sw.WriteLine(message);
+            // Send the current WriteLine outputs to the designated listner
+            if (writelineListener != null)
+            {
                 var writers = e.GetInstanceExtensions<StringWriter>();
                 foreach (var writer in writers)
                 {
-                    //UpdateStatus(writer.ToString());
+                    writelineListener("Workflow Writeline Log : " + writer.ToString());
                 }
-                return PersistableIdleAction.Unload;
-            };
+            }
         }
 
         private void Unload(Guid workflowInstanceId) //that's weird!
@@ -126,8 +141,8 @@ namespace WorkflowContainer.Core
             instance.Abandon();
         }
 
-        private void Terminate(Guid workflowInstanceId, 
-            Func<WorkflowIdentity, Activity> workflowMap, string terminationMessage)
+        private void Terminate(Guid workflowInstanceId, Func<WorkflowIdentity, Activity> workflowMap,
+            string terminationMessage, Action<string> writelineListener = null)
         {
             WorkflowApplicationInstance instance = WorkflowApplication.GetInstance(workflowInstanceId, _store);
 
@@ -139,7 +154,7 @@ namespace WorkflowContainer.Core
             WorkflowApplication wfApp = new WorkflowApplication(wf, instance.DefinitionIdentity);
 
             // Configure the extensions and lifecycle handlers  
-            ConfigureWorkflowApplication(wfApp);
+            ConfigureWorkflowApplication(wfApp, writelineListener);
 
             // Load the workflow.  
             wfApp.Load(instance);

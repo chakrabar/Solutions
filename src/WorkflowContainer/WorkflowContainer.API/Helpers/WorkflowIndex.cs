@@ -1,33 +1,48 @@
 ﻿using System;
 using System.Activities;
 using System.Collections.Generic;
-using WorkflowContainer.Activities;
+using System.Linq;
 
 namespace WorkflowContainer.API.Helpers
 {
-    public static class WorkflowIndex
+    internal static class WorkflowIndex
     {
-        const string LongRunningRoutineName = "LongRunningRoutine";
+        
         static Dictionary<WorkflowIdentity, Activity> _map;
 
-        static WorkflowIndex()
+        static WorkflowIndex() //TODO: add other workflows
         {
             _map = new Dictionary<WorkflowIdentity, Activity>();
-            _map.Add(
-                GetLongRunningRoutineIdentity(),
-                LongRunningRoutine.Get());
+            foreach (var id in GetWorkflowIdentities())
+            {
+                _map.Add(
+                    id,
+                    WorkflowFactory.Get(id.Name) //TODO: use both NAME & VERSION
+                );
+            }
         }
 
-        public static WorkflowIdentity GetLongRunningRoutineIdentity()
+        private static IEnumerable<WorkflowIdentity> GetWorkflowIdentities() //TODO: add other workflows
         {
-            return new WorkflowIdentity
+            return new List<WorkflowIdentity>
             {
-                Name = LongRunningRoutineName,
-                Version = new Version(1, 0, 0, 0)
+                new WorkflowIdentity
+                {
+                    Name = WorkflowFactory.LongRunningRoutineName,
+                    Version = new Version(1, 0, 0, 0)
+                }
             };
         }
 
-        public static Activity Get(WorkflowIdentity workflowIdentity)
+        internal static WorkflowIdentity GetWorkflowIdentityByName(string workflowName) //TODO: this needs improvement
+        {
+            var availableIds = GetWorkflowIdentities();
+            if (availableIds.Any(id => id.Name == workflowName))
+                return availableIds.First(id => id.Name == workflowName); //TODO: use both NAME & VERSION
+            throw new ArgumentException($"No identity found for : {workflowName}", "Workflow name");
+        }
+
+        internal static Activity GetWorkflow(WorkflowIdentity workflowIdentity)
         {
             if (_map.ContainsKey(workflowIdentity))
                 return _map[workflowIdentity];
