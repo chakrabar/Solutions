@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Http;
 using WorkflowContainer.API.Helpers;
 using WorkflowContainer.Core;
@@ -14,7 +13,7 @@ namespace WorkflowContainer.API.Controllers
         {
             var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["InstanceStore"].ConnectionString;
             var host = new WorkflowHost(connectionString);
-            host.Start(WorkflowIndex.Get, WorkflowIndex.GetLongRunningRoutineIdentity(), null);
+            host.Start(WorkflowIndex.Get, WorkflowIndex.GetLongRunningRoutineIdentity(), null, LogWriter.Log);
         }
 
         [HttpPost]
@@ -23,7 +22,7 @@ namespace WorkflowContainer.API.Controllers
         {
             var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["InstanceStore"].ConnectionString;
             var host = new WorkflowHost(connectionString);
-            host.ResumeBookmark(instanceId, WorkflowIndex.Get, bookmark, approval);
+            host.ResumeBookmark(instanceId, WorkflowIndex.Get, bookmark, approval, LogWriter.Log);
         }
     }
 }
