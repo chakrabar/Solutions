@@ -44,6 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -89,6 +90,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\WorkflowIndex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -102,7 +104,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WorkflowContainer.Activities\WorkflowContainer.Activities.csproj">
+      <Project>{131550ea-a0ba-406f-b41a-c2a9477b2d8d}</Project>
+      <Name>WorkflowContainer.Activities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WorkflowContainer.Core\WorkflowContainer.Core.csproj">
+      <Project>{86ac35ce-4324-43eb-b5c6-31a41d1b0b05}</Project>
+      <Name>WorkflowContainer.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -4,7 +4,7 @@ using System.Activities.Statements;
 
 namespace WorkflowContainer.Activities
 {
-    class LongRunningRoutine
+    public class LongRunningRoutine
     {
         public static Activity Get()
         {
@@ -18,7 +18,7 @@ namespace WorkflowContainer.Activities
             };
             Variable<int> amount = new Variable<int>
             {
-                Name = "amount", Default = new Random().Next(500, 1)
+                Name = "amount", Default = new Random().Next(1, 100)
             };
 
             var secondLevelApproval = new Sequence
@@ -59,7 +59,7 @@ namespace WorkflowContainer.Activities
             {
                 Variables =
                 {
-                    approval1, approval2, amount
+                    approval1, amount
                 },
                 Activities =
                 {

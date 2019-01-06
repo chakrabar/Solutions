@@ -20,9 +20,12 @@ namespace WorkflowContainer.Core
         }
 
         // >>>> START A WORKFLOW <<<<
-        private void Start(Func<WorkflowIdentity, Activity> workflowMap,
+        public void Start(Func<WorkflowIdentity, Activity> workflowMap,
             WorkflowIdentity workflowIdentity, IDictionary<string, object> inputs)
         {
+            if (inputs == null)
+                inputs = new Dictionary<string, object>();
+
             Activity workflow = workflowMap(workflowIdentity);
             WorkflowApplication wfApp = new WorkflowApplication(workflow, inputs, workflowIdentity);
 
@@ -35,7 +38,7 @@ namespace WorkflowContainer.Core
         }
 
         // >>>> RESUME A WORKFLOW <<<<
-        private void ResumeBookmark(Guid workflowInstanceId,
+        public void ResumeBookmark(Guid workflowInstanceId,
             Func<WorkflowIdentity, Activity> workflowMap, string bookmarkName, object bookmarkResumeContext)
         {
             WorkflowApplicationInstance instance = WorkflowApplication.GetInstance(workflowInstanceId, _store);

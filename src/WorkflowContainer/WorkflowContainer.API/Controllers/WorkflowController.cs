@@ -1,41 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
+using WorkflowContainer.API.Helpers;
+using WorkflowContainer.Core;
 
 namespace WorkflowContainer.API.Controllers
 {
     public class WorkflowController : ApiController
     {
-        // GET: api/Workflow
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET: api/Workflow/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/Workflow
         [HttpPost]
         [Route("api/workflow/invoke/{workflowName}")]
         public void Post(string workflowName)
         {
+            var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["InstanceStore"].ConnectionString;
+            var host = new WorkflowHost(connectionString);
+            host.Start(WorkflowIndex.Get, WorkflowIndex.GetLongRunningRoutineIdentity(), null);
         }
 
-        // PUT: api/Workflow/5
-        public void Put(int id, [FromBody]string value)
+        [HttpPost]
+        [Route("api/workflow/resume/{instanceId}/{bookmark}/{approval}")]
+        public void Post(Guid instanceId, string bookmark, string approval)
         {
-        }
-
-        // DELETE: api/Workflow/5
-        public void Delete(int id)
-        {
+            var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["InstanceStore"].ConnectionString;
+            var host = new WorkflowHost(connectionString);
+            host.ResumeBookmark(instanceId, WorkflowIndex.Get, bookmark, approval);
         }
     }
 }
