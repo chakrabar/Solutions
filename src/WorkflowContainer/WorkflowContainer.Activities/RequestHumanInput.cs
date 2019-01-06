@@ -35,6 +35,7 @@ namespace WorkflowContainer.Activities
                 throw;
             }
 
+            Trace.TraceInformation("Bookmark resume data : " + output.ToString());
             // When the Bookmark is resumed, assign its value to the Result argument
             Result.Set(context, output);
         }
