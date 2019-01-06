@@ -8,19 +8,21 @@ namespace WorkflowContainer.API.Controllers
     {
         [HttpPost]
         [Route("api/workflow/invoke/{workflowName}")]
-        public void Post(string workflowName)
+        public string Post(string workflowName)
         {
             var workflowId = WorkflowIndex.GetWorkflowIdentityByName(workflowName);
             var host = WorkflowHostFactory.Get();            
             host.Start(WorkflowIndex.GetWorkflow, workflowId, null, LogWriter.Log);
+            return $"Workflow successfully invoked for name: {workflowName}";
         }
 
         [HttpPost]
         [Route("api/workflow/resume/{instanceId}/{bookmark}/{approval}")]
-        public void Post(Guid instanceId, string bookmark, string approval)
+        public string Post(Guid instanceId, string bookmark, string approval)
         {
             var host = WorkflowHostFactory.Get();
             host.ResumeBookmark(instanceId, WorkflowIndex.GetWorkflow, bookmark, approval, LogWriter.Log);
+            return $"Workflow successfully resumed for id: {instanceId}, bookmark: {bookmark}";
         }
     }
 }
