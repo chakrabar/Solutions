@@ -2,6 +2,7 @@
 using System.Activities;
 using System.Collections.Generic;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace WorkflowEngine.ConsoleHost
 {
@@ -9,7 +10,10 @@ namespace WorkflowEngine.ConsoleHost
     {
         static void Main(string[] args)
         {
-            Console.ReadLine();            
+            Application.EnableVisualStyles();
+            Application.Run(new WorkflowHostForm());
+
+            //Console.ReadLine();            
         }
 
         IDictionary<string, object> Host(Activity activity, IDictionary<string, object> inputs)
