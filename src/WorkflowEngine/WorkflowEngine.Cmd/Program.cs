@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using WorkflowEngine.Cmd.Workflows;
-using WorkflowEngine.Utilities;
+using WorkflowEngine.Core.Utilities;
 
 namespace WorkflowEngine.Cmd
 {
@@ -33,6 +33,7 @@ namespace WorkflowEngine.Cmd
             var sum2 = WorkflowLoader.ExecuteXaml<int>(@"C:\ArghyaC\repos\Solutions\src\WorkflowEngine\TestData\WorkflowBuilder_Add.xaml", input2);
         }
 
+        //Learning: There are some glitches while XAMLing pure code activities
         private static void CreateXamlTests()
         {
             var activity = new AddWorkflow();

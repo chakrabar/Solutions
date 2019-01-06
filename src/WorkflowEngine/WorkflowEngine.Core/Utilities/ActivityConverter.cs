@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualBasic.Activities;
 using System.Activities;
 
-namespace WorkflowEngine.Utilities
+namespace WorkflowEngine.Core.Utilities
 {
     public static class ActivityConverter
     {

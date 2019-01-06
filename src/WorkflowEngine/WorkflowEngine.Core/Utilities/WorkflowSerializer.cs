@@ -5,7 +5,7 @@ using System.Text;
 using System.Xaml;
 using System.Xml;
 
-namespace WorkflowEngine.Utilities
+namespace WorkflowEngine.Core.Utilities
 {
     public static class WorkflowSerializer
     {

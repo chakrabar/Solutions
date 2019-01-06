@@ -53,11 +53,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WorkflowEngine.Utilities\WorkflowEngine.Utilities.csproj">
-      <Project>{a517cbbe-24d8-4b60-8d6b-044bf911ee19}</Project>
-      <Name>WorkflowEngine.Utilities</Name>
+    <ProjectReference Include="..\WorkflowEngine.Core\WorkflowEngine.Core.csproj">
+      <Project>{321f54b0-dcf0-41ed-8417-3cca8bf17be7}</Project>
+      <Name>WorkflowEngine.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

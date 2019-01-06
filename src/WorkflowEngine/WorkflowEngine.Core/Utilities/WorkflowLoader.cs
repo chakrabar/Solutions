@@ -3,7 +3,7 @@ using System.Activities.XamlIntegration;
 using System.Collections.Generic;
 using System.IO;
 
-namespace WorkflowEngine.Utilities
+namespace WorkflowEngine.Core.Utilities
 {
     public static class WorkflowLoader
     {
