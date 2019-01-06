@@ -191,7 +191,7 @@ namespace WorkflowEngine.ConsoleHost
             inputs.Add("MaxNumber", Convert.ToInt32(NumberRange.SelectedItem));
 
             // >>>> START A WORKFLOW <<<<
-            WorkflowIdentity identity = null;
+            WorkflowIdentity identity = null; //WorkflowIdentity has name, version. It can also have string Package for any additional data
             switch (WorkflowType.SelectedItem.ToString())
             {
                 case "SequentialNumberGuessWorkflow":
@@ -259,7 +259,7 @@ namespace WorkflowEngine.ConsoleHost
             ConfigureWorkflowApplication(wfApp);
 
             // Load the workflow.  
-            wfApp.Load(instance);
+            wfApp.Load(instance); //takes a Guid InstanceId or WorkflowApplicationInstance instance from store
 
             // Resume the workflow.  
             wfApp.ResumeBookmark("EnterGuess", guess);
@@ -277,16 +277,14 @@ namespace WorkflowEngine.ConsoleHost
                 return;
             }
 
-            WorkflowApplicationInstance instance =
-                WorkflowApplication.GetInstance(WorkflowInstanceId, store);
+            WorkflowApplicationInstance instance = WorkflowApplication.GetInstance(WorkflowInstanceId, store);
 
             // Use the persisted WorkflowIdentity to retrieve the correct workflow  
             // definition from the dictionary.  
             Activity wf = WorkflowVersionMap.GetWorkflowDefinition(instance.DefinitionIdentity);
 
             // Associate the WorkflowApplication with the correct definition  
-            WorkflowApplication wfApp =
-                new WorkflowApplication(wf, instance.DefinitionIdentity);
+            WorkflowApplication wfApp = new WorkflowApplication(wf, instance.DefinitionIdentity);
 
             // Configure the extensions and lifecycle handlers  
             ConfigureWorkflowApplication(wfApp);
