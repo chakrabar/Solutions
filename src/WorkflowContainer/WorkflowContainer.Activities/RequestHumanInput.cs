@@ -44,7 +44,7 @@ namespace WorkflowContainer.Activities
         protected override void Execute(NativeActivityContext context)
         {
             // Send request to human
-            Trace.TraceInformation($"From : {nameof(RequestHumanInput<T>)}. Request message : {RequestMessage.Get(context)}");
+            Trace.TraceInformation($"From : {nameof(RequestHumanInput<T>)}. CREATE TASK >> {RequestMessage.Get(context)}");
 
             Trace.TraceInformation($"From : {nameof(RequestHumanInput<T>)}. Creating bookmark : {BookmarkName.Get(context)}");
 

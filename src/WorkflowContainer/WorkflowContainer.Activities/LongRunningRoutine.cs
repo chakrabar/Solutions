@@ -20,15 +20,24 @@ namespace WorkflowContainer.Activities
             {
                 Name = "amount", Default = new Random().Next(1, 100)
             };
+            Variable<int> amount2 = new Variable<int> //TODO: for test
+            {
+                Name = "amount2"
+            };
 
             var secondLevelApproval = new Sequence
             {
                 Variables =
                 {
-                    approval2
+                    approval2, amount2
                 },
                 Activities =
                 {
+                    new Assign<int>
+                    {
+                        To = amount2,
+                        Value = new InArgument<int>((e) => amount.Get(e))
+                    },
                     new WriteLine
                     {
                         Text = "Approved by first level approver, requesting approver 2."
@@ -37,12 +46,12 @@ namespace WorkflowContainer.Activities
                     {
                         DisplayName = "Second Level Approval",
                         BookmarkName = "SecondLevelApproval",
-                        RequestMessage = "Hi Approver 2, Can you please approve",
+                        RequestMessage = new InArgument<string>((env) => "Hi Approver 2, Can you please approve amount " + amount.Get(env).ToString()),
                         Result = approval2
                     },
                     new If()
                     {
-                        Condition = new InArgument<bool>((e) => approval2.Get(e).ToLower() == "approved"),
+                        Condition = new InArgument<bool>((e) => approval2.Get(e).ToLower() == "approve" || approval2.Get(e).ToLower() == "approved"),
                         Then = new WriteLine
                         {
                             Text = "The invoice was APPROVED. Process completed."
