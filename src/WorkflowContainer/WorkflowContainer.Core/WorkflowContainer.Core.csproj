@@ -50,6 +50,8 @@
     <Compile Include="Utilities\ActivityConverter.cs" />
     <Compile Include="Utilities\WorkflowLoader.cs" />
     <Compile Include="Utilities\WorkflowSerializer.cs" />
+    <Compile Include="WorkflowResult.cs" />
+    <Compile Include="WorkflowStatus.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

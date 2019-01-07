@@ -10,7 +10,7 @@ namespace WorkflowContainer.Activities
         public InArgument<string> RequestMessage { get; set; }
 
         [RequiredArgument]
-        public InArgument<string> BookmarkName { get; set; }
+        public InArgument<string> BookmarkName { get; set; }        
 
         protected override bool CanInduceIdle
         {
@@ -46,7 +46,8 @@ namespace WorkflowContainer.Activities
             // Send request to human
             Trace.TraceInformation($"From : {nameof(RequestHumanInput<T>)}. CREATE TASK >> {RequestMessage.Get(context)}");
 
-            Trace.TraceInformation($"From : {nameof(RequestHumanInput<T>)}. Creating bookmark : {BookmarkName.Get(context)}");
+            Trace.TraceInformation($"From : {nameof(RequestHumanInput<T>)}. Creating bookmark : {BookmarkName.Get(context)}, " +
+                $"on WorkflowInstanceId: {context.WorkflowInstanceId.ToString()}");
 
             // Create a Bookmark and wait for it to be resumed.  
             context.CreateBookmark(BookmarkName.Get(context),

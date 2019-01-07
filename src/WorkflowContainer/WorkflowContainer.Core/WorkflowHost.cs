@@ -3,13 +3,17 @@ using System.Activities;
 using System.Activities.DurableInstancing;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 
 namespace WorkflowContainer.Core
 {
     public class WorkflowHost
     {
-        //string _connectionString; //= "Server=.\\SQLEXPRESS;Initial Catalog=WorkflowEngineStore;Integrated Security=SSPI";
         SqlWorkflowInstanceStore _store;
+        Guid _instanceId;
+        IDictionary<string, object> _outputs = new Dictionary<string, object>();
+        AutoResetEvent _syncEvent = new AutoResetEvent(false); //initially closed
+        WorkflowStatus _workflowStatus = WorkflowStatus.Undefined;
 
         public WorkflowHost(string storeConnectionString)
         {
@@ -20,7 +24,7 @@ namespace WorkflowContainer.Core
         }
 
         // >>>> START A WORKFLOW <<<<
-        public void Start(Func<WorkflowIdentity, Activity> workflowMap, WorkflowIdentity workflowIdentity,
+        public WorkflowResult Start(Func<WorkflowIdentity, Activity> workflowMap, WorkflowIdentity workflowIdentity,
             IDictionary<string, object> inputs, Action<string> writelineListener = null)
         {
             if (inputs == null)
@@ -35,10 +39,12 @@ namespace WorkflowContainer.Core
 
             // Start the workflow.  
             wfApp.Run();
+
+            return WaitAndReturnData();
         }
 
         // >>>> RESUME A WORKFLOW <<<<
-        public void ResumeBookmark(Guid workflowInstanceId, Func<WorkflowIdentity, Activity> workflowMap,
+        public WorkflowResult ResumeBookmark(Guid workflowInstanceId, Func<WorkflowIdentity, Activity> workflowMap,
             string bookmarkName, object bookmarkResumeContext, Action<string> writelineListener = null)
         {
             WorkflowApplicationInstance instance = WorkflowApplication.GetInstance(workflowInstanceId, _store);
@@ -58,6 +64,20 @@ namespace WorkflowContainer.Core
 
             // Resume the workflow.  
             wfApp.ResumeBookmark(bookmarkName, bookmarkResumeContext);
+
+            return WaitAndReturnData();
+        }
+
+        private WorkflowResult WaitAndReturnData()
+        {
+            _syncEvent.WaitOne(TimeSpan.FromSeconds(10)); //wait for workflow to complete or go idle, with 10 second timeout
+
+            return new WorkflowResult
+            {
+                InstanceId = _instanceId,
+                Output = _outputs,
+                Status = _workflowStatus
+            };
         }
 
         private void ConfigureWorkflowApplication(WorkflowApplication wfApp, Action<string> writelineListener = null)
@@ -79,17 +99,23 @@ namespace WorkflowContainer.Core
                                     e.TerminationException.GetType().FullName,
                                     e.TerminationException.Message);
                     LogMessages(e, sw, message, writelineListener);
+                    _workflowStatus = WorkflowStatus.Errored;
                 }
                 else if (e.CompletionState == ActivityInstanceState.Canceled)
                 {
                     var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} Canceled.";
                     LogMessages(e, sw, message, writelineListener);
+                    _workflowStatus = WorkflowStatus.Cancelled;
                 }
                 else
                 {
                     var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} COMPLETED.";
+                    _outputs = e.Outputs; //TODO: How to use it?
                     LogMessages(e, sw, message, writelineListener);
+                    _workflowStatus = WorkflowStatus.Completed;
                 }
+                _syncEvent.Set();
+                _instanceId = e.InstanceId;
             };
 
             wfApp.Aborted = delegate (WorkflowApplicationAbortedEventArgs e)
@@ -99,6 +125,9 @@ namespace WorkflowContainer.Core
                         e.Reason.GetType().FullName,
                         e.Reason.Message);
                 LogMessages(e, sw, message, writelineListener);
+                _syncEvent.Set();
+                _instanceId = e.InstanceId;
+                _workflowStatus = WorkflowStatus.Aborted;
             };
 
             wfApp.OnUnhandledException = delegate (WorkflowApplicationUnhandledExceptionEventArgs e)
@@ -108,6 +137,8 @@ namespace WorkflowContainer.Core
                         e.UnhandledException.GetType().FullName,
                         e.UnhandledException.Message);
                 LogMessages(e, sw, message, writelineListener);
+                _workflowStatus = WorkflowStatus.Errored;
+                _syncEvent.Set();
                 return UnhandledExceptionAction.Terminate;
             };
 
@@ -115,6 +146,9 @@ namespace WorkflowContainer.Core
             {
                 var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} getting to IDLE.";
                 LogMessages(e, sw, message, writelineListener);
+                _syncEvent.Set();
+                _instanceId = e.InstanceId;
+                _workflowStatus = WorkflowStatus.Unloaded;
                 return PersistableIdleAction.Unload;
             };
         }

@@ -20,7 +20,7 @@ namespace WorkflowContainer.Activities
             {
                 Name = "amount", Default = new Random().Next(1, 100)
             };
-            Variable<int> amount2 = new Variable<int> //TODO: for test
+            Variable<int> amount2 = new Variable<int> //TODO: for test of data (variable) flow across bookmarks (=> worked)
             {
                 Name = "amount2"
             };
@@ -36,7 +36,7 @@ namespace WorkflowContainer.Activities
                     new Assign<int>
                     {
                         To = amount2,
-                        Value = new InArgument<int>((e) => amount.Get(e))
+                        Value = new InArgument<int>((e) => amount.Get(e)) //this works
                     },
                     new WriteLine
                     {
