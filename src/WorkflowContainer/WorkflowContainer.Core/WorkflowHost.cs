@@ -3,17 +3,19 @@ using System.Activities;
 using System.Activities.DurableInstancing;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace WorkflowContainer.Core
 {
     public class WorkflowHost
     {
-        SqlWorkflowInstanceStore _store;
+        readonly SqlWorkflowInstanceStore _store;
         Guid _instanceId;
         IDictionary<string, object> _outputs = new Dictionary<string, object>();
         AutoResetEvent _syncEvent = new AutoResetEvent(false); //initially closed
         WorkflowStatus _workflowStatus = WorkflowStatus.Undefined;
+        string _bookmarks = string.Empty;
 
         public WorkflowHost(string storeConnectionString)
         {
@@ -76,7 +78,8 @@ namespace WorkflowContainer.Core
             {
                 InstanceId = _instanceId,
                 Output = _outputs,
-                Status = _workflowStatus
+                Status = _workflowStatus,
+                CurrentBookmarks = _bookmarks
             };
         }
 
@@ -103,7 +106,7 @@ namespace WorkflowContainer.Core
                 }
                 else if (e.CompletionState == ActivityInstanceState.Canceled)
                 {
-                    var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} Canceled.";
+                    var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} CANCELLED.";
                     LogMessages(e, sw, message, writelineListener);
                     _workflowStatus = WorkflowStatus.Cancelled;
                 }
@@ -114,8 +117,8 @@ namespace WorkflowContainer.Core
                     LogMessages(e, sw, message, writelineListener);
                     _workflowStatus = WorkflowStatus.Completed;
                 }
-                _syncEvent.Set();
                 _instanceId = e.InstanceId;
+                _syncEvent.Set();                
             };
 
             wfApp.Aborted = delegate (WorkflowApplicationAbortedEventArgs e)
@@ -124,10 +127,10 @@ namespace WorkflowContainer.Core
                     " Workflow Aborted. Exception: {0}\r\n{1}",
                         e.Reason.GetType().FullName,
                         e.Reason.Message);
-                LogMessages(e, sw, message, writelineListener);
-                _syncEvent.Set();
+                LogMessages(e, sw, message, writelineListener);                
                 _instanceId = e.InstanceId;
                 _workflowStatus = WorkflowStatus.Aborted;
+                _syncEvent.Set();
             };
 
             wfApp.OnUnhandledException = delegate (WorkflowApplicationUnhandledExceptionEventArgs e)
@@ -144,16 +147,24 @@ namespace WorkflowContainer.Core
 
             wfApp.PersistableIdle = delegate (WorkflowApplicationIdleEventArgs e)
             {
-                var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} getting to IDLE.";
-                LogMessages(e, sw, message, writelineListener);
-                _syncEvent.Set();
+                var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} getting to IDLE.";                
+                LogMessages(e, sw, message, writelineListener, true); //clear messages as idle'll invoke Unloaded()                
+                _bookmarks = string.Join(",", e.Bookmarks.Select(b => b.BookmarkName));
+                return PersistableIdleAction.Unload;
+            };
+
+            wfApp.Unloaded = delegate (WorkflowApplicationEventArgs e)
+            {
                 _instanceId = e.InstanceId;
                 _workflowStatus = WorkflowStatus.Unloaded;
-                return PersistableIdleAction.Unload;
+                var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} UNLOADED.";
+                LogMessages(e, sw, message, writelineListener);
+                _syncEvent.Set();
             };
         }
 
-        private static void LogMessages(WorkflowApplicationEventArgs e, StringWriter sw, string message, Action<string> writelineListener)
+        private static void LogMessages(WorkflowApplicationEventArgs e, 
+            StringWriter sw, string message, Action<string> writelineListener, bool clearMessages = false)
         {
             sw.WriteLine(message);
             // Send the current WriteLine outputs to the designated listner
@@ -165,7 +176,14 @@ namespace WorkflowContainer.Core
                     writelineListener("Workflow Writeline Log : " + writer.ToString());
                 }
             }
+
+            if (clearMessages)
+            {
+                sw.GetStringBuilder().Clear(); //clear all data from the StringWriter
+            }
         }
+
+        #region Not-Used-Yet
 
         private void Unload(Guid workflowInstanceId) //that's weird!
         {
@@ -196,5 +214,7 @@ namespace WorkflowContainer.Core
             // Terminate the workflow.  
             wfApp.Terminate(terminationMessage);
         }
+
+        #endregion
     }
 }

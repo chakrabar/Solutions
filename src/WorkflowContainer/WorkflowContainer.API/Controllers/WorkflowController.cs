@@ -29,7 +29,7 @@ namespace WorkflowContainer.API.Controllers
             var workflowResult = host.ResumeBookmark(instanceId, WorkflowIndex.GetWorkflow, bookmark, approval, LogWriter.Log);
             return new WorkflowStatusViewModel
             {
-                Message = $"Workflow successfully resumed for id: {instanceId}, bookmark: {bookmark}",
+                Message = $"Workflow successfully resumed for id: {instanceId}, from bookmark: {bookmark}",
                 WorkflowResult = workflowResult
             };
         }

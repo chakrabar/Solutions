@@ -8,5 +8,6 @@ namespace WorkflowContainer.Core
         public Guid InstanceId { get; set; }
         public IDictionary<string, object> Output { get; set; }
         public WorkflowStatus Status { get; set; }
+        public string CurrentBookmarks { get; set; }
     }
 }
