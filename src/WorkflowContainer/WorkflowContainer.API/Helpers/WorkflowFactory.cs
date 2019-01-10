@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Activities;
-using WorkflowContainer.Activities;
+//using WorkflowContainer.Activities;
 
 namespace WorkflowContainer.API.Helpers
 {
@@ -13,7 +13,7 @@ namespace WorkflowContainer.API.Helpers
             switch(name)
             {
                 case LongRunningRoutineName:
-                    return LongRunningRoutine.Get();
+                    return null; // LongRunningRoutine.Get();
                 default:
                     throw new ArgumentException($"No activity has been set for key : {name}", "Workflow name");
             }

@@ -1,4 +1,5 @@
-﻿using System.Activities;
+﻿using System;
+using System.Activities;
 using System.Activities.XamlIntegration;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +11,7 @@ namespace WorkflowContainer.Core.Utilities
 {
     public static class ActivityLoader
     {
-        public static IDictionary<WorkflowIdentity, Activity> FetchAllActivitiesFromPath(string activitiesDirectory)
+        public static IDictionary<WorkflowIdentity, Activity> FetchAllCodeActivitiesFromPath(string activitiesDirectory)
         {
             var activityIndex = new Dictionary<WorkflowIdentity, Activity>();
             var assemblies = Directory.GetFiles(activitiesDirectory, "*.dll");
@@ -29,12 +30,26 @@ namespace WorkflowContainer.Core.Utilities
             return activityIndex;
         }
 
+        public static IDictionary<WorkflowIdentity, Activity> FetchAllXamlActivitiesFromPath(string activitiesDirectory)
+        {
+            var activityIndex = new Dictionary<WorkflowIdentity, Activity>();
+            var activityXamls = Directory.GetFiles(activitiesDirectory, "*.xaml");
+            foreach (var xamlFile in activityXamls)
+            {
+                var version = new Version(1, 0, 0, 0); //TODO: Resolve to proper version
+                var activityName = Path.GetFileNameWithoutExtension(xamlFile);
+                var activity = LoadActivityFromFile(xamlFile);
+                activityIndex.Add(new WorkflowIdentity(activityName, version, null), activity);
+            }
+            return activityIndex;
+        }
+
         public static Activity LoadActivityFromFile(string activityXamlPath, string activityAssemblyPath = null)
         {
-            XamlReader xamlReader;
+            XamlReader xamlReader;            
             if (!string.IsNullOrWhiteSpace(activityAssemblyPath))
             {
-                Assembly actAssembly = Assembly.LoadFile(@"Workflows.dll");
+                Assembly actAssembly = Assembly.LoadFile(activityAssemblyPath);
                 XamlXmlReaderSettings settings = new XamlXmlReaderSettings
                 {
                     LocalAssembly = actAssembly
@@ -45,7 +60,13 @@ namespace WorkflowContainer.Core.Utilities
             {
                 xamlReader = new XamlXmlReader(activityXamlPath);
             }
-            Activity activity = ActivityXamlServices.Load(xamlReader);
+
+            ActivityXamlServicesSettings activitySettings = new ActivityXamlServicesSettings
+            {
+                CompileExpressions = true //compile C# expressions in workflow
+            };
+            Activity activity = ActivityXamlServices.Load(xamlReader, activitySettings);
+
             return activity;
         }
 

@@ -1,26 +1,50 @@
 ﻿using System;
 using System.Activities;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using WorkflowContainer.Core.Utilities;
 
 namespace WorkflowContainer.API.Helpers
 {
     internal static class WorkflowIndex
-    {
-        
-        static Dictionary<WorkflowIdentity, Activity> _map;
+    {        
+        static IDictionary<WorkflowIdentity, Activity> _map;
 
         static WorkflowIndex() //TODO: add other workflows
         {
-            _map = new Dictionary<WorkflowIdentity, Activity>();
-            foreach (var id in GetWorkflowIdentities())
-            {
-                _map.Add(
-                    id,
-                    WorkflowFactory.Get(id.Name) //TODO: use both NAME & VERSION
-                );
-            }
+            LoadXamlActivitiesFromConfigPath();
         }
+
+        internal static void LoadXamlActivitiesFromConfigPath()
+        {
+            var activitiesPath = Settings.GetActivitiesDirectory();
+            _map = ActivityLoader.FetchAllXamlActivitiesFromPath(activitiesPath);
+        }
+
+        internal static WorkflowIdentity GetWorkflowIdentityByName(string workflowName) //TODO: this needs improvement
+        {
+            var availableWorkflows = _map.Where(dict => dict.Key.Name == workflowName);
+            if (availableWorkflows.Any())
+            {
+                return availableWorkflows
+                    .OrderBy(wf => wf.Key.Version)
+                    .First()
+                    .Key;
+            }
+            throw new ArgumentException($"No identity found for : {workflowName}", "Workflow name");
+        }
+
+        internal static Activity GetWorkflow(WorkflowIdentity workflowIdentity)
+        {
+            if (_map.ContainsKey(workflowIdentity))
+                return _map[workflowIdentity];
+
+            throw new ArgumentException(workflowIdentity.Name);
+        }
+
+        #region deprecated
 
         private static IEnumerable<WorkflowIdentity> GetWorkflowIdentities() //TODO: add other workflows
         {
@@ -34,7 +58,7 @@ namespace WorkflowContainer.API.Helpers
             };
         }
 
-        internal static WorkflowIdentity GetWorkflowIdentityByName(string workflowName) //TODO: this needs improvement
+        internal static WorkflowIdentity GetWorkflowIdentityByName_old(string workflowName) //TODO: this needs improvement
         {
             var availableIds = GetWorkflowIdentities();
             if (availableIds.Any(id => id.Name == workflowName))
@@ -42,12 +66,21 @@ namespace WorkflowContainer.API.Helpers
             throw new ArgumentException($"No identity found for : {workflowName}", "Workflow name");
         }
 
-        internal static Activity GetWorkflow(WorkflowIdentity workflowIdentity)
+        private static void LoadSampleWorkflows()
         {
-            if (_map.ContainsKey(workflowIdentity))
-                return _map[workflowIdentity];
+            _map = new Dictionary<WorkflowIdentity, Activity>();
 
-            throw new ArgumentException(workflowIdentity.Name);
+            foreach (var id in GetWorkflowIdentities())
+            {
+                _map.Add(
+                    id,
+                    WorkflowFactory.Get(id.Name) //TODO: use both NAME & VERSION
+                );
+            }
+
+            var assemblyPath = Path.GetFullPath(Assembly.GetExecutingAssembly().CodeBase);
+            _map = ActivityLoader.FetchAllXamlActivitiesFromPath(assemblyPath);
         }
+        #endregion
     }
 }
