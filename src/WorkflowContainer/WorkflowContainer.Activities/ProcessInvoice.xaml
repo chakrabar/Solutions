@@ -1,4 +1,4 @@
-﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="WorkflowContainer.Activities.ProcessInvoice"
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="WorkflowContainer.Activities.ProcessInvoice" this:ProcessInvoice.InvoiceAmount="666"
  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
  xmlns:local="clr-namespace:WorkflowContainer.Activities.Models;assembly=WorkflowContainer.Activities"
  xmlns:local1="clr-namespace:WorkflowContainer.Activities.Custom;assembly=WorkflowContainer.Activities"
@@ -10,12 +10,14 @@
  xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
  xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
  xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:this="clr-namespace:WorkflowContainer.Activities"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="InvoiceAmount" Type="InArgument(x:Int32)" />
     <x:Property Name="Approver_1_Email" Type="InArgument(x:String)" />
     <x:Property Name="Approver_2_Email" Type="InArgument(x:String)" />
     <x:Property Name="Result" Type="OutArgument(local:InvoiceResult)" />
+    <x:Property Name="Run" Type="InArgument(x:Boolean)" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
   <sap2010:WorkflowViewState.IdRef>WorkflowContainer.Activities.ProcessInvoice_1</sap2010:WorkflowViewState.IdRef>
@@ -31,19 +33,19 @@
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
     <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
       <AssemblyReference>System</AssemblyReference>
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
       <AssemblyReference>System.Xml.Linq</AssemblyReference>
       <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
       <AssemblyReference>Microsoft.CSharp</AssemblyReference>
       <AssemblyReference>System.Data</AssemblyReference>
       <AssemblyReference>System.Net.Http</AssemblyReference>
       <AssemblyReference>System.Xml</AssemblyReference>
-      <AssemblyReference>System.Xaml</AssemblyReference>
-      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
-      <AssemblyReference>System.ServiceModel</AssemblyReference>
-      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
       <AssemblyReference>WorkflowContainer.Activities</AssemblyReference>
     </sco:Collection>
@@ -137,7 +139,7 @@
         </Sequence>
       </If.Else>
     </If>
-    <Assign>
+    <Assign sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="local:InvoiceResult">
           <mca:CSharpReference x:TypeArguments="local:InvoiceResult">Result</mca:CSharpReference>
@@ -145,12 +147,11 @@
       </Assign.To>
       <Assign.Value>
         <InArgument x:TypeArguments="local:InvoiceResult">
-          <mca:CSharpValue x:TypeArguments="local:InvoiceResult">new InvoiceResult { Amount = InvoiceAmount, Level1Approver = Approver_1_Email, Level2Approver = Approver_2_Email, Approval1 = approval1, Approval2 = approval2 }</mca:CSharpValue>
+          <mca:CSharpValue x:TypeArguments="local:InvoiceResult">new InvoiceResult { Amount = InvoiceAmount, Level1Approver = Approver_1_Email, Level2Approver = Approver_2_Email, Approval1 = approval1, Approval2 = approval2, Run = Run }</mca:CSharpValue>
         </InArgument>
       </Assign.Value>
-      <sap2010:WorkflowViewState.IdRef>Assign_1</sap2010:WorkflowViewState.IdRef>
     </Assign>
-    <sads:DebugSymbol.Symbol>d2FDOlxBcmdoeWFDXHJlcG9zXFNvbHV0aW9uc1xzcmNcV29ya2Zsb3dDb250YWluZXJcV29ya2Zsb3dDb250YWluZXIuQWN0aXZpdGllc1xQcm9jZXNzSW52b2ljZS54YW1sIjMDmgEOAgEBOgU+EQMBgQE/BYsBCgIBFYwBBZgBDgIBAjwJPHUDAYIBQgtCYAIBFkYJShUCAXdNCYkBFAIBH5QBC5QB9AECAQyPAQuPAWICAQNIDUhyAgF4TgtOZQIBdU8LXx8CAVlgC2YpAgFOZwuIARACASBOSU5iAgF2VxFXkgECAWxSEVJfAgFjXBFcXAIBWmBaYGsCAVhjEWNqAgFPahFqZAIBIW4PgwEaAgEshgEPhgFoAgEqbxFvawIBTHAReyUCATh8EYIBLwIBLYYBTYYBZQIBK29Pb2gCAU1wYnCBAQIBS3MXc2UCAUJ4F3hiAgE5fGB8cQIBN38Xf3ACAS4=</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d2FDOlxBcmdoeWFDXHJlcG9zXFNvbHV0aW9uc1xzcmNcV29ya2Zsb3dDb250YWluZXJcV29ya2Zsb3dDb250YWluZXIuQWN0aXZpdGllc1xQcm9jZXNzSW52b2ljZS54YW1sIwGDAQGHAQECNQObAQ4CAQE8BUARAwGNAUEFjQEKAgEXjgEFmQEOAgECPgk+dQMBjgFEC0RgAgEYSAlMFQMBggFPCYsBFAIBIpYBC5YB/wECAQ2RAQuRAWICAQNKDUpyAwGDAVALUGUDAYABUQthHwIBYWILaCkCAVVpC4oBEAIBI1BJUGIDAYEBWRFZkgECAXZUEVRfAgFsXhFeXAIBYmJaYmsCAWBlEWVqAgFWbBFsZAIBJHAPhQEaAgEwiAEPiAFoAgEucRFxawIBU3IRfSUCAT1+EYQBLwIBMYgBTYgBZQIBL3FPcWgCAVRyYnKBAQIBUnUXdWUCAUh6F3piAgE+fmB+cQIBPIEBF4EBcAIBMg==</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>

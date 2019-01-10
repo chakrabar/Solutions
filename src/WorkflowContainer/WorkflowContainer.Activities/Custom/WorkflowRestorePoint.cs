@@ -26,11 +26,13 @@ namespace WorkflowContainer.Activities.Custom
             {
                 try
                 {
-                    output = (TOut)Convert.ChangeType(data, typeof(TOut));
+                    //output = (TOut)Convert.ChangeType(data, typeof(TOut)); //fails when input is pure object (not this type)
+                    output = JsonUtils.Cast<TOut>(data);
                 }
                 catch (InvalidCastException e)
                 {
                     Trace.TraceError($"From : {nameof(WorkflowRestorePoint<TOut>)}. Error casting data. Exception: {e.Message}");
+                    Trace.Flush();
                     throw;
                 }
             }            

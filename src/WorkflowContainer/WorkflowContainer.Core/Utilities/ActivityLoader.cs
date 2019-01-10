@@ -38,13 +38,13 @@ namespace WorkflowContainer.Core.Utilities
             {
                 var version = new Version(1, 0, 0, 0); //TODO: Resolve to proper version
                 var activityName = Path.GetFileNameWithoutExtension(xamlFile);
-                var activity = LoadActivityFromFile(xamlFile);
+                var activity = LoadActivityFromFile(xamlFile, activityName);
                 activityIndex.Add(new WorkflowIdentity(activityName, version, null), activity);
             }
             return activityIndex;
         }
 
-        public static Activity LoadActivityFromFile(string activityXamlPath, string activityAssemblyPath = null)
+        public static Activity LoadActivityFromFile(string activityXamlPath, string activityName, string activityAssemblyPath = null)
         {
             XamlReader xamlReader;            
             if (!string.IsNullOrWhiteSpace(activityAssemblyPath))
@@ -66,6 +66,7 @@ namespace WorkflowContainer.Core.Utilities
                 CompileExpressions = true //compile C# expressions in workflow
             };
             Activity activity = ActivityXamlServices.Load(xamlReader, activitySettings);
+            activity.DisplayName = activityName;
 
             return activity;
         }
