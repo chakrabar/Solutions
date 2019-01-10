@@ -45,10 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utilities\ActivityLoader.cs" />
     <Compile Include="WorkflowHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ActivityConverter.cs" />
-    <Compile Include="Utilities\WorkflowLoader.cs" />
+    <Compile Include="Utilities\WorkflowLoader_old.cs" />
     <Compile Include="Utilities\WorkflowSerializer.cs" />
     <Compile Include="WorkflowResult.cs" />
     <Compile Include="WorkflowStatus.cs" />

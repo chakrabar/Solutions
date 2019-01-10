@@ -5,7 +5,7 @@ using System.IO;
 
 namespace WorkflowContainer.Core.Utilities
 {
-    public static class WorkflowLoader
+    public static class WorkflowLoader_old
     {
         public static IDictionary<string, object> ExecuteXaml(string xamlFilepath, IDictionary<string, object> data)
         {
