@@ -52,7 +52,7 @@ namespace WorkflowContainer.Core.Utilities
                 Assembly actAssembly = Assembly.LoadFile(activityAssemblyPath);
                 XamlXmlReaderSettings settings = new XamlXmlReaderSettings
                 {
-                    LocalAssembly = actAssembly
+                    LocalAssembly = actAssembly //TODO: this needs to be checked
                 };
                 xamlReader = new XamlXmlReader(activityXamlPath, settings);
             }
@@ -71,9 +71,9 @@ namespace WorkflowContainer.Core.Utilities
             return activity;
         }
 
-        public static Activity LoadActivityFromXaml(string activityXaml)
+        public static Activity LoadActivityFromXaml(string activityXamlString)
         {
-            return ActivityXamlServices.Load(new StringReader(activityXaml));
+            return ActivityXamlServices.Load(new StringReader(activityXamlString));
         }
     }
 }

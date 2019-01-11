@@ -28,6 +28,11 @@ namespace WorkflowContainer.Activities.Custom
                 {
                     //output = (TOut)Convert.ChangeType(data, typeof(TOut)); //fails when input is pure object (not this type)
                     output = JsonUtils.Cast<TOut>(data);
+
+                    Trace.TraceInformation($"From : {nameof(WorkflowRestorePoint<TOut>)}. Bookmark resume data : {output.ToJson()}");
+
+                    // When the Bookmark is resumed, assign its value to the Result argument
+                    Result.Set(context, output);
                 }
                 catch (InvalidCastException e)
                 {
@@ -35,12 +40,7 @@ namespace WorkflowContainer.Activities.Custom
                     Trace.Flush();
                     throw;
                 }
-            }            
-
-            Trace.TraceInformation($"From : {nameof(WorkflowRestorePoint<TOut>)}. Bookmark resume data : {output.ToJson()}");
-            
-            // When the Bookmark is resumed, assign its value to the Result argument
-            Result.Set(context, output);
+            }
             Trace.Flush();
         }
 

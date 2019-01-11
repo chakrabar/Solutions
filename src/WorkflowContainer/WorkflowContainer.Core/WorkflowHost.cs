@@ -39,7 +39,7 @@ namespace WorkflowContainer.Core
             // workflow lifecycle handlers.  
             ConfigureWorkflowApplication(wfApp, writelineListener);
 
-            // Start the workflow.  
+            // Start the workflow.
             wfApp.Run();
 
             return WaitAndReturnData();
