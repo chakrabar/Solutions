@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="AddWorkflow.cs" />
     <Compile Include="Custom\CreateTask.cs" />
+    <Compile Include="Custom\CreateTaskAndPause.cs" />
     <Compile Include="Custom\WorkflowRestorePoint.cs" />
     <Compile Include="LongRunningRoutine.cs" />
     <Compile Include="Models\ApprovalData.cs" />
@@ -79,6 +80,13 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="ParameterizedSum.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="ProcessInvoiceWorkflow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
