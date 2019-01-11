@@ -58,7 +58,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestHumanInput.cs" />
     <Compile Include="SampleActivityBuilder.cs" />
-    <Compile Include="Test.cs" />
     <Compile Include="JsonUtils.cs" />
   </ItemGroup>
   <ItemGroup>

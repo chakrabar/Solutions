@@ -1,7 +1,7 @@
-﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="WorkflowContainer.Activities.ProcessInvoice" this:ProcessInvoice.InvoiceAmount="0"
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="WorkflowContainer.Activities.ProcessInvoice" this:ProcessInvoice.InvoiceAmount="0" this:ProcessInvoice.IsApproved="False" this:ProcessInvoice.IsAutoApproved="False"
  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
- xmlns:local="clr-namespace:WorkflowContainer.Activities.Models;assembly=WorkflowContainer.Activities"
- xmlns:local1="clr-namespace:WorkflowContainer.Activities.Custom;assembly=WorkflowContainer.Activities"
+ xmlns:local="clr-namespace:WorkflowContainer.Activities.Models"
+ xmlns:local1="clr-namespace:WorkflowContainer.Activities.Custom"
  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
  xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
  xmlns:s="clr-namespace:System;assembly=mscorlib"
@@ -17,6 +17,8 @@
     <x:Property Name="Approver_1_Email" Type="InArgument(x:String)" />
     <x:Property Name="Approver_2_Email" Type="InArgument(x:String)" />
     <x:Property Name="Result" Type="OutArgument(local:InvoiceResult)" />
+    <x:Property Name="IsApproved" Type="InArgument(x:Boolean)" />
+    <x:Property Name="IsAutoApproved" Type="InArgument(x:Boolean)" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
   <sap2010:WorkflowViewState.IdRef>WorkflowContainer.Activities.ProcessInvoice_1</sap2010:WorkflowViewState.IdRef>

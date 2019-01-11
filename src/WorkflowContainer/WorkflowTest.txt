@@ -1,0 +1,193 @@
+System.TypeInitializationException
+  HResult=0x80131534
+  Message=The type initializer for 'WorkflowContainer.API.Helpers.WorkflowIndex' threw an exception.
+  Source=WorkflowContainer.API
+  StackTrace:
+   at WorkflowContainer.API.Helpers.WorkflowIndex.GetLongRunningRoutineIdentity() in C:\ArghyaC\repos\Solutions\src\WorkflowContainer\WorkflowContainer.API\Helpers\WorkflowIndex.cs:line 28
+   at WorkflowContainer.API.Controllers.WorkflowController.Post(String workflowName) in C:\ArghyaC\repos\Solutions\src\WorkflowContainer\WorkflowContainer.API\Controllers\WorkflowController.cs:line 29
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass6_0.<GetExecutor>b__0(Object instance, Object[] methodParameters)
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)
+
+Inner Exception 1:
+ArgumentOutOfRangeException: 'minValue' cannot be greater than maxValue.
+Parameter name: minValue
+4D900896-A64E-32C7-1FEB-4588214C1D1A
+
+[FirstLevelApproval: First Level Approval]
+
+
+http://localhost:62206/api/workflow/invoke/abc - works (for now)
+
+
+http://localhost:62206/api/workflow/resume/4D900896-A64E-32C7-1FEB-4588214C1D1A/FirstLevelApproval/approved - didn't
+http://localhost:62206/api/workflow/resume/13FF52E4-6C02-4F0C-B7C3-8DB405613E97/FirstLevelApproval/approved - worked
+http://localhost:62206/api/workflow/resume/13FF52E4-6C02-4F0C-B7C3-8DB405613E97/SecondLevelApproval/approved - worked
+
+http://localhost:62206/api/workflow/resume/13FF52E4-6C02-4F0C-B7C3-8DB405613E97/SecondLevelApproval/approved
+
+31A3CDD0-A67F-4564-9071-C92A27796FCD
+3B8D2717-5189-416D-AC88-DC3182C6B5FC
+24328223-D927-47AF-9658-5DB051F71599
+B617B05C-9DA4-4DE4-9FD0-F4A4DB95E035
+
+31A3CDD0-A67F-4564-9071-C92A27796FCD
+24328223-D927-47AF-9658-5DB051F71599
+
+http://localhost:62206/api/workflow/invoke/LongRunningRoutine
+{
+    "Message": "Workflow successfully invoked for name: LongRunningRoutine",
+    "WorkflowResult": {
+        "InstanceId": "50ff55d7-d7e8-4e2b-87c5-db63dc747714",
+        "Output": {},
+        "Status": "Unloaded",
+        "CurrentBookmarks": "FirstLevelApproval"
+    }
+}
+
+http://localhost:62206/api/workflow/resume/50ff55d7-d7e8-4e2b-87c5-db63dc747714/FirstLevelApproval/approved
+{
+    "Message": "Workflow successfully resumed for id: 50ff55d7-d7e8-4e2b-87c5-db63dc747714, from bookmark: FirstLevelApproval",
+    "WorkflowResult": {
+        "InstanceId": "50ff55d7-d7e8-4e2b-87c5-db63dc747714",
+        "Output": {},
+        "Status": "Unloaded",
+        "CurrentBookmarks": "SecondLevelApproval"
+    }
+}
+
+http://localhost:62206/api/workflow/resume/50ff55d7-d7e8-4e2b-87c5-db63dc747714/SecondLevelApproval/approved
+{
+    "Message": "Workflow successfully resumed for id: 50ff55d7-d7e8-4e2b-87c5-db63dc747714, from bookmark: SecondLevelApproval",
+    "WorkflowResult": {
+        "InstanceId": "50ff55d7-d7e8-4e2b-87c5-db63dc747714",
+        "Output": {},
+        "Status": "Completed",
+        "CurrentBookmarks": ""
+    }
+}
+
+=================================================================================================================
+
+http://localhost:62206/api/workflow/invoke/SimpleSum
+{
+    "Message": "Workflow successfully invoked for name: SimpleSum",
+    "WorkflowResult": {
+        "InstanceId": "4f393b70-3ae4-41c7-bfcf-2ce24b4c5fb7",
+        "Output": {},
+        "Status": "Completed",
+        "CurrentBookmarks": ""
+    }
+}
+
+http://localhost:62206/api/workflow/invoke/ParameterizedSum
+{
+	"A": 101,
+	"B": 202
+}
+{
+    "Message": "An error has occurred.",
+    "ExceptionMessage": "The values provided for the root activity's arguments did not satisfy the root activity's requirements:\r\n'DynamicActivity': Expected an input parameter value of type 'System.Int32' for parameter named 'A'.\r\n'DynamicActivity': Expected an input parameter value of type 'System.Int32' for parameter named 'B'.\r\nParameter name: rootArgumentValues",
+    "ExceptionType": "System.ArgumentException",
+    "StackTrace": "   at System.Activities.Validation.ActivityValidationServices.ValidateRootInputs(Activity rootActivity, IDictionary`2 inputs)\r\n   at System.Activities.Hosting.WorkflowInstance.InitializeCore(IDictionary`2 workflowArgumentValues, IList`1 workflowExecutionProperties)\r\n   at System.Activities.Hosting.WorkflowInstance.Initialize(IDictionary`2 workflowArgumentValues, IList`1 workflowExecutionProperties)\r\n   at System.Activities.WorkflowApplication.EnsureInitialized()\r\n   at System.Activities.WorkflowApplication.Enqueue(InstanceOperation operation, Boolean push)\r\n   at System.Activities.WorkflowApplication.InternalRun(TimeSpan timeout, Boolean isUserRun)\r\n   at System.Activities.WorkflowApplication.Run()\r\n   at WorkflowContainer.Core.WorkflowHost.Start(Func`2 workflowMap, WorkflowIdentity workflowIdentity, IDictionary`2 inputs, Action`1 writelineListener) in C:\\ArghyaC\\repos\\Solutions\\src\\WorkflowContainer\\WorkflowContainer.Core\\WorkflowHost.cs:line 43\r\n   at WorkflowContainer.API.Controllers.WorkflowController.Post(String workflowName, Dictionary`2 data) in C:\\ArghyaC\\repos\\Solutions\\src\\WorkflowContainer\\WorkflowContainer.API\\Controllers\\WorkflowController.cs:line 17\r\n   at lambda_method(Closure , Object , Object[] )\r\n   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass6_2.<GetExecutor>b__2(Object instance, Object[] methodParameters)\r\n   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)\r\n   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__1.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__5.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__15.MoveNext()"
+}
+
+http://localhost:62206/api/workflow/invoke/ProcessInvoice
+{
+	"InvoiceAmount": 50,
+	"Approver_1_Email": "ac",
+	"Approver_2_Email": "prc"
+}
+{
+    "Message": "An error has occurred.",
+    "ExceptionMessage": "The values provided for the root activity's arguments did not satisfy the root activity's requirements:\r\n'DynamicActivity': Expected an input parameter value of type 'System.Int32' for parameter named 'InvoiceAmount'.\r\nParameter name: rootArgumentValues",
+    "ExceptionType": "System.ArgumentException",
+    "StackTrace": "   at System.Activities.Validation.ActivityValidationServices.ValidateRootInputs(Activity rootActivity, IDictionary`2 inputs)\r\n   at System.Activities.Hosting.WorkflowInstance.InitializeCore(IDictionary`2 workflowArgumentValues, IList`1 workflowExecutionProperties)\r\n   at System.Activities.Hosting.WorkflowInstance.Initialize(IDictionary`2 workflowArgumentValues, IList`1 workflowExecutionProperties)\r\n   at System.Activities.WorkflowApplication.EnsureInitialized()\r\n   at System.Activities.WorkflowApplication.Enqueue(InstanceOperation operation, Boolean push)\r\n   at System.Activities.WorkflowApplication.InternalRun(TimeSpan timeout, Boolean isUserRun)\r\n   at System.Activities.WorkflowApplication.Run()\r\n   at WorkflowContainer.Core.WorkflowHost.Start(Func`2 workflowMap, WorkflowIdentity workflowIdentity, IDictionary`2 inputs, Action`1 writelineListener) in C:\\ArghyaC\\repos\\Solutions\\src\\WorkflowContainer\\WorkflowContainer.Core\\WorkflowHost.cs:line 43\r\n   at WorkflowContainer.API.Controllers.WorkflowController.Post(String workflowName, Dictionary`2 data) in C:\\ArghyaC\\repos\\Solutions\\src\\WorkflowContainer\\WorkflowContainer.API\\Controllers\\WorkflowController.cs:line 17\r\n   at lambda_method(Closure , Object , Object[] )\r\n   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass6_2.<GetExecutor>b__2(Object instance, Object[] methodParameters)\r\n   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)\r\n   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__1.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__5.MoveNext()\r\n--- End of stack trace from previous location where exception was thrown ---\r\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n   at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__15.MoveNext()"
+}
+
+http://localhost:62206/api/workflow/invoke/ProcessInvoice
+{
+	"Approver_1_Email": "ac",
+	"Approver_2_Email": "prc"
+}
+{
+    "Message": "Workflow successfully invoked for name: ProcessInvoice",
+    "WorkflowResult": {
+        "InstanceId": "0bd9546e-c767-4fef-887e-2e479e7a5229",
+        "Output": {
+            "Result": {
+                "Amount": 0,
+                "Level1Approver": "ac",
+                "Level2Approver": "prc",
+                "Approval1": null,
+                "Approval2": null
+            }
+        },
+        "Status": "Completed",
+        "CurrentBookmarks": ""
+    }
+}
+
+============================================== changed invoice amount to long =========================================================
+
+http://localhost:62206/api/workflow/invoke/ProcessInvoice
+{
+	"InvoiceAmount": 25500,
+	"Approver_1_Email": "neha@company.com",
+	"Approver_2_Email": "yami@company.com"
+}
+{
+    "Message": "Workflow successfully invoked for name: ProcessInvoice",
+    "WorkflowResult": {
+        "InstanceId": "3c4b17e1-7e8b-4cef-a004-c7172f79e315",
+        "Output": {},
+        "Status": "Unloaded",
+        "CurrentBookmarks": "Level1_Approval"
+    }
+}
+
+http://localhost:62206/api/workflow/resume/3c4b17e1-7e8b-4cef-a004-c7172f79e315/Level1_Approval
+{
+	"IsApproved": true,
+	"Message": "That was a good use of the money"
+}
+{
+    "Message": "Workflow successfully resumed for id: 3c4b17e1-7e8b-4cef-a004-c7172f79e315, from bookmark: Level1_Approval",
+    "WorkflowResult": {
+        "InstanceId": "3c4b17e1-7e8b-4cef-a004-c7172f79e315",
+        "Output": {},
+        "Status": "Unloaded",
+        "CurrentBookmarks": "Level2_Approval"
+    }
+}
+
+http://localhost:62206/api/workflow/resume/3c4b17e1-7e8b-4cef-a004-c7172f79e315/Level2_Approval
+{
+	"IsApproved": true,
+	"Message": "OK"
+}
+{
+    "Message": "Workflow successfully resumed for id: 3c4b17e1-7e8b-4cef-a004-c7172f79e315, from bookmark: Level2_Approval",
+    "WorkflowResult": {
+        "InstanceId": "3c4b17e1-7e8b-4cef-a004-c7172f79e315",
+        "Output": {
+            "Result": {
+                "InvoiceAmount": 25500,
+                "Level1Approver": "neha@company.com",
+                "Level2Approver": "yami@company.com",
+                "Approval1": {
+                    "IsApproved": true,
+                    "Message": "That was a good use of the money"
+                },
+                "Approval2": {
+                    "IsApproved": true,
+                    "Message": "OK"
+                },
+                "IsApproved": true,
+                "IsAutoApproved": false
+            }
+        },
+        "Status": "Completed",
+        "CurrentBookmarks": ""
+    }
+}
