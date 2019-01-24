@@ -19,7 +19,7 @@ namespace WorkflowContainer.API.Helpers
 
         internal static void LoadXamlActivitiesFromConfigPath()
         {
-            var activitiesPath = Settings.GetActivitiesDirectory();
+            var activitiesPath = WebSettings.GetActivitiesDirectory();
             _map = ActivityLoader.FetchAllXamlActivitiesFromPath(activitiesPath);
         }
 

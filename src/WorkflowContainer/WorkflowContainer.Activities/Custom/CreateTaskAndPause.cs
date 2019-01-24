@@ -26,28 +26,21 @@ namespace WorkflowContainer.Activities.Custom
         {
             Trace.TraceInformation($"Resuming : {nameof(WorkflowRestorePoint<TOut>)}, from bookmark : {bookmark.Name}");
             TOut output = default(TOut);
-            if (data is TOut)
+            try
             {
-                output = (TOut)data;
+                output = JsonUtils.Cast<TOut>(data);
+                Trace.TraceInformation($"From : {nameof(WorkflowRestorePoint<TOut>)}. Bookmark resume data : {output.ToJson()}");
             }
-            else
+            catch (InvalidCastException e)
             {
-                try
-                {
-                    output = JsonUtils.Cast<TOut>(data);
-
-                    Trace.TraceInformation($"From : {nameof(WorkflowRestorePoint<TOut>)}. Bookmark resume data : {output.ToJson()}");
-
-                    // When the Bookmark is resumed, assign its value to the Result argument
-                    Result.Set(context, output);
-                }
-                catch (InvalidCastException e)
-                {
-                    Trace.TraceError($"From : {nameof(WorkflowRestorePoint<TOut>)}. Error casting data. Exception: {e.Message}");
-                    Trace.Flush();
-                    throw;
-                }
+                Trace.TraceError($"From : {nameof(WorkflowRestorePoint<TOut>)}. Error casting data. Exception: {e.Message}");
+                Trace.Flush();
+                throw;
             }
+
+            // When the Bookmark is resumed, assign its value to the Result argument
+            Result.Set(context, output);
+
             Trace.Flush();
         }
 

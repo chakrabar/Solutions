@@ -6,7 +6,7 @@ namespace WorkflowContainer.API.Helpers
     {
         internal static WorkflowHost Get()
         {
-            var connectionString = Settings.GetInstanceStoreConnectionString();
+            var connectionString = WebSettings.GetInstanceStoreConnectionString();
             var host = new WorkflowHost(connectionString);
             return host;
         }
