@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using WorkflowContainer.Core.Utilities;
 
 namespace WorkflowContainer.Core
 {
@@ -33,7 +34,8 @@ namespace WorkflowContainer.Core
                 inputs = new Dictionary<string, object>();
 
             Activity workflow = workflowMap(workflowIdentity);
-            WorkflowApplication wfApp = new WorkflowApplication(workflow, inputs, workflowIdentity);
+            var castedData = WorkflowArgumentsHelper.DeserializeArguments(workflow as DynamicActivity, inputs);
+            WorkflowApplication wfApp = new WorkflowApplication(workflow, castedData, workflowIdentity);
 
             // Configure the instance store, extensions, and   
             // workflow lifecycle handlers.  

@@ -1,0 +1,287 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="WorkflowContainer.Activities.ProcessInvoiceWorkflowDict"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:local="clr-namespace:WorkflowContainer.Activities.Models;assembly=WorkflowContainer.Activities"
+ xmlns:local1="clr-namespace:WorkflowContainer.Activities.Custom;assembly=WorkflowContainer.Activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="Result" Type="OutArgument(local:InvoiceResult)" />
+    <x:Property Name="inputs" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+  </x:Members>
+  <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
+  <sap2010:WorkflowViewState.IdRef>WorkflowContainer.Activities.ProcessInvoiceWorkflowDict_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>WorkflowContainer.Activities.Models</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>WorkflowContainer.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="ProcessInvoiceWorkflowDictMain" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="s:Guid" Name="taskId1" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="approval1" />
+      <Variable x:TypeArguments="s:Guid" Name="taskId2" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="approval2" />
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="isApproved" />
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="isAutoApproved" />
+      <Variable x:TypeArguments="x:Int64" Name="invoiceAmount" />
+      <Variable x:TypeArguments="x:String" Name="approver1mail" />
+      <Variable x:TypeArguments="x:String" Name="approver2mail" />
+    </Sequence.Variables>
+    <Assign sap2010:WorkflowViewState.IdRef="Assign_6">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Int64">
+          <mca:CSharpReference x:TypeArguments="x:Int64">invoiceAmount</mca:CSharpReference>
+        </OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Int64">
+          <mca:CSharpValue x:TypeArguments="x:Int64">System.Int64.Parse(inputs["InvoiceAmount"].ToString())</mca:CSharpValue>
+        </InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign sap2010:WorkflowViewState.IdRef="Assign_7">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">
+          <mca:CSharpReference x:TypeArguments="x:String">approver1mail</mca:CSharpReference>
+        </OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">
+          <mca:CSharpValue x:TypeArguments="x:String">inputs["Approver1"].ToString()</mca:CSharpValue>
+        </InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign sap2010:WorkflowViewState.IdRef="Assign_8">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">
+          <mca:CSharpReference x:TypeArguments="x:String">approver2mail</mca:CSharpReference>
+        </OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">
+          <mca:CSharpValue x:TypeArguments="x:String">inputs["Approver2"].ToString()</mca:CSharpValue>
+        </InArgument>
+      </Assign.Value>
+    </Assign>
+    <WriteLine DisplayName="InvoiceAmaount" sap2010:WorkflowViewState.IdRef="WriteLine_1">
+      <InArgument x:TypeArguments="x:String">
+        <mca:CSharpValue x:TypeArguments="x:String">"Invoice Amount : " + invoiceAmount.ToString()</mca:CSharpValue>
+      </InArgument>
+    </WriteLine>
+    <If sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Condition>
+        <InArgument x:TypeArguments="x:Boolean">
+          <mca:CSharpValue x:TypeArguments="x:Boolean">invoiceAmount &lt; 100</mca:CSharpValue>
+        </InArgument>
+      </If.Condition>
+      <If.Then>
+        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_4">
+          <Assign sap2010:WorkflowViewState.IdRef="Assign_2">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Boolean">
+                <mca:CSharpReference x:TypeArguments="x:Boolean">isAutoApproved</mca:CSharpReference>
+              </OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign sap2010:WorkflowViewState.IdRef="Assign_3">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Boolean">
+                <mca:CSharpReference x:TypeArguments="x:Boolean">isApproved</mca:CSharpReference>
+              </OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+            </Assign.Value>
+          </Assign>
+          <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_2">
+            <InArgument x:TypeArguments="x:String">
+              <mca:CSharpValue x:TypeArguments="x:String">$"Amount {invoiceAmount} Auto-Approved"</mca:CSharpValue>
+            </InArgument>
+          </WriteLine>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_3" Text="Asking level 1 approval" />
+          <local1:CreateTaskAndPause x:TypeArguments="scg:Dictionary(x:String, x:Object)" BookmarkName="Approval_Level_1" DisplayName="CreateTask #1" sap2010:WorkflowViewState.IdRef="CreateTaskAndPause`1_3" RequestMessage="Hi Approver 1, please approve">
+            <local1:CreateTaskAndPause.AsigneeEmail>
+              <InArgument x:TypeArguments="x:String">
+                <mca:CSharpValue x:TypeArguments="x:String">approver1mail</mca:CSharpValue>
+              </InArgument>
+            </local1:CreateTaskAndPause.AsigneeEmail>
+            <local1:CreateTaskAndPause.Result>
+              <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">
+                <mca:CSharpReference x:TypeArguments="scg:Dictionary(x:String, x:Object)">approval1</mca:CSharpReference>
+              </OutArgument>
+            </local1:CreateTaskAndPause.Result>
+            <local1:CreateTaskAndPause.TaskId>
+              <OutArgument x:TypeArguments="s:Guid">
+                <mca:CSharpReference x:TypeArguments="s:Guid">taskId1</mca:CSharpReference>
+              </OutArgument>
+            </local1:CreateTaskAndPause.TaskId>
+          </local1:CreateTaskAndPause>
+          <If sap2010:WorkflowViewState.IdRef="If_2">
+            <If.Condition>
+              <InArgument x:TypeArguments="x:Boolean">
+                <mca:CSharpValue x:TypeArguments="x:Boolean">Boolean.Parse(approval1["IsApproved"].ToString())</mca:CSharpValue>
+              </InArgument>
+            </If.Condition>
+            <If.Then>
+              <Sequence sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_4" Text="Asking level 2 approval" />
+                <local1:CreateTaskAndPause x:TypeArguments="scg:Dictionary(x:String, x:Object)" BookmarkName="Approval_Level_2" DisplayName="CreateTask #2" sap2010:WorkflowViewState.IdRef="CreateTaskAndPause`1_4" RequestMessage="Hi Approver 2, please approve">
+                  <local1:CreateTaskAndPause.AsigneeEmail>
+                    <InArgument x:TypeArguments="x:String">
+                      <mca:CSharpValue x:TypeArguments="x:String">approver2mail</mca:CSharpValue>
+                    </InArgument>
+                  </local1:CreateTaskAndPause.AsigneeEmail>
+                  <local1:CreateTaskAndPause.Result>
+                    <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">
+                      <mca:CSharpReference x:TypeArguments="scg:Dictionary(x:String, x:Object)">approval2</mca:CSharpReference>
+                    </OutArgument>
+                  </local1:CreateTaskAndPause.Result>
+                  <local1:CreateTaskAndPause.TaskId>
+                    <OutArgument x:TypeArguments="s:Guid">
+                      <mca:CSharpReference x:TypeArguments="s:Guid">taskId2</mca:CSharpReference>
+                    </OutArgument>
+                  </local1:CreateTaskAndPause.TaskId>
+                </local1:CreateTaskAndPause>
+                <Assign sap2010:WorkflowViewState.IdRef="Assign_4">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Boolean">
+                      <mca:CSharpReference x:TypeArguments="x:Boolean">isApproved</mca:CSharpReference>
+                    </OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Boolean">
+                      <mca:CSharpValue x:TypeArguments="x:Boolean">Boolean.Parse(approval2["IsApproved"].ToString())</mca:CSharpValue>
+                    </InArgument>
+                  </Assign.Value>
+                </Assign>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <Sequence sap2010:WorkflowViewState.IdRef="Sequence_5">
+                <Assign sap2010:WorkflowViewState.IdRef="Assign_5">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Boolean">
+                      <mca:CSharpReference x:TypeArguments="x:Boolean">isApproved</mca:CSharpReference>
+                    </OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_5" Text="Rejected by Approver 1" />
+              </Sequence>
+            </If.Else>
+          </If>
+        </Sequence>
+      </If.Else>
+    </If>
+    <Assign sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="local:InvoiceResult">
+          <mca:CSharpReference x:TypeArguments="local:InvoiceResult">Result</mca:CSharpReference>
+        </OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="local:InvoiceResult">
+          <mca:CSharpValue x:TypeArguments="local:InvoiceResult">new InvoiceResult { InvoiceAmount = invoiceAmount, Level1Approver = approver1mail, Level2Approver = approver2mail, Approval1 = new ApprovalData { IsApproved = Boolean.Parse(approval1["IsApproved"].ToString()), Message = approval1["Message"].ToString() }, Approval2 = new ApprovalData { IsApproved = Boolean.Parse(approval2["IsApproved"].ToString()), Message = approval2["Message"].ToString() }, IsAutoApproved = isAutoApproved, IsApproved = isApproved }</mca:CSharpValue>
+        </InArgument>
+      </Assign.Value>
+    </Assign>
+    <sads:DebugSymbol.Symbol>d21DOlxBcmdoeWFDXHJlcG9zXFNvbHV0aW9uc1xzcmNcV29ya2Zsb3dDb250YWluZXJcV29ya2Zsb3dDb250YWluZXIuQWN0aXZpdGllc1xQcm9jZXNzSW52b2ljZVdvcmtmbG93RGljdC54YW1sOTED5QEOAgEBNzU3PAIBAzg1ODwCAQI9BUgOAwGeAkkFVA4DAYUCVQVgDgMB7AFhBWURAwHfAWYF1wEKAgEd2AEF4wEOAgEERQtFfgMBqwJAC0BdAwGfAlELUWcDAZICTAtMXgMBhgJdC11nAwH5AVgLWF4DAe0BYwljdQMB4AFpC2lgAgEebQmHARQDAbUBigEJ1QEUAgEq4AEL4AGZBAIBEdsBC9sBYgIBBW4LdxQDAdEBeAuBARQDAcMBggELhgEXAwG2AYsBC4sBZQMBswGMAQucAScDAYwBnQEL1AEQAgErdTd1OwMB3gFxEXFmAwHSAX83fzsDAdABexF7YgMBxAGEAQ+EAXQDAbcBiwFJiwFiAwG0AYwBaIwBegMBsgGMAd8BjAH+AQMBsQGPARGPAVwDAaUBlAERlAF6AwGZAZkBEZkBXAMBjQGgARGgAYEBAgEspAEPwwEaAgFJxgEP0gEaAgE4pQERpQFrAwGKAaYBEbYBLQIBY7cBEcIBGgIBSscBEdABGgIBO9EBEdEBagIBOaUBT6UBaAMBiwGmAW6mAYABAwGJAaYB5QGmAYQCAwGIAakBF6kBYgIBfK4BF64BgAECAXCzARezAWICAWS/ARe/AYcBAgFXugEXugFoAgFLzgE9zgFCAgFIygEXygFoAgE80QFP0QFnAgE6</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="Assign_6" sap:VirtualizedContainerService.HintSize="868.8,62.4" />
+      <sap2010:ViewStateData Id="Assign_7" sap:VirtualizedContainerService.HintSize="868.8,62.4" />
+      <sap2010:ViewStateData Id="Assign_8" sap:VirtualizedContainerService.HintSize="868.8,62.4" />
+      <sap2010:ViewStateData Id="WriteLine_1" sap:VirtualizedContainerService.HintSize="868.8,62.4" />
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="243.2,62.4" />
+      <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="243.2,62.4" />
+      <sap2010:ViewStateData Id="WriteLine_2" sap:VirtualizedContainerService.HintSize="243.2,62.4" />
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="265.6,392">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_3" sap:VirtualizedContainerService.HintSize="556,62.4" />
+      <sap2010:ViewStateData Id="CreateTaskAndPause`1_3" sap:VirtualizedContainerService.HintSize="556,22.4" />
+      <sap2010:ViewStateData Id="WriteLine_4" sap:VirtualizedContainerService.HintSize="243.2,62.4" />
+      <sap2010:ViewStateData Id="CreateTaskAndPause`1_4" sap:VirtualizedContainerService.HintSize="243.2,22.4" />
+      <sap2010:ViewStateData Id="Assign_4" sap:VirtualizedContainerService.HintSize="243.2,62.4" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="265.6,352">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_5" sap:VirtualizedContainerService.HintSize="243.2,62.4" />
+      <sap2010:ViewStateData Id="WriteLine_5" sap:VirtualizedContainerService.HintSize="243.2,62.4" />
+      <sap2010:ViewStateData Id="Sequence_5" sap:VirtualizedContainerService.HintSize="265.6,289.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_2" sap:VirtualizedContainerService.HintSize="556,504" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="578.4,793.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="868.8,945.6" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="868.8,62.4" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="891.2,1582.4">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WorkflowContainer.Activities.ProcessInvoiceWorkflowDict_1" sap:VirtualizedContainerService.HintSize="931.2,1662.4" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>
