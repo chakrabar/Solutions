@@ -4,14 +4,16 @@ using System.Activities.DurableInstancing;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.DurableInstancing;
 using System.Threading;
+using System.Threading.Tasks;
 using WorkflowContainer.Core.Utilities;
 
 namespace WorkflowContainer.Core
 {
     public class WorkflowHost
     {
-        readonly SqlWorkflowInstanceStore _store;
+        readonly InstanceStore _store; //SqlWorkflowInstanceStore
         Guid _instanceId;
         IDictionary<string, object> _outputs = new Dictionary<string, object>();
         AutoResetEvent _syncEvent = new AutoResetEvent(false); //initially closed
@@ -24,6 +26,7 @@ namespace WorkflowContainer.Core
             // multiple WorkflowApplication instances.  
             _store = new SqlWorkflowInstanceStore(storeConnectionString);
             WorkflowApplication.CreateDefaultInstanceOwner(_store, null, WorkflowIdentityFilter.Any);
+            //_store = new RemoteInstanceStore(); //using WorkflowContainer.Infrastructure;
         }
 
         // >>>> START A WORKFLOW <<<<
@@ -74,7 +77,7 @@ namespace WorkflowContainer.Core
 
         private WorkflowResult WaitAndReturnData()
         {
-            _syncEvent.WaitOne(TimeSpan.FromSeconds(10)); //wait for workflow to complete or go idle, with 10 second timeout
+            _syncEvent.WaitOne(TimeSpan.FromSeconds(300)); //wait for workflow to complete or go idle, with 10 second timeout
 
             return new WorkflowResult
             {
@@ -97,31 +100,29 @@ namespace WorkflowContainer.Core
 
             wfApp.Completed = delegate (WorkflowApplicationCompletedEventArgs e)
             {
+                var message = string.Empty;
                 if (e.CompletionState == ActivityInstanceState.Faulted)
                 {
-
-                    var message = string.Format(wfApp.WorkflowDefinition?.DisplayName +
+                    message = string.Format(wfApp.WorkflowDefinition?.DisplayName +
                                 " Workflow Terminated. Exception: {0}\r\n{1}",
                                     e.TerminationException.GetType().FullName,
-                                    GetExceptionMessage(e.TerminationException));
-                    LogMessages(e, sw, message, writelineListener);
+                                    GetExceptionMessage(e.TerminationException));                    
                     _workflowStatus = WorkflowStatus.Errored;
                 }
                 else if (e.CompletionState == ActivityInstanceState.Canceled)
                 {
-                    var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} CANCELLED.";
-                    LogMessages(e, sw, message, writelineListener);
+                    message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} CANCELLED.";
                     _workflowStatus = WorkflowStatus.Cancelled;
                 }
                 else
                 {
-                    var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} COMPLETED.";
+                    message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} COMPLETED.";
                     _outputs = e.Outputs; //TODO: How to use it?
-                    LogMessages(e, sw, message, writelineListener);
                     _workflowStatus = WorkflowStatus.Completed;
                 }
+                LogMessages(e, sw, message, writelineListener);
                 _instanceId = e.InstanceId;
-                _syncEvent.Set();
+                //_syncEvent.Set();
             };
 
             wfApp.Aborted = delegate (WorkflowApplicationAbortedEventArgs e)
@@ -133,9 +134,10 @@ namespace WorkflowContainer.Core
                 LogMessages(e, sw, message, writelineListener);
                 _instanceId = e.InstanceId;
                 _workflowStatus = WorkflowStatus.Aborted;
-                _syncEvent.Set();
+                _syncEvent.Set(); //abort does not trigger unload //TODO: verify
             };
 
+            //on exception. Then it'll hit Completed()
             wfApp.OnUnhandledException = delegate (WorkflowApplicationUnhandledExceptionEventArgs e)
             {
                 var message = string.Format(wfApp.WorkflowDefinition?.DisplayName +
@@ -144,7 +146,7 @@ namespace WorkflowContainer.Core
                         GetExceptionMessage(e.UnhandledException));
                 LogMessages(e, sw, message, writelineListener);
                 _workflowStatus = WorkflowStatus.Errored;
-                _syncEvent.Set();
+                //_syncEvent.Set();
                 return UnhandledExceptionAction.Terminate;
             };
 
@@ -152,14 +154,18 @@ namespace WorkflowContainer.Core
             {
                 var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} getting to IDLE.";
                 LogMessages(e, sw, message, writelineListener, true); //clear messages as idle'll invoke Unloaded()                
-                _bookmarks = string.Join(",", e.Bookmarks.Select(b => b.BookmarkName));
+                _bookmarks = string.Join(",", e.Bookmarks.Select(b => b.BookmarkName)); //TODO: check
+                _instanceId = e.InstanceId;
+                _workflowStatus = WorkflowStatus.Persisted;
+                //_syncEvent.Set();
                 return PersistableIdleAction.Unload;
             };
 
+            //any time wf is unloaded, e.g. bookmark, completed, exception
             wfApp.Unloaded = delegate (WorkflowApplicationEventArgs e)
             {
-                _instanceId = e.InstanceId;
-                _workflowStatus = WorkflowStatus.Unloaded;
+                //_instanceId = e.InstanceId;
+                //_workflowStatus = WorkflowStatus.Unloaded;
                 var message = $"Workflow {wfApp.WorkflowDefinition?.DisplayName} UNLOADED.";
                 LogMessages(e, sw, message, writelineListener);
                 _syncEvent.Set();
@@ -167,12 +173,12 @@ namespace WorkflowContainer.Core
 
             string GetExceptionMessage(Exception exception)
             {
-                var expMsg = "Exception Message:";
+                var expMsg = "Exception:";
                 var isInnerException = false;
                 var exp = exception;
                 while (exp != null)
                 {
-                    expMsg += $"{(isInnerException ? ". Inner Exp Msg: " : " ")}{exp.Message}";
+                    expMsg += $"{(isInnerException ? ". Inner Exp: " : " ")}{exp.ToString()}";
                     exp = exp.InnerException;
                     isInnerException = true;
                 }
@@ -183,21 +189,24 @@ namespace WorkflowContainer.Core
         private static void LogMessages(WorkflowApplicationEventArgs e, 
             StringWriter sw, string message, Action<string> writelineListener, bool clearMessages = false)
         {
-            sw.WriteLine(message);
-            // Send the current WriteLine outputs to the designated listner
-            if (writelineListener != null)
+            Task.Run(() =>
             {
-                var writers = e.GetInstanceExtensions<StringWriter>();
-                foreach (var writer in writers)
+                sw.WriteLine(message);
+                // Send the current WriteLine outputs to the designated listner
+                if (writelineListener != null)
                 {
-                    writelineListener("Workflow Writeline Log : " + writer.ToString());
+                    var writers = e.GetInstanceExtensions<StringWriter>();
+                    foreach (var writer in writers)
+                    {
+                        writelineListener("Workflow Writeline Log : " + writer.ToString());
+                    }
                 }
-            }
 
-            if (clearMessages)
-            {
-                sw.GetStringBuilder().Clear(); //clear all data from the StringWriter
-            }
+                if (clearMessages)
+                {
+                    sw.GetStringBuilder().Clear(); //clear all data from the StringWriter
+                }
+            });            
         }
 
         #region Not-Used-Yet

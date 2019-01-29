@@ -7,6 +7,7 @@
         Cancelled,
         Aborted,
         Errored,
-        Unloaded
+        Persisted,
+        Unloaded        
     }
 }
