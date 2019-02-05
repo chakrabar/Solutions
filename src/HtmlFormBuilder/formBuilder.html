@@ -30,10 +30,23 @@
 				<button id="saveForm" class="btn btn-success" title="Save the current form design and close designer">Save form design</button>
 			</div>
 		</div>
+		<!-- Modal -->
+		<div class="modal" id="myModal">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<b>Collected form data</b>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			  </div>
+			  <div id="modalB" class="modal-body"></div>
+			</div>
+		  </div>
+		</div>
 		<script src="js/jquery/jquery.min.js"></script>
 		<script src="js/jquery/jquery-ui.min.js"></script>
 		<script src="js/form-builder.min.js"></script>
 		<script src="js/form-render.min.js"></script>
+		<script src="bootstrap-4-1/js/bootstrap.min.js"></script>
 		<script>
 			jQuery(function($) {
 				var options = {
@@ -52,7 +65,7 @@
 				function preview() { //preview & interact with rendered form
 					var formData = formBuilder.actions.getData('json', true);
 					formDataWithButton = JSON.parse(formData); //formData is json string
-					formDataWithButton.push({"type": "button","label": "Submit","subtype": "button","name": "button-in-rendered-form","className": "btn btn-success", "onclick":"function demoSubmit(){var $myForm = $('#form-viewer');if(! $myForm[0].checkValidity()) {$('<input type=\"submit\">').hide().appendTo($myForm).click().remove();}else{alert('Form submitted')}};demoSubmit()"});
+					formDataWithButton.push({"type": "button","label": "Submit (demo)","subtype": "button","name": "button-in-rendered-form","className": "btn btn-success", "onclick":"function demoSubmit(){var $myForm = $('#form-viewer');if(! $myForm[0].checkValidity()) {$('<input type=\"submit\">').hide().appendTo($myForm).click().remove();}else{alert('Form submitted')}};demoSubmit()"});
 					formData = JSON.stringify(formDataWithButton);
 					fbTemplate.hide();
 					designerButtons.hide();
@@ -67,6 +80,7 @@
 					renderTemplate.hide();
 				});
 				$("#read-form").click(function() { //read the form data & preview what will be actually submitted
+					//alert(window.JSON.stringify($('#form-viewer').formRender("userData"))); //gets all form data with template
 					var inputs = {};
 					$.each($('#form-viewer').serializeArray(), function(i, field) {
 						if (field.name.indexOf("[]") !== -1) { //checkbox groups have name as: chkbGrpName[]
@@ -81,8 +95,10 @@
 							inputs[field.name] = field.value;
 						}
 					});
-					alert(JSON.stringify(inputs));
-					//alert(window.JSON.stringify($('#form-viewer').formRender("userData"))); //gets all form data with template
+					var mymodal = $('#myModal');
+					mymodal.find('.modal-body').text(JSON.stringify(inputs));
+					mymodal.modal('show');
+					
 				});
 				$("#getJSON").click(function() { //show form template as JSON
 					formBuilder.actions.showData();
