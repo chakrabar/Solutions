@@ -1221,7 +1221,7 @@ const FormBuilder = function(opts, element) {
     const bodyRect = document.body.getBoundingClientRect()
     const coords = {
       pageX: buttonPosition.left + buttonPosition.width / 2,
-      pageY: buttonPosition.top - bodyRect.top - 12,
+      pageY: buttonPosition.top + 130, // arghya
     }
 
     const deleteID = $(e.target)
@@ -1239,7 +1239,7 @@ const FormBuilder = function(opts, element) {
 
     // Check if user is sure they want to remove the field
     if (opts.fieldRemoveWarn) {
-      const warnH3 = m('h3', mi18n.get('warning'))
+      const warnH3 = m('h5', mi18n.get('warning')) // arghya h3 to h5
       const warnMessage = m('p', mi18n.get('fieldRemoveWarning'))
       h.confirm([warnH3, warnMessage], () => h.removeField(deleteID), coords)
       $field.addClass('deleting')
