@@ -28,35 +28,34 @@ export default class controlTable extends control {
   }
 
    /**
-   * onRender callback //TODO: fix
+   * onRender callback
    */
   onRender() {
-    // alert(JSON.stringify(this.config.userData));
-    // Set userData if available
-    const ok = true;
-    if(ok) { // this.config.userData
-      let data = [{name:'arghya',id:'101'},{name:'anupam',id:99}]; // this.config.userData[0];
-      alert(JSON.stringify(data)); // TODO: check
-      if (typeof data == 'string')
+    let data = this.config.value;
+    console.log(data);
+    if (typeof data == 'undefined' || data == null)
+        return;
+    if (typeof data == 'string') {
+        data = data.replace(/'/g, '"'); // if JSON with single-quote, change to double-quote // TODO: can break strings with single quote
         data = JSON.parse(data);
-      let tableHtml = '';
-      if (data != null && Array.isArray(data)) {
-        tableHtml += '<table class="table">';
-        for (let row of data) {
-            let rowHtml = '<tr>';
-            for (let column in row) {
-                if (row.hasOwnProperty(column)) {
-                    rowHtml += '<td>' + row[column] + '</td>';
-                }                
-            }
-            rowHtml += '</tr>';
-            tableHtml += rowHtml;
+    }        
+    let tableHtml = '';
+    if (data != null && Array.isArray(data)) {
+    tableHtml += '<table class="table">';
+    for (let row of data) {
+        let rowHtml = '<tr>';
+        for (let column in row) {
+            if (row.hasOwnProperty(column)) {
+                rowHtml += '<td>' + row[column] + '</td>';
+            }                
         }
-        tableHtml += '</table>';
-      }
-      // $('#'+this.config.name).html(tableHtml); // TODO: check
-      $('.table').html(tableHtml);
+        rowHtml += '</tr>';
+        tableHtml += rowHtml;
     }
+    tableHtml += '</table>';
+    }
+    const targetDiv = `div.field-${this.config.name} > div.table`; // '#'+this.config.name+' > div.table';
+    $(targetDiv).html(tableHtml); // NOTE: this depends on auto-generated class names
   }
 }
 
