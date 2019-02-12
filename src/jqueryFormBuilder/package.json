@@ -192,7 +192,8 @@
           "destructuring": "any",
           "ignoreReadBeforeAssign": false
         }
-      ]
+      ],
+	  "linebreak-style": 0
     }
   },
   "engines": {},
