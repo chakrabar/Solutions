@@ -30,15 +30,15 @@
 				<button id="saveForm" class="btn btn-success" title="Save the current form design and close designer">Save form design</button>
 			</div>
 		</div>
-		<!-- Modal -->
+		<!-- Modal for alert -->
 		<div class="modal" id="myModal">
 		  <div class="modal-dialog">
 			<div class="modal-content">
 			  <div class="modal-header">
-				<b>Collected form data</b>
+				<b id="modalTitle">Collected form data</b>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			  </div>
-			  <div id="modalB" class="modal-body"></div>
+			  <div id="modalBody" class="modal-body"></div>
 			</div>
 		  </div>
 		</div>
@@ -95,9 +95,7 @@
 							inputs[field.name] = field.value;
 						}
 					});
-					var mymodal = $('#myModal');
-					mymodal.find('.modal-body').text(JSON.stringify(inputs));
-					mymodal.modal('show');
+					smartAlert('Form data', JSON.stringify(inputs));
 					
 				});
 				$("#getJSON").click(function() { //show form template as JSON
@@ -106,6 +104,12 @@
 				$("#saveForm").click(function() { //actually save the form-as-json
 					alert('Form template saved...');
 				});
+				var smartAlert = (title, body) => {
+                    var mymodal = $('#myModal');
+                    mymodal.find('#modalBody').html(body);
+                    mymodal.find('#modalTitle').html(title);
+                    mymodal.modal('show');
+                };
 			});
 		</script>
 	</body>
