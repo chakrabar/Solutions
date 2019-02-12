@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>UiPath Input Form</title>
+		<style>
+			body { font-family: Poppins, sans-serif; }	
+			.pad { padding: 10px; }
+			.rounded { border-radius: 10px; }
+			#fb-viewer { display: none; }
+		</style>
+		<link rel="stylesheet" type="text/css" href="ui/bootstrap-4-1/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="ui/fonts/poppins.css" />
+	</head>
+	<body>
+		<div class="container">
+			<div id="fb-viewer" class="pad">
+				<div class="pad rounded card">
+					<form id="user-form" class="card-body"></form>
+                    <button type="button" id="submit" class="btn btn-success">Submit</button>
+				</div>	
+			</div>
+		</div>
+		<script src="ui/js/jquery/jquery.min.js"></script>
+		<script src="ui/js/jquery/jquery-ui.min.js"></script>
+		<script src="ui/js/form-render.min.js"></script>
+		<script type="text/javascript">
+			jQuery(function($) {
+				const renderTemplate = $("#fb-viewer");
+                var formData = #formTemplate#; //form template as json string injected from backend
+				$("#user-form").formRender({formData});
+				$('input[type="file"]').removeClass("form-control").addClass("form-control-file");
+                renderTemplate.show();
+                function getInputData() { //read the form data & preview what will be actually submitted >> to be used at submit
+					var inputs = {};
+					$.each($('#user-form').serializeArray(), function(i, field) {
+						if (field.name.indexOf("[]") !== -1) { //checkbox groups have name as: chkbGrpName[]
+							var values = new Array();
+							var checkedInGroupQuery = "input[name='" + field.name + "']:checked"
+							$.each($(checkedInGroupQuery), function() {
+							  values.push($(this).val());
+							});
+							var nonArrayFieldName = field.name.substring(0, field.name.indexOf("[]") - 1);
+							inputs[nonArrayFieldName] = values;
+						} else { //other input values are added as name:value
+							inputs[field.name] = field.value;
+                        }
+                        return inputs;
+					});
+					return inputs;
+				};
+				$("#submit").click(function() { //actually save the form-as-json
+					var $myForm = $('#user-form');
+					if(! $myForm[0].checkValidity()) {
+						$('<input type=\"submit\">').hide().appendTo($myForm).click().remove();
+					} else {
+						var formData = getInputData();
+						submitCallback.sendData(JSON.stringify(formData));
+					}
+				});
+			});
+		</script>
+	</body>
+</html>
