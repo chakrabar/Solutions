@@ -10,6 +10,7 @@ import controlTextarea from './textarea';
 import controlTinymce from './textarea.tinymce';
 import controlQuill from './textarea.quill';
 import controlUnusable from './unusable'; // arghya
+import controlTable from './table'; // arghya
 
 export default {
   controlAutocomplete,
@@ -23,6 +24,7 @@ export default {
   controlTextarea,
   controlTinymce,
   controlQuill,
-  controlUnusable // arghya
+  controlUnusable, // arghya
+  controlTable // arghya
 };
 

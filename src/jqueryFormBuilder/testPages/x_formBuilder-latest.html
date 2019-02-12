@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>UiPath Form Builder</title>
+		<style>
+			body { font-family: Poppins, sans-serif; }
+			.gray { background-color: lightgray; padding-left:1px; padding-right:1px; }			
+			.pad { padding: 10px; }
+			.rounded { border-radius: 10px; }
+			#fb-viewer { display: none; }
+		</style>
+		<link rel="stylesheet" type="text/css" href="bootstrap-4-1/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/poppins.css" />
+	</head>
+    <body>
+        <div class="container">
+            <div id="fb-editor" class="gray"><h3>UiPath Form Designer Interface</h3></div>
+            <div id="fb-viewer" class="pad">
+                <div class="pad rounded card">
+                    <form id="form-viewer" class="card-body"></form>
+                </div>
+                <div class="col-sm-12 text-center pad">
+                    <button id="edit-form" class="btn btn-primary">Back to designer</button>
+                    <button id="read-form" class="btn btn-warning">Preview form data</button>
+                </div>
+            </div>
+            <div id="setDataWrap" class="col-sm-12 text-center pad">
+                <button id="preview" class="btn btn-primary" title="See how the form will look like in real">Preview form</button>
+                <button id="getJSON" class="btn btn-info" title="See the JSON template of the current form">See JSON template</button>
+                <button id="saveForm" class="btn btn-success" title="Save the current form design and close designer">Save form design</button>
+				<button id="noToolbox" class="btn btn-danger" title="Editable form but without toolbox">Remove toolbox</button>
+            </div>
+        </div>
+        <!-- Modal for alert -->
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <b id="modalTitle">MODAL TITLE</b>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div id="modalBody" class="modal-body">MODAL BODY</div>
+                </div>
+            </div>
+        </div>
+        <script src="js/jquery/jquery.min.js"></script>
+        <script src="js/jquery/jquery-ui.min.js"></script>
+        <script src="../dist/form-builder.min.js"></script>
+        <script src="../dist/form-render.min.js"></script>
+        <script src="bootstrap-4-1/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            jQuery(function ($) {
+				var userControls = ["header", "text", "textarea", "number", "date", "select", "radio-group", "checkbox-group", "file", "paragraph"];
+				const readonlyConfig = {
+					disabled: {
+					  label: 'readonly',
+					  value: false,
+					}
+				};
+				var typeUserAttrs = {};
+				userControls.forEach(function(ctrl) {
+					if (ctrl != 'header')
+						typeUserAttrs[ctrl] = $.extend(true, {}, readonlyConfig)
+				});
+                var options = {
+                    controlOrder: userControls, //order of controls/tools
+                    disableFields: ['autocomplete', 'button', 'file', 'hidden'], //these controls are removed from toolbox
+                    fieldRemoveWarn: true, // warn designer when field is removed
+                    controlPosition: 'right', //show toolbox on left
+                    disabledActionButtons: ['data', 'save', 'clear'], //remove these default buttons
+                    disabledAttrs: ["placeholder", "access", "toggle", "className"], //make these fields non-editable by designer //subtype //"value"
+                    //fields: [{label:"Checkbox",type:"checkbox",icon:"☑"}] //a non-group checkbox - attempt
+					typeUserAttrs: typeUserAttrs,
+					typeUserDisabledAttrs: { 'unusable': ['required'] } //do not show 'required' for unusable fields
+                };
+                var formData = ''; //#formTemplate#; //form template as json injected from backend (if nothing, empty string is injected)
+                const fbTemplate = $("#fb-editor");
+                if (typeof formData === 'object') {
+                    options.defaultFields = formData;
+                }
+                const formBuilder = fbTemplate.formBuilder(options);
+                const renderTemplate = $("#fb-viewer");
+                const designerButtons = $("#setDataWrap");
+                function preview() { //preview & interact with rendered form
+                    var formData = formBuilder.actions.getData('json', true);
+                    formDataWithButton = JSON.parse(formData); //formData is json string
+                    formDataWithButton.push({ "type": "button", "label": "Submit", "subtype": "button", "name": "button-in-rendered-form", "className": "btn btn-success", "onclick": "function demoSubmit(){var $myForm = $('#form-viewer');if(! $myForm[0].checkValidity()) {$('<input type=\"submit\">').hide().appendTo($myForm).click().remove();}else{alert('Form submitted successfully')}};demoSubmit()" });
+                    formData = JSON.stringify(formDataWithButton);
+                    fbTemplate.hide();
+                    designerButtons.hide();
+                    $("#form-viewer").formRender({ formData });
+                    $('input[type="file"]').removeClass("form-control").addClass("form-control-file");
+                    renderTemplate.show();
+                };
+                $("#preview").bind("click", preview);
+                $("#edit-form").click(function () { //go back from preview to designer
+                    fbTemplate.show();
+                    designerButtons.show();
+                    renderTemplate.hide();
+                });
+                $("#read-form").click(function () { //read the form data & preview what will be actually submitted
+                    var inputs = {};
+                    $.each($('#form-viewer').serializeArray(), function (i, field) {
+                        if (field.name.indexOf("[]") !== -1) { //checkbox groups have name as: chkbGrpName[]
+                            var values = new Array();
+                            var checkedInGroupQuery = "input[name='" + field.name + "']:checked"
+                            $.each($(checkedInGroupQuery), function () {
+                                values.push($(this).val());
+                            });
+                            var nonArrayFieldName = field.name.substring(0, field.name.indexOf("[]") - 1);
+                            inputs[nonArrayFieldName] = values;
+                        } else { //other input values are added as name:value
+                            inputs[field.name] = field.value;
+                        }
+                    });
+                    smartAlert('Form data', JSON.stringify(inputs));
+                    //keep: alert(window.JSON.stringify($('#form-viewer').formRender("userData"))); //gets all form data with template
+                });
+                $("#getJSON").click(function() { formBuilder.actions.showData(); }); //show form template as JSON
+                $("#saveForm").click(function () { //actually save the form-as-json
+					var formData = formBuilder.actions.getData(); //formBuilder.actions.getData('json', false); //only template as json, isIndented:false
+					smartAlert('template', JSON.stringify(formData));
+                });
+				$("#noToolbox").click(function () { //remove the toolbox
+					let toolbox = $("#fb-editor > div > div"); //.hide();
+					toolbox.remove();
+					$("#fb-editor > div > ul").css('width', '100%')
+                });
+                var smartAlert = (title, body) => {
+                    var mymodal = $('#myModal');
+                    mymodal.find('#modalBody').html(body);
+                    mymodal.find('#modalTitle').html(title);
+                    mymodal.modal('show');
+                };
+            });
+        </script>
+    </body>
+</html>
