@@ -22,6 +22,7 @@ export const defaultOptions = {
     'select',
     'text',
     'textarea',
+    'unusable' // arghya
   ],
   controlPosition: 'right',
   dataType: 'json',
