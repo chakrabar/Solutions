@@ -1,14 +1,14 @@
-import control from '../control';
+import controlTable from './table';
 
 /**
  * Table - show array data in tabular form
  * Output a <table ... /> html element
  */
-export default class controlTable extends control {
+export default class controlNocolumn extends controlTable {
   /**
    * definition
    * @return {Object} select control definition
-   */
+   *
   static get definition() {
     return {
       icon: '▦',
@@ -21,15 +21,15 @@ export default class controlTable extends control {
   /**
   * build a hidden input dom element
   * @return {Object} DOM Element to be injected into the form.
-  */
+  *
   build() {
     this.dom = this.markup('div', null, { className: 'table table-striped table-sm' })
     return this.dom;
-  }
+  }*/
 
-   /**
-   * onRender callback
-   */
+  /**
+  * onRender callback
+  */
   onRender() {
     let data = this.config.value;
     console.log(data);
@@ -41,24 +41,21 @@ export default class controlTable extends control {
     }        
     let tableHtml = '';
     if (data != null && Array.isArray(data)) {
-        tableHtml += '<table class="table">';
-        for (let row of data) {
-            let rowHtml = '<tr>';
-            for (let column in row) {
-                if (row.hasOwnProperty(column)) {
-                    rowHtml += '<td>' + row[column] + '</td>';
-                }                
-            }
-            rowHtml += '</tr>';
-            tableHtml += rowHtml;
-        }
-        tableHtml += '</table>';
+      tableHtml += '<table class="table">';
+      for (let row of data) {
+          let rowHtml = '<tr><td>&nbsp;';
+          let columns = Object.keys(row).map(col => `<strong>${col}</strong>:${row[col]}`);
+          rowHtml += columns.join(', ');
+          rowHtml += '&nbsp;</td></tr>';
+          tableHtml += rowHtml;
+      }
+      tableHtml += '</table>';
     }
     const targetDiv = `div.field-${this.config.name} > div.table`; // '#'+this.config.name+' > div.table';
     $(targetDiv).html(tableHtml); // NOTE: this depends on auto-generated class names
   }
 }
 
-// register the following controls
-control.register('table', controlTable);
-control.register('table', controlTable, 'table');
+// register as subtype of table
+console.log('registering controlNoColumnTable');
+controlTable.register(['nocolumn', 'blah'], controlNocolumn, 'table');
