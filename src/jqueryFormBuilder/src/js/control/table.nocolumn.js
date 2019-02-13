@@ -8,12 +8,12 @@ export default class controlNocolumn extends controlTable {
   /**
    * definition
    * @return {Object} select control definition
-   *
+   */
   static get definition() {
     return {
       icon: '▦',
       i18n: {
-        default: 'Table'
+        default: 'No-column'
       }
     };
   }
@@ -58,4 +58,4 @@ export default class controlNocolumn extends controlTable {
 
 // register as subtype of table
 console.log('registering controlNoColumnTable');
-controlTable.register(['nocolumn', 'blah'], controlNocolumn, 'table');
+controlTable.register('nocolumn', controlNocolumn, 'table');

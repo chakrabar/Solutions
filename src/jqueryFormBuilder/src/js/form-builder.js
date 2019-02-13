@@ -340,6 +340,7 @@ const FormBuilder = function(opts, element) {
       number: defaultAttrs.concat(['min', 'max', 'step']),
       select: defaultAttrs.concat(['multiple', 'options']),
       textarea: defaultAttrs.concat(['subtype', 'maxlength', 'rows']),
+      table: defaultAttrs.concat(['subtype']), // arghya
     }
 
     typeAttrsMap['checkbox-group'] = typeAttrsMap.checkbox
