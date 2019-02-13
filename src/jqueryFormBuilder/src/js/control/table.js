@@ -4,7 +4,7 @@ import control from '../control';
  * Table - show array data in tabular form
  * Output a <table ... /> html element
  */
-export default class controlTable extends control {
+export default class controlTable extends control { // arghya
   /**
    * definition
    * @return {Object} select control definition

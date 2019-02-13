@@ -2,9 +2,9 @@ import controlTable from './table';
 
 /**
  * Table - show array data in tabular form
- * Output a <table ... /> html element
+ * Output a <table ... /> html element BUT withou columns - all data in columns in same row
  */
-export default class controlNocolumn extends controlTable {
+export default class controlNocolumn extends controlTable { // arghya
   /**
    * definition
    * @return {Object} select control definition

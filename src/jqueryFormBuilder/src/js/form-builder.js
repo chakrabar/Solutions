@@ -1374,9 +1374,9 @@ const FormBuilder = function(opts, element) {
         h.stickyControls($stage)
       }
       if (opts.hideToolbox) { // arghya - hide toolbox
-        let toolbox = $('#fb-editor > div > div'); // .hide();
+        let toolbox = $('div.form-wrap > div.cb-wrap'); // To-fix : this depends on generated class names
         toolbox.remove();
-        $('#fb-editor > div > ul').css('width', '100%');
+        $('div.form-wrap > ul.stage-wrap').css('width', '100%');
       }
     }, 0)
   })
