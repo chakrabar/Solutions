@@ -41,7 +41,10 @@ export default class controlTable extends control {
     }        
     let tableHtml = '';
     if (data != null && Array.isArray(data)) {
-        tableHtml += '<table class="table">';
+        tableHtml = '<table class="table">';
+        const firstRow = data[0];
+        let headers = Object.keys(firstRow).map(col => `<th>${col}</th>`); // To fix: Headers are based on first row data
+        tableHtml += `<thead><tr>${headers.join('')}</tr></thead><tbody>`;
         for (let row of data) {
             let rowHtml = '<tr>';
             for (let column in row) {
@@ -52,7 +55,7 @@ export default class controlTable extends control {
             rowHtml += '</tr>';
             tableHtml += rowHtml;
         }
-        tableHtml += '</table>';
+        tableHtml += '</tbody></table>';
     }
     const targetDiv = `div.field-${this.config.name} > div.table`; // '#'+this.config.name+' > div.table';
     $(targetDiv).html(tableHtml); // NOTE: this depends on auto-generated class names
