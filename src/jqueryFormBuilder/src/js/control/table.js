@@ -41,9 +41,10 @@ export default class controlTable extends control {
     }        
     let tableHtml = '';
     if (data != null && Array.isArray(data)) {
+        const firstLetterUpper = str => str.substring(0, 1).toUpperCase() + str.substring(1);
         tableHtml = '<table class="table">';
         const firstRow = data[0];
-        let headers = Object.keys(firstRow).map(col => `<th>${col}</th>`); // To fix: Headers are based on first row data
+        let headers = Object.keys(firstRow).map(col => `<th>${firstLetterUpper(col)}</th>`); // To fix: Headers are based on first row data
         tableHtml += `<thead><tr>${headers.join('')}</tr></thead><tbody>`;
         for (let row of data) {
             let rowHtml = '<tr>';
