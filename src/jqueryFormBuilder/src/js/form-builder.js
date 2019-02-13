@@ -1373,6 +1373,11 @@ const FormBuilder = function(opts, element) {
       if (opts.stickyControls.enable) {
         h.stickyControls($stage)
       }
+      if (opts.hideToolbox) { // arghya - hide toolbox
+        let toolbox = $('#fb-editor > div > div'); // .hide();
+        toolbox.remove();
+        $('#fb-editor > div > ul').css('width', '100%');
+      }
     }, 0)
   })
 
