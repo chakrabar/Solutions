@@ -7,6 +7,7 @@
 			.gray { background-color: lightgray; padding-left:1px; padding-right:1px; }			
 			.pad { padding: 10px; }
 			.rounded { border-radius: 10px; }
+			.pad-sides { margin-left: 15px; margin-right: 15px; }
 			#fb-viewer { display: none; }
 		</style>
 		<link rel="stylesheet" type="text/css" href="bootstrap-4-1/css/bootstrap.min.css" />
@@ -17,7 +18,7 @@
             <div id="fb-editor" class="gray"><h3>UiPath Form Designer Interface</h3></div>
             <div id="fb-viewer" class="pad">
                 <div class="pad rounded card">
-                    <form id="form-viewer" class="card-body"></form>
+                    <form id="form-viewer" class="card-body"></form> <!--class="card-body row"-->
                 </div>
                 <div class="col-sm-12 text-center pad">
                     <button id="edit-form" class="btn btn-primary">Back to designer</button>
@@ -57,6 +58,7 @@
 					  value: false,
 					}
 				};
+				// enable readonly option in controls
 				var typeUserAttrs = {};
 				userControls.forEach(function(ctrl) {
 					if (ctrl != 'header')
@@ -68,9 +70,9 @@
                     fieldRemoveWarn: true, // warn designer when field is removed
                     controlPosition: 'right', //show toolbox on left
                     disabledActionButtons: ['data', 'save', 'clear'], //remove these default buttons
-                    disabledAttrs: ["placeholder", "access", "toggle", "className"], //make these fields non-editable by designer //subtype //"value"
+                    disabledAttrs: ["placeholder", "access", "toggle"], //make these fields non-editable by designer //subtype //"value" //className
                     //fields: [{label:"Checkbox",type:"checkbox",icon:"☑"}] //a non-group checkbox - attempt
-					typeUserAttrs: typeUserAttrs,
+					typeUserAttrs: typeUserAttrs, // additional control options
 					typeUserDisabledAttrs: { 'unusable': ['required'] } //do not show 'required' for unusable fields
                 };
                 var formData = ''; //#formTemplate#; //form template as json injected from backend (if nothing, empty string is injected)
@@ -84,14 +86,19 @@
                 function preview() { //preview & interact with rendered form
                     var formData = formBuilder.actions.getData('json', true);
                     formDataWithButton = JSON.parse(formData); //formData is json string
-                    formDataWithButton.push({ "type": "button", "label": "Submit", "subtype": "button", "name": "button-in-rendered-form", "className": "btn btn-success", "onclick": "function demoSubmit(){var $myForm = $('#form-viewer');if(! $myForm[0].checkValidity()) {$('<input type=\"submit\">').hide().appendTo($myForm).click().remove();}else{alert('Form submitted successfully')}};demoSubmit()" });
+                    formDataWithButton.push({ "type": "button", "label": "Submit", "subtype": "button", "name": "button-in-rendered-form", "className": "pad-sides btn btn-success", "onclick": "function demoSubmit(){var $myForm = $('#form-viewer');if(! $myForm[0].checkValidity()) {$('<input type=\"submit\">').hide().appendTo($myForm).click().remove();}else{alert('Form submitted successfully')}};demoSubmit()" });
                     formData = JSON.stringify(formDataWithButton);
                     fbTemplate.hide();
                     designerButtons.hide();
                     $("#form-viewer").formRender({ formData });
                     $('input[type="file"]').removeClass("form-control").addClass("form-control-file");
                     renderTemplate.show();
+					//to enable column display in rendered form
+					$(".rendered-form").addClass('row'); //.removeClass('rendered-form')
                 };
+				formBuilder.onload = function() {
+					alert('yo'); // does not work
+				};
                 $("#preview").bind("click", preview);
                 $("#edit-form").click(function () { //go back from preview to designer
                     fbTemplate.show();
