@@ -50,6 +50,7 @@ export default class controlTable extends control { // arghya
 
     if (arr != null && Array.isArray(arr) && arr.length > 0) {
       let data = $.extend(true, [], arr); // make a copy of data before using
+      data = this._normalizeObjectArray(data);
       const firstLetterUpper = str => str.substring(0, 1).toUpperCase() + str.substring(1);
       let tableHtml = '<table class="table">';
       const firstRow = data[0];
@@ -71,6 +72,62 @@ export default class controlTable extends control { // arghya
       const targetDiv = `div.field-${this.config.name} > div.table`; // '#'+this.config.name+' > div.table';
       $(targetDiv).html(tableHtml); // NOTE: this depends on auto-generated class names
     }    
+  }
+
+  /**
+  * Takes array and turns into normalized 2D array with hader. e.g. 
+  * [{'name':'arghya','age':'33'},{'name':'some1','designation':'SDE','age':'20'}] becomes
+  * [{'name':'arghya','age':'33','designation':''},{'name':'some1','age':'20','designation':'SDE'}]
+  * @param {Array.<Object>} arr - an object array
+  * @return {Array.<Object>} normalized 2D array 
+  **/
+  _normalizeObjectArray(arr) {
+    if (typeof arr == 'undefined' || arr == null || !Array.isArray(arr) || arr.length == 0)
+      return [];
+
+    const data = $.extend(true, [], arr);
+
+    const uniqueProps = new Set();
+    for (const obj of data) {
+      for (const prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+            uniqueProps.add(prop);
+        }                
+      }
+    }
+
+    const matrix = []; // 2D table where earch row is string[] with object fields
+    const headers = Array.from(uniqueProps); // array from set
+    
+    for (const obj of data) {
+      if (obj == null || typeof obj != 'object' || Array.isArray(obj)) {
+        console.log('Skipping this object from table: ' + obj == null ? 'null' : JSON.stringify(obj));
+        continue;
+      }        
+      const row = {};
+      for (const header of headers) {
+        if (obj.hasOwnProperty(header)) {
+          if (typeof obj[header] == 'object') { // if a property is Object/Array/Null, show empty OR <<OBJECT/ARRAY>>
+            if (obj[header] == null) {
+              row[header] = '';
+            } else if (Array.isArray(obj[header])) {
+              console.log('Cannot show array property - ' + JSON.stringify(obj[header]));
+              row[header] = '&lt;&ltARRAY&gt;&gt;';
+            } else {
+              console.log('Cannot show object property - ' + JSON.stringify(obj[header]));
+              row[header] = '&lt;&ltOBJECT&gt;&gt;';
+            }            
+          } else {
+            row[header] = obj[header];
+          }
+        } else {
+          row[header] = '';
+        }
+      }
+      matrix.push(row);
+    }
+
+    return matrix;
   }
 }
 
