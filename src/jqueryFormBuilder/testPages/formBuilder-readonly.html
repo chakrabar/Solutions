@@ -67,7 +67,7 @@
                     fieldRemoveWarn: true, // warn designer when field is removed
                     controlPosition: 'right', //show toolbox on left
                     disabledActionButtons: ['data', 'save', 'clear'], //remove these default buttons
-                    disabledAttrs: ["value", "placeholder", "access", "toggle", "className"], //make these fields non-editable by designer //subtype
+                    disabledAttrs: ["placeholder", "access", "toggle", "className"], //make these fields non-editable by designer //subtype //"value", 
                     //fields: [{label:"Checkbox",type:"checkbox",icon:"☑"}] //a non-group checkbox - attempt
 					typeUserAttrs: typeUserAttrs
                 };
@@ -117,8 +117,11 @@
                 });
                 $("#getJSON").click(function() { formBuilder.actions.showData(); }); //show form template as JSON
                 $("#saveForm").click(function () { //actually save the form-as-json
-                    var formData = formBuilder.actions.getData('json', false); //isIndented:false
-                    submitCallback.sendData(formData);
+                    //var formData = formBuilder.actions.getData('json', false); //isIndented:false
+                    //submitCallback.sendData(formData);
+					//var formData = formBuilder.actions.getData(); //formBuilder.actions.getData('json', false); //only template as json, isIndented:false
+					var formData = formBuilder.actions.getData('json', false); //isIndented:false
+					smartAlert('template', JSON.stringify(formData));
                 });
                 var smartAlert = (title, body) => {
                     var mymodal = $('#myModal');

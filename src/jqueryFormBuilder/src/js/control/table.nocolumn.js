@@ -11,51 +11,47 @@ export default class controlNocolumn extends controlTable { // arghya
    */
   static get definition() {
     return {
-      icon: '▦',
+      icon: '▦', // todod: this icon may not be required
       i18n: {
-        default: 'No-column'
+        default: 'No-column' // this text would show up in sub-type dropdown
       }
     };
   }
 
   /**
-  * build a hidden input dom element
-  * @return {Object} DOM Element to be injected into the form.
-  *
-  build() {
-    this.dom = this.markup('div', null, { className: 'table table-striped table-sm' })
-    return this.dom;
-  }*/
-
-  /**
   * onRender callback
   */
   onRender() {
-    let data = this.config.value;
-    console.log(data);
-    if (typeof data == 'undefined' || data == null)
-        return;
-    if (typeof data == 'string') {
-        data = data.replace(/'/g, '"'); // if JSON with single-quote, change to double-quote // TODO: can break strings with single quote
-        data = JSON.parse(data);
-    }        
-    let tableHtml = '';
-    if (data != null && Array.isArray(data)) {
-      tableHtml += '<table class="table">';
+    if (typeof this.config.value == 'undefined' || this.config.value == null)
+      return;
+    console.log(this.config.value);
+    
+    let arr = null; // prepare data
+    if (typeof this.config.value == 'string') { // we expect an array, if it's string parse it (assuming a json string)
+      let str = (' ' + this.config.value).slice(1); // making a copy
+      str = str.replace(/'/g, '"'); // if JSON with single-quote, change to double-quote // TODO: can break strings with single quote
+      arr = JSON.parse(str);
+    } else {
+      arr = this.config.value;
+    }
+    
+    if (arr != null && Array.isArray(arr) && arr.length > 0) {
+      const data = $.extend(true, [], arr); // make a copy of data before using
+      let tableHtml = '<table class="table">';
       for (let row of data) {
           let rowHtml = '<tr><td>&nbsp;';
-          let columns = Object.keys(row).map(col => `<strong>${col}</strong>:${row[col]}`);
+          let columns = Object.keys(row).map(col => `<strong>${col}</strong>:${row[col]}`); // todo: does not handle complex objects in column
           rowHtml += columns.join(', ');
           rowHtml += '&nbsp;</td></tr>';
           tableHtml += rowHtml;
       }
       tableHtml += '</table>';
-    }
-    const targetDiv = `div.field-${this.config.name} > div.table`; // '#'+this.config.name+' > div.table';
-    $(targetDiv).html(tableHtml); // NOTE: this depends on auto-generated class names
+
+      const targetDiv = `div.field-${this.config.name} > div.table`; // '#'+this.config.name+' > div.table';
+      $(targetDiv).html(tableHtml); // NOTE: this depends on auto-generated class names
+    }    
   }
 }
 
 // register as subtype of table
-console.log('registering controlNoColumnTable');
 controlTable.register('nocolumn', controlNocolumn, 'table');
