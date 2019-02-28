@@ -198,7 +198,7 @@ const person3 = {
     [method + '-' + age]() { console.log('method invoked') } // within square brackets event expressions can be used
 };
 console.log(person3['shout']()); // Arghya calling you
-console.log(person3.meth-50()); // method invoked
+console.log(person3['meth-50']()); // method invoked
 ```
 
 Naming getter and setter properties. This gives accessors over fields. Introduced in ES5, this lets call them as properties than methods. We can also create read-only or set-only properties;
