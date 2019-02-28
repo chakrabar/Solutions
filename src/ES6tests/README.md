@@ -132,15 +132,97 @@ const add = function(a = 1, b = 2) { // default parameter
 add(undefined, 5); // 6 i.e. 1 + 5
 
 // a fun scope 
-var calculate = function(first, second = 2 * first) {
+const calculate = function(first, second = 2 * first) {
     console.log(first + second);
     console.log(arguments.length);
 };
 calculate(1); // works and prints 3 & 1 i.e. the actual no. of arguments passed
 
 // DYNAMIC function (was already there, still cool)
-var getTotal = new Function("price = 20", "return price;");
+const getTotal = new Function("price = 20", "return price;");
 getTotal(); // returns 20 :)
 ```
 
 ##### Rest & Spread
+
+Rest can collect multiple things into an array. That parameter with three dots is called a **rest parameter**.
+
+```javascript
+const showCategories = function(productId, ...categories) { // ...rest
+    console.log(categories instanceof Array);
+    console.log(categories);
+};
+showCategories(1, 'book', 'movie'); // true -> categories = ['book', 'movie']
+showCategories('yo'); // true -> categories = []
+console.log(showCategories.length); // 1, ignores rest parameters
+```
+
+Spread is kind of the opposite of rest. It spreads out an array into a number of values.
+
+```javascript
+const prices = [1, 2, 3];
+const max = Math.max(...prices); // spreads out prices a bunch of values
+console.log(max); // 3
+
+const arr = [...prices]; // workds too
+console.log(arr); // [1, 2, 3]
+
+// NOTE
+const arr2 = [...[,,]];
+console.log(arr2); // [undefined, undefined] -> since nothing is provided, undefined has been captured
+// Also, unless something is given, JS assumes there's nothing after last comma (existing behaviour)
+
+// Spread also spreads a string into individual characters
+```
+
+##### Object literal extension
+
+Automatically names object properties from variables (similar to `Tuple` declaratio in C#)
+
+```javascript
+const name = "Arghya";
+const age = 50;
+const person = { name, age }; // valid and works
+console.log(person); // {name: "Arghya", age: 50}
+
+//function without function keyword
+const person2 = { name, age, walk() { console.log(name + ' walking...'); } }; // valid and works
+person2.walk(); // Arghya walking...
+
+// Even more weird
+const method = "meth";
+const person3 = { 
+    name, 
+    age, 
+    "shout"() { console.log(name + ' calling you') }, // works
+    [method + '-' + age]() { console.log('method invoked') } // within square brackets event expressions can be used
+};
+console.log(person3['shout']()); // Arghya calling you
+console.log(person3.meth-50()); // method invoked
+```
+
+Naming getter and setter properties. This gives accessors over fields. Introduced in ES5, this lets call them as properties than methods. We can also create read-only or set-only properties;
+
+```javascript
+// ES5 getter & setter properties (well, I was unaware these even exist)
+//general syntax
+var person5 = {
+    nm: 'Cool guy',
+    get name() { // this is not a method, it's a getter property
+        return 'Mr. ' + this.nm;
+    },
+    set name(val) { // this is a setter property
+        this.nm = val;
+    }
+};
+person5.name = "Robo";
+person5.name; // Mr. Robo
+
+
+// ES6 dynamic naming getter and setter
+const ident = 'prodId';
+const prodView = {
+    get [ident] () { return true; },
+    set [ident] (value) { }
+};
+```
