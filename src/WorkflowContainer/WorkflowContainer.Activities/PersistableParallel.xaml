@@ -1,0 +1,189 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="WorkflowContainer.Activities.PersistableParallel" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap2010:WorkflowViewState.IdRef="WorkflowContainer.Activities.PersistableParallel_1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:local="clr-namespace:WorkflowContainer.Activities.Custom;assembly=WorkflowContainer.Activities"
+ xmlns:local1="clr-namespace:WorkflowContainer.Activities.Models;assembly=WorkflowContainer.Activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>WorkflowContainer.Activities.Models</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>WorkflowContainer.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_4">
+    <Sequence DisplayName="Completed" sap2010:WorkflowViewState.IdRef="Sequence_5">
+      <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_10">
+        <InArgument x:TypeArguments="x:String">
+          <mca:CSharpValue x:TypeArguments="x:String">"Workflow STARTING at " + System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss:fffff tt")</mca:CSharpValue>
+        </InArgument>
+      </WriteLine>
+    </Sequence>
+    <Parallel sap2010:WorkflowViewState.IdRef="Parallel_1">
+      <Parallel.Variables>
+        <Variable x:TypeArguments="local1:ApprovalData" Name="fastApproval" />
+        <Variable x:TypeArguments="local1:ApprovalData" Name="slowApproval" />
+        <Variable x:TypeArguments="s:Guid" Name="fastTaskId" />
+        <Variable x:TypeArguments="s:Guid" Name="slowTaskId" />
+      </Parallel.Variables>
+      <Sequence DisplayName="Slow" sap2010:WorkflowViewState.IdRef="Sequence_1">
+        <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_4">
+          <InArgument x:TypeArguments="x:String">
+            <mca:CSharpValue x:TypeArguments="x:String">"Starting slow flow at " + System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss:fffff tt")</mca:CSharpValue>
+          </InArgument>
+        </WriteLine>
+        <Delay DisplayName="90 sec Delay" sap2010:WorkflowViewState.IdRef="Delay_1">
+          <InArgument x:TypeArguments="x:TimeSpan">
+            <mca:CSharpValue x:TypeArguments="x:TimeSpan">TimeSpan.FromSeconds(90)</mca:CSharpValue>
+          </InArgument>
+        </Delay>
+        <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_6">
+          <InArgument x:TypeArguments="x:String">
+            <mca:CSharpValue x:TypeArguments="x:String">"Slow flow creating SlowBookmark at " + System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss:fffff tt")</mca:CSharpValue>
+          </InArgument>
+        </WriteLine>
+        <local:CreateTaskAndPause x:TypeArguments="local1:ApprovalData" AsigneeEmail="ac1@chakra.com" BookmarkName="SlowBookmark" DisplayName="Slow Bookamark&lt;ApprovalData&gt;" sap2010:WorkflowViewState.IdRef="CreateTaskAndPause`1_1" RequestMessage="Blah slow">
+          <local:CreateTaskAndPause.Result>
+            <OutArgument x:TypeArguments="local1:ApprovalData">
+              <mca:CSharpReference x:TypeArguments="local1:ApprovalData">slowApproval</mca:CSharpReference>
+            </OutArgument>
+          </local:CreateTaskAndPause.Result>
+          <local:CreateTaskAndPause.TaskId>
+            <OutArgument x:TypeArguments="s:Guid">
+              <mca:CSharpReference x:TypeArguments="s:Guid">slowTaskId</mca:CSharpReference>
+            </OutArgument>
+          </local:CreateTaskAndPause.TaskId>
+        </local:CreateTaskAndPause>
+        <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_11">
+          <InArgument x:TypeArguments="x:String">
+            <mca:CSharpValue x:TypeArguments="x:String">"SLOW flow RESUMING at " + System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss:fffff tt")</mca:CSharpValue>
+          </InArgument>
+        </WriteLine>
+      </Sequence>
+      <Sequence DisplayName="Fast" sap2010:WorkflowViewState.IdRef="Sequence_2">
+        <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_5">
+          <InArgument x:TypeArguments="x:String">
+            <mca:CSharpValue x:TypeArguments="x:String">"Starting fast flow at " + System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss:fffff tt")</mca:CSharpValue>
+          </InArgument>
+        </WriteLine>
+        <Delay DisplayName="10 sec Delay" sap2010:WorkflowViewState.IdRef="Delay_2">
+          <InArgument x:TypeArguments="x:TimeSpan">
+            <mca:CSharpValue x:TypeArguments="x:TimeSpan">TimeSpan.FromSeconds(10)</mca:CSharpValue>
+          </InArgument>
+        </Delay>
+        <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_7">
+          <InArgument x:TypeArguments="x:String">
+            <mca:CSharpValue x:TypeArguments="x:String">"Fast flow creating FastBookmark at " + System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss:fffff tt")</mca:CSharpValue>
+          </InArgument>
+        </WriteLine>
+        <local:CreateTaskAndPause x:TypeArguments="local1:ApprovalData" AsigneeEmail="ac2@chakra.com" BookmarkName="FastBookmark" DisplayName="Fast Bookmark&lt;ApprovalData&gt;" sap2010:WorkflowViewState.IdRef="CreateTaskAndPause`1_2" RequestMessage="Blah fast">
+          <local:CreateTaskAndPause.Result>
+            <OutArgument x:TypeArguments="local1:ApprovalData">
+              <mca:CSharpReference x:TypeArguments="local1:ApprovalData">fastApproval</mca:CSharpReference>
+            </OutArgument>
+          </local:CreateTaskAndPause.Result>
+          <local:CreateTaskAndPause.TaskId>
+            <OutArgument x:TypeArguments="s:Guid">
+              <mca:CSharpReference x:TypeArguments="s:Guid">fastTaskId</mca:CSharpReference>
+            </OutArgument>
+          </local:CreateTaskAndPause.TaskId>
+        </local:CreateTaskAndPause>
+        <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_12">
+          <InArgument x:TypeArguments="x:String">
+            <mca:CSharpValue x:TypeArguments="x:String">"FAST flow RESUMING at " + System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss:fffff tt")</mca:CSharpValue>
+          </InArgument>
+        </WriteLine>
+      </Sequence>
+    </Parallel>
+    <Sequence DisplayName="Completed" sap2010:WorkflowViewState.IdRef="Sequence_3">
+      <WriteLine sap2010:WorkflowViewState.IdRef="WriteLine_9">
+        <InArgument x:TypeArguments="x:String">
+          <mca:CSharpValue x:TypeArguments="x:String">"Workflow COMPLETED at " + System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss:fffff tt")</mca:CSharpValue>
+        </InArgument>
+      </WriteLine>
+    </Sequence>
+    <sads:DebugSymbol.Symbol>d2ZDOlxBcmdoeWFDXHJlcG9zXFNvbHV0aW9uc1xzcmNcV29ya2Zsb3dDb250YWluZXJcV29ya2Zsb3dDb250YWluZXIuQWN0aXZpdGllc1xQZXJzaXN0YWJsZVBhcmFsbGVsLnhhbWwmKwOHAQ4CAQEsBTIQAgFUMwV+EAIBBX8FhQEQAgECLQcxEwIBVToHWxICAS1cB30SAgEGgAEHhAETAgEDLwsvnwECAVY7CT8VAgFOQAlEEQIBSEUJSRUCAUJKCVUkAgE0VglaFQIBLl0JYRUCASdiCWYRAgEhZwlrFQIBG2wJdyQCAQ14CXwVAgEHggELggGgAQIBBD0NPaIBAgFPQg1CZQIBSUcNR68BAgFDSnRKggECAUFK/AFKhwICAUBKVkpmAgE/TQ9NbAIBOlIPUl0CATVYDViiAQIBL18NX6IBAgEoZA1kZQIBImkNaa8BAgEcbHRsggECARps+wFshgICARlsVmxmAgEYbw9vbAIBE3QPdF0CAQ56DXqiAQIBCA==</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="WriteLine_10" sap:VirtualizedContainerService.HintSize="210.4,62.4" />
+      <sap2010:ViewStateData Id="Sequence_5" sap:VirtualizedContainerService.HintSize="620,187.2">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_4" sap:VirtualizedContainerService.HintSize="210.4,62.4" />
+      <sap2010:ViewStateData Id="Delay_1" sap:VirtualizedContainerService.HintSize="210.4,22.4" />
+      <sap2010:ViewStateData Id="WriteLine_6" sap:VirtualizedContainerService.HintSize="210.4,62.4" />
+      <sap2010:ViewStateData Id="CreateTaskAndPause`1_1" sap:VirtualizedContainerService.HintSize="210.4,22.4" />
+      <sap2010:ViewStateData Id="WriteLine_11" sap:VirtualizedContainerService.HintSize="210.4,76" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="232.8,530.4">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteLine_5" sap:VirtualizedContainerService.HintSize="210.4,62.4" />
+      <sap2010:ViewStateData Id="Delay_2" sap:VirtualizedContainerService.HintSize="210.4,22.4" />
+      <sap2010:ViewStateData Id="WriteLine_7" sap:VirtualizedContainerService.HintSize="210.4,62.4" />
+      <sap2010:ViewStateData Id="CreateTaskAndPause`1_2" sap:VirtualizedContainerService.HintSize="210.4,22.4" />
+      <sap2010:ViewStateData Id="WriteLine_12" sap:VirtualizedContainerService.HintSize="210.4,62.4" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="232.8,530.4">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Parallel_1" sap:VirtualizedContainerService.HintSize="620,576.8" />
+      <sap2010:ViewStateData Id="WriteLine_9" sap:VirtualizedContainerService.HintSize="210.4,62.4" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="620,187.2">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="642.4,1156">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WorkflowContainer.Activities.PersistableParallel_1" sap:VirtualizedContainerService.HintSize="682.4,1236" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>
