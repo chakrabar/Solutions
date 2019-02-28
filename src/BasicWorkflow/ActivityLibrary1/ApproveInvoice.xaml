@@ -1,10 +1,10 @@
 ﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="ActivityLibrary1.ApproveInvoice" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap2010:WorkflowViewState.IdRef="ActivityLibrary1.ApproveInvoice_1"
  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
- xmlns:local="clr-namespace:ActivityLibrary1"
  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
  xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
  xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
  xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
  xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
@@ -26,11 +26,24 @@
       <AssemblyReference>System.Xml</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <local:MySequence sap2010:WorkflowViewState.IdRef="MySequence_1" sads:DebugSymbol.Symbol="d1FDOlxBcmdoeWFDXHJlcG9zXFNvbHV0aW9uc1xzcmNcQmFzaWNXb3JrZmxvd1xBY3Rpdml0eUxpYnJhcnkxXEFwcHJvdmVJbnZvaWNlLnhhbWwBHQMdeQIBAQ==" />
+  <Sequence>
+    <Persist sap2010:WorkflowViewState.IdRef="Persist_1" />
+    <TerminateWorkflow sap2010:WorkflowViewState.IdRef="TerminateWorkflow_1" />
+    <sap2010:WorkflowViewState.IdRef>Sequence_1</sap2010:WorkflowViewState.IdRef>
+    <sads:DebugSymbol.Symbol>d1FDOlxBcmdoeWFDXHJlcG9zXFNvbHV0aW9uc1xzcmNcQmFzaWNXb3JrZmxvd1xBY3Rpdml0eUxpYnJhcnkxXEFwcHJvdmVJbnZvaWNlLnhhbWwDHQMiDgIBAR4FHjwCAQMfBR9QAgEC</sads:DebugSymbol.Symbol>
+  </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
-      <sap2010:ViewStateData Id="MySequence_1" sap:VirtualizedContainerService.HintSize="200,22.4" />
-      <sap2010:ViewStateData Id="ActivityLibrary1.ApproveInvoice_1" sap:VirtualizedContainerService.HintSize="240,102.4" />
+      <sap2010:ViewStateData Id="Persist_1" sap:VirtualizedContainerService.HintSize="200,22.4" />
+      <sap2010:ViewStateData Id="TerminateWorkflow_1" sap:VirtualizedContainerService.HintSize="200,22.4" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="222.4,209.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ActivityLibrary1.ApproveInvoice_1" sap:VirtualizedContainerService.HintSize="262.4,289.6" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>
