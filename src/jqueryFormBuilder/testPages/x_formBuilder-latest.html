@@ -73,7 +73,8 @@
                     disabledAttrs: ["placeholder", "access", "toggle"], //make these fields non-editable by designer //subtype //"value" //className
                     //fields: [{label:"Checkbox",type:"checkbox",icon:"☑"}] //a non-group checkbox - attempt
 					typeUserAttrs: typeUserAttrs, // additional control options
-					typeUserDisabledAttrs: { 'unusable': ['required'] } //do not show 'required' for unusable fields
+					typeUserDisabledAttrs: { 'unusable': ['required'] }, //do not show 'required' for unusable fields
+					//hideToolbox: true
                 };
                 var formData = ''; //#formTemplate#; //form template as json injected from backend (if nothing, empty string is injected)
                 const fbTemplate = $("#fb-editor");
@@ -83,22 +84,30 @@
                 const formBuilder = fbTemplate.formBuilder(options);
                 const renderTemplate = $("#fb-viewer");
                 const designerButtons = $("#setDataWrap");
-                function preview() { //preview & interact with rendered form
+                function preview() { //preview & interact with rendered form					
                     var formData = formBuilder.actions.getData('json', true);
                     formDataWithButton = JSON.parse(formData); //formData is json string
                     formDataWithButton.push({ "type": "button", "label": "Submit", "subtype": "button", "name": "button-in-rendered-form", "className": "pad-sides btn btn-success", "onclick": "function demoSubmit(){var $myForm = $('#form-viewer');if(! $myForm[0].checkValidity()) {$('<input type=\"submit\">').hide().appendTo($myForm).click().remove();}else{alert('Form submitted successfully')}};demoSubmit()" });
                     formData = JSON.stringify(formDataWithButton);
+					var options = {
+						onRender: function() { alert('fuck it'); },
+						formData: formData
+					};
                     fbTemplate.hide();
                     designerButtons.hide();
-                    $("#form-viewer").formRender({ formData });
+                    //$("#form-viewer").formRender({ formData }, options);
+					$("#form-viewer").formRender(options);
                     $('input[type="file"]').removeClass("form-control").addClass("form-control-file");
                     renderTemplate.show();
-					//to enable column display in rendered form
-					$(".rendered-form").addClass('row'); //.removeClass('rendered-form')
+					// to enable column display in rendered form
+					//$(".rendered-form").addClass('row'); //.removeClass('rendered-form')
+					// to disable all form fields except buttons
+					//$("form :input:not(:button)").attr("disabled", "disabled");
+					
                 };
-				formBuilder.onload = function() {
+				/*formBuilder.onRender(function() {
 					alert('yo'); // does not work
-				};
+				});*/
                 $("#preview").bind("click", preview);
                 $("#edit-form").click(function () { //go back from preview to designer
                     fbTemplate.show();
