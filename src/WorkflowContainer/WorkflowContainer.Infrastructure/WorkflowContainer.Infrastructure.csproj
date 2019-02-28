@@ -50,6 +50,7 @@
     <Compile Include="InstanceStoreBase\AsyncResult.cs" />
     <Compile Include="InstanceStoreBase\CompletedAsyncResult.cs" />
     <Compile Include="InstanceStoreBase\CustomInstanceStoreBase.cs" />
+    <Compile Include="LocalFileInstanceStore.cs" />
     <Compile Include="NetDataContractStore\NetDataXmlInstanceStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoteInstanceStore.cs" />
