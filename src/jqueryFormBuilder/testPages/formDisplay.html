@@ -8,8 +8,8 @@
 			.rounded { border-radius: 10px; }
 			#fb-viewer { display: none; }
 		</style>
-		<link rel="stylesheet" type="text/css" href="ui/bootstrap-4-1/css/bootstrap.min.css" />
-		<link rel="stylesheet" type="text/css" href="ui/fonts/poppins.css" />
+		<link rel="stylesheet" type="text/css" href="bootstrap-4-1/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/poppins.css" />
 	</head>
 	<body>
 		<div class="container">
@@ -20,14 +20,15 @@
 				</div>	
 			</div>
 		</div>
-		<script src="ui/js/jquery/jquery.min.js"></script>
-		<script src="ui/js/jquery/jquery-ui.min.js"></script>
-		<script src="ui/js/form-render.min.js"></script>
+		<script src="js/jquery/jquery.min.js"></script>
+		<script src="js/jquery/jquery-ui.min.js"></script>
+		<script src="js/external/babel-polyfill.js"></script> <!--required for IE 11-->
+		<script src="../dist/form-render.min.js"></script>
 		<script type="text/javascript">
 			jQuery(function($) {
 				const renderTemplate = $("#fb-viewer");
-                var formData = #formTemplate#; //form template as json string injected from backend
-				$("#user-form").formRender({formData});
+                var formData = [{"type": "header","subtype": "h1","label": "Header"},{"type": "text","label": "Text Field","className": "form-control","name": "text-1552382335746","subtype": "text"},{"type": "textarea","label": "Text Area","className": "form-control","name": "textarea-1552382336578","subtype": "textarea"}]; // sample form data
+				$("#user-form").formRender({formData: formData}); // back to ES5 syntax
 				$('input[type="file"]').removeClass("form-control").addClass("form-control-file");
                 renderTemplate.show();
                 function getInputData() { //read the form data & preview what will be actually submitted >> to be used at submit
