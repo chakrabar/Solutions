@@ -22,6 +22,14 @@
 		</div>
 		<script src="js/jquery/jquery.min.js"></script>
 		<script src="js/jquery/jquery-ui.min.js"></script>
+		<script>
+		(function() {
+            if (typeof NodeList.prototype.forEach === "function")
+                return false;
+            else
+                NodeList.prototype.forEach = Array.prototype.forEach;
+        })(); // to polyfill the polyfill. Adding forEach support to NodeList
+		</script>
 		<script src="js/external/babel-polyfill.js"></script> <!--required for IE 11-->
 		<script src="../dist/form-render.min.js"></script>
 		<script type="text/javascript">
