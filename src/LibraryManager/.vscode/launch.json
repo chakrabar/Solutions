@@ -8,11 +8,11 @@
             "type": "node",
             "request": "launch",
             "name": "Launch",
-            "program": "${workspaceFolder}/app.ts", // ${file}
+            "program": "${workspaceFolder}/app.ts", // ${file} // starting code => debug the TS
             "outFiles": [
-                "${workspaceFolder}/**/*.js"
+                "${workspaceFolder}/**/*.js" // find files to run here
             ],
-            "sourceMaps": true
+            "sourceMaps": true // use source maps
         },
         { // another debug configuration
             "type": "node",
