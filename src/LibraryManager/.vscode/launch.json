@@ -10,7 +10,7 @@
             "name": "Launch",
             "program": "${workspaceFolder}/app.ts", // ${file} // starting code => debug the TS
             "outFiles": [
-                "${workspaceFolder}/**/*.js" // find files to run here
+                "${workspaceFolder}/**/*.js" // find files to run here, ${workspaceFolder}/**/*.js
             ],
             "sourceMaps": true // use source maps
         },

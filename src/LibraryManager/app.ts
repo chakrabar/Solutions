@@ -1,4 +1,5 @@
 import { GetBookTitles } from './modules/functions'; // only importing does not add to the JS
+import { Person, getSamplePerson } from './modules/interfaces';
 
 class HelloWorld {
     constructor(public message: string) {}
@@ -10,4 +11,7 @@ console.log('yo baby');
 
 // Using a module actually includes that module.js in compiled code (along with .js.map)
 // By default it keeps all separate JS files and uses a module pattern like ES6 or CommonJS (config)
-console.log('Books: ' + JSON.stringify(GetBookTitles(100)));
+console.log('Books ::: ' + JSON.stringify(GetBookTitles(100)));
+
+const person : Person = getSamplePerson();
+console.log(person);

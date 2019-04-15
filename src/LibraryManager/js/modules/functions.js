@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 function num() { return 1; }
 var welDefinedStr = 'this is explicitly typed';
 function num2(k) { return k + 2; }
@@ -40,7 +42,7 @@ function GetBookTitles(arg) {
         return ['C', 'D'];
     }
 }
+exports.GetBookTitles = GetBookTitles;
 var books = GetBookTitles('cool author');
 console.log(books);
-export { GetBookTitles };
 //# sourceMappingURL=functions.js.map
