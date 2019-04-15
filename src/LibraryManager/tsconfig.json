@@ -1,13 +1,18 @@
 {
     "compilerOptions": {
-        "module": "commonjs", //default: commonjs for es5, can also use es6
+        "module": "commonjs", //default: commonjs for es5-, can also use es6
+        // es6 uses :: import { module1 } from './modules/myModule'
+        // commonjs uses :: ar functions_1 = require("./modules/myModule")
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true,
         "target": "es5", // apparently es5 cannot work with es6 modules
         "watch": true, // watch file change and compile automatically
-        "outDir": "js"
+        "outDir": "js", // redirect generated JS directory structure to this
+        // use following option to generate a single compiled JS
+        // it'll ignore the outDir. The module system needs to be amd (OR system)
+        // "outFile": "dist/libraryManagement.js"
     },
     "files": [
         "app.ts"
