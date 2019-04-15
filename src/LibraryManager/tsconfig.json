@@ -1,11 +1,11 @@
 {
     "compilerOptions": {
-        "module": "es6", //default: commonjs for es5
+        "module": "commonjs", //default: commonjs for es5, can also use es6
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true,
-        "target": "es5",
+        "target": "es6", // apparently es5 can not work with modules
         "watch": true, // watch file change and compile automatically
         "outDir": "js"
     },
