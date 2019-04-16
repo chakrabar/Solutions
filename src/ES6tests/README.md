@@ -14,13 +14,15 @@ Popular ES6 browser-compatibility chart http://kangax.github.io/compat-table/es6
 
 `"use strict";` -> Introduced in ES5. Means JavaScript will be used in strict mode and cause error in incorrect scenarios. For example, an undeclared variable would cause error in scrict mode. This line can be used only at top of script or function.
 
-#### New syntax
+### New syntax
+
+`ES6` introduces lot of new features in with new syntax, gives alternative syntaxes and also changes some behaviours (makes the behaviours right, or what other programmers would expect naturally).
 
 ##### No variable hoisting
 
 Using a variable before it is declared, would throw error. For this, ES6 `let` or `const` has to be used. Does not apply to `var`. Actually, `var` should not be used in ES6.
 
-Also, non defined variable like `let something;` gets initialized to `undefined`
+Also, non initialised variable like `let something;` gets initialized to `undefined`
 
 ##### Block scoping
 
@@ -93,6 +95,8 @@ Lets us define functions without use of `function` and `return` keywords, in the
 2. Single argument can skip the paranthesis `x => x * 2`
 3. More arguments need paranthesis `(a, b) => a + b`
 4. `return` is required when the body is multi-line block
+5. Obviously, it's not required to always return something `() => {}`
+6. To return objects, it must be enclosed within paranthesis `() => ({id: 101})`
 
 ```javascript
 const increment = x => ++x; // when there is just one argument, paranthesis is optional
@@ -131,12 +135,14 @@ const add = function(a = 1, b = 2) { // default parameter
 };
 add(undefined, 5); // 6 i.e. 1 + 5
 
-// a fun scope 
+// a fun scoping and defaults
 const calculate = function(first, second = 2 * first) {
     console.log(first + second);
     console.log(arguments.length);
 };
 calculate(1); // works and prints 3 & 1 i.e. the actual no. of arguments passed
+// in case one parameter depends on other, at the runtime it must be present when
+// the other is trying to access. Otherwise it'll throw reference error
 
 // DYNAMIC function (was already there, still cool)
 const getTotal = new Function("price = 20", "return price;");
@@ -145,7 +151,7 @@ getTotal(); // returns 20 :)
 
 ##### Rest & Spread
 
-Rest can collect multiple things into an array. That parameter with three dots is called a **rest parameter**.
+Rest can collect multiple things into an array. Very useful for handling variable number of parameters in methods. That parameter with three dots is called a **rest parameter**.
 
 ```javascript
 const showCategories = function(productId, ...categories) { // ...rest
@@ -154,6 +160,7 @@ const showCategories = function(productId, ...categories) { // ...rest
 };
 showCategories(1, 'book', 'movie'); // true -> categories = ['book', 'movie']
 showCategories('yo'); // true -> categories = []
+// functionName.length -> gives the number of parameters expected by function
 console.log(showCategories.length); // 1, ignores rest parameters
 ```
 
@@ -185,7 +192,7 @@ const age = 50;
 const person = { name, age }; // valid and works
 console.log(person); // {name: "Arghya", age: 50}
 
-//function without function keyword
+// function without function keyword
 const person2 = { name, age, walk() { console.log(name + ' walking...'); } }; // valid and works
 person2.walk(); // Arghya walking...
 
@@ -195,17 +202,20 @@ const person3 = {
     name, 
     age, 
     "shout"() { console.log(name + ' calling you') }, // works
-    [method + '-' + age]() { console.log('method invoked') } // within square brackets event expressions can be used
+    // within square brackets even expressions can be used
+    [method + '-' + age]() { console.log('method invoked') }
 };
 console.log(person3['shout']()); // Arghya calling you
 console.log(person3['meth-50']()); // method invoked
 ```
 
-Naming getter and setter properties. This gives accessors over fields. Introduced in ES5, this lets call them as properties than methods. We can also create read-only or set-only properties;
+Naming getter and setter properties. This gives accessors over fields. Introduced in ES5, this lets call them as properties than methods. We can also create read-only or set-only properties.
+
+> Note: Arrow functions do not work in getter and setter (yet)
 
 ```javascript
 // ES5 getter & setter properties (well, I was unaware these even exist)
-//general syntax
+// general syntax
 var person5 = {
     nm: 'Cool guy',
     get name() { // this is not a method, it's a getter property
@@ -218,11 +228,12 @@ var person5 = {
 person5.name = "Robo";
 person5.name; // Mr. Robo
 
-
 // ES6 dynamic naming getter and setter
-const ident = 'prodId';
-const prodView = {
-    get [ident] () { return true; },
-    set [ident] (value) { }
+const key = 'prodId';
+const product = {
+    get [key] () { return this._id; },
+    set [key] (value) { this._id = value }
 };
+product.prodId = 99;
+product.prodId; // 99
 ```
