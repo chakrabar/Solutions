@@ -13,4 +13,12 @@ var getSamplePerson = function () {
     };
 };
 exports.getSamplePerson = getSamplePerson;
+var getSimpleId = function (idx, id) { return idx + id; };
+var myGenerator;
+myGenerator = getSimpleId;
+var myNinja = {
+    name: 'Yoyo',
+    fight: function () { return console.log('aaya...'); },
+    skills: ['kick', 'punch'],
+};
 //# sourceMappingURL=interfaces.js.map

@@ -1,5 +1,6 @@
-import { GetBookTitles } from './modules/functions'; // only importing does not add to the JS
+import { GetBookTitles } from './modules/functions';
 import { Person, getSamplePerson } from './modules/interfaces';
+import { Employee } from './modules/classes';
 
 class HelloWorld {
     constructor(public message: string) {}
@@ -15,3 +16,7 @@ console.log('Books ::: ' + JSON.stringify(GetBookTitles(100)));
 
 const person : Person = getSamplePerson();
 console.log(person);
+
+const myEMp = new Employee('Arghya', 'Mr', 'Chakrabarty');
+console.log(myEMp.name);
+console.log(Employee.description);

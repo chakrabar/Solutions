@@ -10,7 +10,7 @@
         "target": "es5", // apparently module:es6 does not work well with vs code debugger
         "watch": true, // watch file change and compile automatically
         "outDir": "js", // redirect generated JS directory structure to this
-        // use following option to generate a single compiled JS
+        // use following option to generate a single compiled JS (mainly for browsers)
         // it'll ignore the outDir. The module system needs to be amd (OR system)
         // "outFile": "dist/libraryManagement.js"
     },

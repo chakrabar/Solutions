@@ -1,0 +1,105 @@
+<InstanceValues>
+  <InstanceValue>
+    <key>
+      <XName z:Id="1" z:FactoryType="NameSerializer" z:Type="System.Xml.Linq.NameSerializer" z:Assembly="System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns="http://schemas.datacontract.org/2004/07/System.Xml.Linq" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:x="http://www.w3.org/2001/XMLSchema" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+        <name z:Id="2" z:Type="System.String" z:Assembly="0" xmlns="">{urn:schemas-microsoft-com:System.Activities/4.0/properties}Bookmarks</name>
+      </XName>
+    </key>
+    <value>
+      <ReadOnlyCollectionOfBookmarkInfonF_PHLgmX z:Id="1" z:Type="System.Collections.ObjectModel.ReadOnlyCollection`1[[System.Activities.Hosting.BookmarkInfo, System.Activities, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]" z:Assembly="0" xmlns="http://schemas.datacontract.org/2004/07/System.Collections.ObjectModel" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+        <list z:Id="2" z:Type="System.Collections.Generic.List`1[[System.Activities.Hosting.BookmarkInfo, System.Activities, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]" z:Assembly="0" xmlns:a="http://schemas.datacontract.org/2004/07/System.Activities.Hosting">
+          <a:_items z:Id="3" z:Size="0" />
+          <a:_size>0</a:_size>
+          <a:_version>0</a:_version>
+        </list>
+      </ReadOnlyCollectionOfBookmarkInfonF_PHLgmX>
+    </value>
+  </InstanceValue>
+  <InstanceValue>
+    <key>
+      <XName z:Id="1" z:FactoryType="NameSerializer" z:Type="System.Xml.Linq.NameSerializer" z:Assembly="System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns="http://schemas.datacontract.org/2004/07/System.Xml.Linq" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:x="http://www.w3.org/2001/XMLSchema" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+        <name z:Id="2" z:Type="System.String" z:Assembly="0" xmlns="">{urn:schemas-microsoft-com:System.Activities/4.0/properties}LastUpdate</name>
+      </XName>
+    </key>
+    <value>
+      <dateTime z:Type="System.DateTime" z:Assembly="0" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">2019-02-16T16:21:12.2193843Z</dateTime>
+    </value>
+  </InstanceValue>
+  <InstanceValue>
+    <key>
+      <XName z:Id="1" z:FactoryType="NameSerializer" z:Type="System.Xml.Linq.NameSerializer" z:Assembly="System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns="http://schemas.datacontract.org/2004/07/System.Xml.Linq" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:x="http://www.w3.org/2001/XMLSchema" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+        <name z:Id="2" z:Type="System.String" z:Assembly="0" xmlns="">{urn:schemas-microsoft-com:System.Activities/4.0/properties}Workflow</name>
+      </XName>
+    </key>
+    <value>
+      <Executor z:Id="1" z:Type="System.Activities.Runtime.ActivityExecutor" z:Assembly="System.Activities, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" xmlns="http://schemas.datacontract.org/2010/02/System.Activities" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+        <WorkflowIdentity z:Id="2" xmlns:a="http://schemas.datacontract.org/2004/07/System.Activities">
+          <a:name z:Id="3">ProcessInvoiceWorkflowDict</a:name>
+          <a:version z:Id="4">1.0.0.0</a:version>
+        </WorkflowIdentity>
+        <WorkflowInstanceId>65df3a91-3d9f-4b63-943a-ac5d745e1645</WorkflowInstanceId>
+        <activities z:Id="5" />
+        <state>Closed</state>
+        <workflowOutputs z:Id="6" z:Type="System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" z:Assembly="0" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+          <Version z:Id="7" z:Type="System.Int32" z:Assembly="0" xmlns="">1</Version>
+          <Comparer z:Id="8" z:Type="System.Collections.Generic.GenericEqualityComparer`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" z:Assembly="0" xmlns="" />
+          <HashSize z:Id="9" z:Type="System.Int32" z:Assembly="0" xmlns="">3</HashSize>
+          <KeyValuePairs z:Id="10" z:Type="System.Collections.Generic.KeyValuePair`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]][]" z:Assembly="0" z:Size="1" xmlns="">
+            <KeyValuePairOfstringanyType xmlns="http://schemas.datacontract.org/2004/07/System.Collections.Generic">
+              <key z:Id="11">Result</key>
+              <value z:Id="12" z:Type="WorkflowContainer.Activities.Models.InvoiceResult" z:Assembly="WorkflowContainer.Activities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                <Approval1 z:Id="13" xmlns="http://schemas.datacontract.org/2004/07/WorkflowContainer.Activities.Models">
+                  <IsApproved>true</IsApproved>
+                  <Message z:Id="14">My brand new LocalFileInstanceStore</Message>
+                </Approval1>
+                <Approval2 z:Id="15" xmlns="http://schemas.datacontract.org/2004/07/WorkflowContainer.Activities.Models">
+                  <IsApproved>false</IsApproved>
+                  <Message z:Id="16">LocalFileInstanceStore - saving as xml in file</Message>
+                </Approval2>
+                <InvoiceAmount xmlns="http://schemas.datacontract.org/2004/07/WorkflowContainer.Activities.Models">255</InvoiceAmount>
+                <IsApproved xmlns="http://schemas.datacontract.org/2004/07/WorkflowContainer.Activities.Models">false</IsApproved>
+                <IsAutoApproved xmlns="http://schemas.datacontract.org/2004/07/WorkflowContainer.Activities.Models">false</IsAutoApproved>
+                <Level1Approver z:Id="17" xmlns="http://schemas.datacontract.org/2004/07/WorkflowContainer.Activities.Models">rajeev@uipath.com</Level1Approver>
+                <Level2Approver z:Id="18" xmlns="http://schemas.datacontract.org/2004/07/WorkflowContainer.Activities.Models">visvamitra@uipath.com</Level2Approver>
+              </value>
+            </KeyValuePairOfstringanyType>
+          </KeyValuePairs>
+        </workflowOutputs>
+      </Executor>
+    </value>
+  </InstanceValue>
+  <InstanceValue>
+    <key>
+      <XName z:Id="1" z:FactoryType="NameSerializer" z:Type="System.Xml.Linq.NameSerializer" z:Assembly="System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns="http://schemas.datacontract.org/2004/07/System.Xml.Linq" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:x="http://www.w3.org/2001/XMLSchema" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+        <name z:Id="2" z:Type="System.String" z:Assembly="0" xmlns="">{urn:schemas-microsoft-com:System.Activities/4.0/properties}Status</name>
+      </XName>
+    </key>
+    <value>
+      <string z:Type="System.String" z:Assembly="0" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">Closed</string>
+    </value>
+  </InstanceValue>
+  <InstanceValue>
+    <key>
+      <XName z:Id="1" z:FactoryType="NameSerializer" z:Type="System.Xml.Linq.NameSerializer" z:Assembly="System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" xmlns="http://schemas.datacontract.org/2004/07/System.Xml.Linq" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:x="http://www.w3.org/2001/XMLSchema" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+        <name z:Id="2" z:Type="System.String" z:Assembly="0" xmlns="">{urn:schemas-microsoft-com:System.Activities/4.0/properties/output}Result</name>
+      </XName>
+    </key>
+    <value>
+      <InvoiceResult z:Id="1" z:Type="WorkflowContainer.Activities.Models.InvoiceResult" z:Assembly="WorkflowContainer.Activities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" xmlns="http://schemas.datacontract.org/2004/07/WorkflowContainer.Activities.Models" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+        <Approval1 z:Id="2">
+          <IsApproved>true</IsApproved>
+          <Message z:Id="3">My brand new LocalFileInstanceStore</Message>
+        </Approval1>
+        <Approval2 z:Id="4">
+          <IsApproved>false</IsApproved>
+          <Message z:Id="5">LocalFileInstanceStore - saving as xml in file</Message>
+        </Approval2>
+        <InvoiceAmount>255</InvoiceAmount>
+        <IsApproved>false</IsApproved>
+        <IsAutoApproved>false</IsAutoApproved>
+        <Level1Approver z:Id="6">rajeev@uipath.com</Level1Approver>
+        <Level2Approver z:Id="7">visvamitra@uipath.com</Level2Approver>
+      </InvoiceResult>
+    </value>
+  </InstanceValue>
+</InstanceValues>
