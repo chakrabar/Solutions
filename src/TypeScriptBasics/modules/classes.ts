@@ -94,6 +94,6 @@ const Animal = class {
 }
 
 const cat  = new Animal('CAT.');
-// well, I'm not gonna use this
+// ==> ==> ==> well, I'm not gonna use this
 
 export { Employee, SmartEmployee, CoolEmployee };

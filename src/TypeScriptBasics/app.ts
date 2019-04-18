@@ -1,6 +1,7 @@
 import { GetBookTitles } from './modules/functions';
 import { Person, getSamplePerson } from './modules/interfaces';
 import { Employee } from './modules/classes';
+import { GenericFunction, TestGenericInterface } from './modules/generics';
 
 class HelloWorld {
     constructor(public message: string) {}
@@ -20,3 +21,7 @@ console.log(person);
 const myEMp = new Employee('Arghya', 'Mr', 'Chakrabarty');
 console.log(myEMp.name);
 console.log(Employee.description);
+
+const emp22 = GenericFunction<Employee>(myEMp);
+
+TestGenericInterface();

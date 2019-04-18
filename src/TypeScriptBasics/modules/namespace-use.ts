@@ -7,11 +7,11 @@ const six = Utilities.Numbers.double(3); // now the namespace & members are avai
 // this can be fixed though, by creating just one js file with --outFile tsc compiler option
 
 // on the other hand
-// MODULES ARE SUPPORTED in BOTH NODE.JS & BROWSER (directly in ES6, or through loaders like requireJS/commonJS)
+// MODULES ARE SUPPORTED in BOTH NODE.JS & BROWSER (directly in ES6, or through loaders like requireJS/systemJS)
 
 // === MODULES ===
 // modules are better modern standard
-// modules are structured simply by directories and files => each file is an module
+// modules are structured simply by directories and files => each file is an module (given it uses export keyword)
 
 // in brief,  ==> ==> ==> I'm not gonna use namespace and confuse myself and other fellow developers!
 
@@ -32,7 +32,7 @@ const six = Utilities.Numbers.double(3); // now the namespace & members are avai
 // AMD modules does not work in Node.js out-of-the-box, but can be used via https://github.com/jrburke/amdefine
 
 // other option here for browser based usage is => use --outFile tsc compiler option to output
-// a single JS file, which will work fine in browser. But, well, then it's not modules anymore :)
+// a single JS file, which will work fine in browser. But, well, then it's not like real modules anymore :)
 
 // AMD style (in BROWSER via require.js) <== originally derived from CommonJS :p
 // define(["require", "exports"], function (require, exports) { ... }
@@ -41,3 +41,15 @@ const six = Utilities.Numbers.double(3); // now the namespace & members are avai
 // Object.defineProperty(exports, "__esModule", { value: true }); ...
 
 // One major difference is, AMD supports asynchronous (thus parallel) loading of scripts
+
+// AND there is a cross between CommonJS and AMD i.e. Universal Module Definition (UMD) which can be understood 
+// both by Node.js as well as browsers!
+
+// Use "system" to output System.js modules which supports both CommonJS and AMD modules, and has it's own module 
+// definitions. It is another popular module loader.
+
+// And there is ES6 (also called ES2015) modules. The new natve JavaScript modules, which is supported by modern
+// browsers. TypeScript modules syntax follow ES6 module syntax very closely!
+
+// Most common module loaders for Browser are RequireJS and SystemJS(https://github.com/systemjs/systemjs). ES6 
+// modules are natively supported in modern browsers.
