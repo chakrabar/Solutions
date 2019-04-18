@@ -1,20 +1,29 @@
 {
     "compilerOptions": {
-        "module": "commonjs", //default: commonjs for up to target:es5, or es6
+        "module": "commonjs", //module format, default: commonjs for up to target:es5, or es6
         // es6 uses :: import { module1 } from './modules/myModule'
-        // commonjs uses :: ar functions_1 = require("./modules/myModule")
-        "noImplicitAny": true,
-        "removeComments": true,
+        // commonjs uses :: ar functions_1 = require("./modules/myModule")        
         "preserveConstEnums": true,
-        "sourceMap": true,
-        "target": "es5", // apparently module:es6 does not work well with vs code debugger
+        "sourceMap": true, // generate source map
+        "removeComments": true,
+        "target": "es5", // generated JS standard, apparently module:es6 does not work well with vs code debugger
         "watch": true, // watch file change and compile automatically
-        "outDir": "js", // redirect generated JS directory structure to this
+        "outDir": "compiled", // redirect generated JS directory structure to this
         // use following option to generate a single compiled JS (mainly for browsers)
         // it'll ignore the outDir. The module system needs to be amd (OR system)
-        // "outFile": "dist/libraryManagement.js"
+        // "outFile": "compiled/dist/myCoolApp.js"
+        "noImplicitAny": true, // to use type any, it has to be set explicitly i.e. strict - nothing without a type        
+        "noUnusedLocals": false, // todo: set to true for production
+        "noUnusedParameters": true,
+        "noImplicitReturns": true // report error if not all code paths return a value
     },
     "files": [
-        "app.ts" // entry point file. anything referred from here will be included in compiled JS
+        "app.ts" // entry point file(s). anything referred from here will be INCLUDED in compiled JS
+    ],
+    "exclude": [ // files/directories to exclude from compiling
+        "node_modules",
+        "lib"
+        // NOTE: this only affects files in cluded by include option, NOT by files option
+        // this is complimentary to files option. IF FILES option is used, THIS IS IGNORED
     ]
 }

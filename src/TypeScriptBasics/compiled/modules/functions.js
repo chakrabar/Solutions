@@ -41,6 +41,8 @@ function GetBookTitles(arg) {
     else if (typeof arg == 'number') {
         return ['C', 'D'];
     }
+    console.debug("Unexpected type " + typeof arg + " for argument " + arg);
+    return null;
 }
 exports.GetBookTitles = GetBookTitles;
 var books = GetBookTitles('cool author');

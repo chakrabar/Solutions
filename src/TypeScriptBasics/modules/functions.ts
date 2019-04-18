@@ -62,6 +62,8 @@ function GetBookTitles(arg : any) : string[] {
     } else if (typeof arg == 'number') {
         return ['C', 'D'];
     }
+    console.debug(`Unexpected type ${typeof arg} for argument ${arg}`)
+    return null;
 }
 
 const books = GetBookTitles('cool author'); // A, B
