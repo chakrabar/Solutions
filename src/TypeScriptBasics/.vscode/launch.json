@@ -12,7 +12,8 @@
             "outFiles": [
                 "${workspaceFolder}/**/*.js" // find files to run here, ${workspaceFolder}/**/*.js
             ],
-            "sourceMaps": true // use source maps
+            "sourceMaps": true, // use source maps
+            "console": "integratedTerminal" // use cool VS terminal and auto-bring up on debug
         },
         { // another debug configuration
             "type": "node",
