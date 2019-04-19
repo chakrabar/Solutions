@@ -1,0 +1,16 @@
+{
+  "name": "type-script-basics",
+  "version": "1.0.0",
+  "description": "TypeScript basic learning",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "chakrabar",
+  "license": "MIT",
+  "dependencies": {
+    "@types/lodash": "^4.14.123",
+    "lodash": "^4.17.11"
+  }
+}
