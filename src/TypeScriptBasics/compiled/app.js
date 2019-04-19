@@ -4,6 +4,7 @@ var functions_1 = require("./modules/functions");
 var interfaces_1 = require("./modules/interfaces");
 var classes_1 = require("./modules/classes");
 var generics_1 = require("./modules/generics");
+var _ = require("lodash");
 var HelloWorld = (function () {
     function HelloWorld(message) {
         this.message = message;
@@ -21,4 +22,6 @@ console.log(myEMp.name);
 console.log(classes_1.Employee.description);
 var emp22 = generics_1.GenericFunction(myEMp);
 generics_1.TestGenericInterface();
+var emp_snake_name = _.snakeCase(emp22.name);
+console.log(emp_snake_name);
 //# sourceMappingURL=app.js.map

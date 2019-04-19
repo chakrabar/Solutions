@@ -2,6 +2,8 @@ import { GetBookTitles } from './modules/functions';
 import { Person, getSamplePerson } from './modules/interfaces';
 import { Employee } from './modules/classes';
 import { GenericFunction, TestGenericInterface } from './modules/generics';
+// import lodash
+import * as _ from 'lodash'; // location refers to node_modules/@types/lodash/index
 
 class HelloWorld {
     constructor(public message: string) {}
@@ -25,3 +27,7 @@ console.log(Employee.description);
 const emp22 = GenericFunction<Employee>(myEMp);
 
 TestGenericInterface();
+
+// test lodash JS library with TypeDefinition in ./node_modules/@types/lodash/index.d.ts
+const emp_snake_name = _.snakeCase(emp22.name);
+console.log(emp_snake_name);
