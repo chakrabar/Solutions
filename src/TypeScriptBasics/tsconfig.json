@@ -15,7 +15,8 @@
         "noImplicitAny": true, // to use type any, it has to be set explicitly i.e. strict - nothing without a type        
         "noUnusedLocals": false, // todo: set to true for production
         "noUnusedParameters": true,
-        "noImplicitReturns": true // report error if not all code paths return a value
+        "noImplicitReturns": true, // report error if not all code paths return a value
+        "traceResolution": false // true to debug trace how it is trying to resolve the module paths
     },
     "files": [
         "app.ts" // entry point file(s). anything referred from here will be INCLUDED in compiled JS
