@@ -19,5 +19,8 @@
     "Polymer.js"
   ],
   "author": "Craig Shoemaker <craig@craigshoemaker.net>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@webcomponents/webcomponentsjs": "^2.2.10"
+  }
 }
