@@ -1,0 +1,23 @@
+{
+  "name": "html5-webcomponents-jquery-polymer",
+  "version": "1.0.0",
+  "description": "Sample code for \"HTML5 Web Components: Moving from jQuery to Polymer.js\"",
+  "main": "index.html",
+  "devDependencies": {
+    "bower": "^1.8.0",
+    "http-server": "^0.10.0"
+  },
+  "scripts": {
+    "start": "http-server -o",
+    "preinstall": "npm install bower -g & bower install"
+  },
+  "keywords": [
+    "HTML5",
+    "Web",
+    "Components",
+    "jQuery",
+    "Polymer.js"
+  ],
+  "author": "Craig Shoemaker <craig@craigshoemaker.net>",
+  "license": "MIT"
+}

@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body {
+    background-image: url(desktop.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+.course-title {
+    margin: 1em 0 1em 0;
+    text-align: center;
+    font-size: 4em;
+}
+
+.card {
+    border: #ccc solid 1px;
+    background-color: #fff;
+    padding: 25px;
+    min-height: 225px;
+    border-radius: 3px;
+}
+
+.card:hover {
+    background-color: #eee;
+}
+
+.card:first-child p {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: solid 1px #ccc;
+    color: #999;
+}
+
+.chevron {
+    padding-top: 70px;
+    font-size: 3em;
+    color: #ccc;
+    letter-spacing: -10px;
+}
+
+.implementation {
+    position: absolute;
+    top: 25px;
+    padding: 10px;
+    background-color: #eee;
+    font-weight: bold;
+    border-radius: -2px;
+    left: 320px;
+    -webkit-box-shadow: 2px 3px 5px 0px rgba(189,189,189,1);
+    -moz-box-shadow: 2px 3px 5px 0px rgba(189,189,189,1);
+    box-shadow: 2px 3px 5px 0px rgba(189,189,189,1);
+}
+
+footer {
+    border-top: 1px solid #eee;
+    margin-top: 75px;
+    padding: 25px;
+    text-align: center;
+}
+
+/* Used to demo Shadow DOM */
+/*
+div[data-parent="true"] {
+    color: yellow;
+}
+*/

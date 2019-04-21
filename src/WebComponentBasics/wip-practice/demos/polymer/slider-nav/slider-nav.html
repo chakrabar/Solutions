@@ -1,0 +1,105 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<dom-module id="slider-nav">
+
+    <template>
+        <style>
+        .pointer {
+            cursor: pointer;
+        }
+
+        [data-role="container"],
+        .layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 300px;
+            font-size: 1em;
+            transition: .35s;
+            overflow: auto;
+            padding: 10px;
+            color: #eee;
+            background-color: var(--slider-nav-background-color, #333);
+        }
+
+        .layer {
+            margin-left: -350px;
+        }
+
+        .show {
+            margin-left: 0;
+        }
+
+        [data-role="container"] [data-role="close-layer"]:hover,
+        .item:hover {
+            background-color: #999;
+        }
+
+        .item {
+            cursor: pointer;
+            padding: 4px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+        }
+
+        .item-selected {
+            background-color: #666;
+        }
+
+        [data-role="container"] div[data-parent="true"]::before {
+            content: "» ";
+        }
+
+        .left-arrow::after {
+            content: "« ";
+        }
+
+        [data-role="container"] [data-role="close-layer"] {
+            padding:10px;
+            border-bottom: solid 1px #999;
+        }
+        </style>
+        <div data-role="container" on-click="click">
+            <div data-role="root">
+                <h2 id="title">[[title]]</h2>
+
+                <template is="dom-repeat" items="{{rootItems}}">
+                    <div class="item"
+                         data-parent$="{{item.isParent}}"
+                         data-nav-path$="{{item.path}}"
+                         data-name$="{{item.fileName}}"
+                         title="{{item.title}}">{{item.title}}</div>
+                </template>
+
+                <template id="layer-template" is="dom-repeat" items="{{layers}}" as="layer">
+                    <div id="layer-{{layer.id}}" data-nav-path$="{{layer.path}}" class="layer" style="z-index: {{layer.zIndex}};">
+                        <div class="pointer" data-role="close-layer" title="{{layer.title}}">
+                            <span class="left-arrow"></span> {{layer.title}}
+                        </div>
+
+                        <template is="dom-repeat" as="layerItem" items={{layer.items}}>
+                            <div class="item"
+                                 data-parent$="{{layerItem.isParent}}"
+                                 data-nav-path$="{{layerItem.path}}"
+                                 data-name$="{{layerItem.fileName}}"
+                                 title="{{layerItem.title}}">{{layerItem.title}}</div>
+                        </template>
+
+                    </div>
+                </template>
+
+            </div>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    (function(window, document){
+
+        'use strict';
+
+      
+
+    }(window, document));
+</script>
