@@ -9,14 +9,14 @@
         "target": "es5", // generated JS standard, apparently module:es6 does not work well with vs code debugger
         "watch": true, // watch file change and compile automatically
         "outDir": "compiled", // redirect generated JS directory structure to this
-        // use following option to generate a single compiled JS (mainly for browsers)
+        // use following option to generate a single compiled JS (mainly for browsers, easy module resolution)
         // it'll ignore the outDir. The module system needs to be amd (OR system)
-        // "outFile": "compiled/dist/myCoolApp.js"
+        // "outFile": "compiled/dist/myCoolLib.js"
         "noImplicitAny": true, // to use type any, it has to be set explicitly i.e. strict - nothing without a type        
-        "noUnusedLocals": false, // todo: set to true for production
-        "noUnusedParameters": true,
+        "noUnusedLocals": false, // true for strict production code
+        "noUnusedParameters": false, // true for strict production code
         "noImplicitReturns": true, // report error if not all code paths return a value
-        "traceResolution": false // true to debug trace how it is trying to resolve the module paths
+        "traceResolution": false // true to debug-trace how it is trying to resolve the module paths
     },
     "files": [
         "app.ts" // entry point file(s). anything referred from here will be INCLUDED in compiled JS
@@ -24,7 +24,7 @@
     "exclude": [ // files/directories to exclude from compiling
         "node_modules",
         "lib"
-        // NOTE: this only affects files in cluded by include option, NOT by files option
+        // NOTE: this only affects files included by include option, NOT by files option
         // this is complimentary to files option. IF FILES option is used, THIS IS IGNORED
     ]
 }
