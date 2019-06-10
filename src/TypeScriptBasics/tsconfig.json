@@ -16,7 +16,15 @@
         "noUnusedLocals": false, // true for strict production code
         "noUnusedParameters": false, // true for strict production code
         "noImplicitReturns": true, // report error if not all code paths return a value
-        "traceResolution": false // true to debug-trace how it is trying to resolve the module paths
+        "traceResolution": false, // true to debug-trace how it is trying to resolve the module paths
+        "skipLibCheck": true, // do not check .d.ts files within libraries
+        "typeRoots": [ // source of type definitions
+            "node_modules/@types" // this is default though
+        ],
+        "lib": [ // include these internal libraries
+            "es2017",
+            "dom"
+        ]
     },
     "files": [
         "app.ts" // entry point file(s). anything referred from here will be INCLUDED in compiled JS
