@@ -1,3 +1,12 @@
 .zdog-canvas {
-    background: #FDB;
-  }
+  /* background: #FDB; */
+  height: 600px;
+  width: 600px;
+  margin: auto;
+}
+
+.header {
+  float: right;
+  color: white;
+  margin: 20px;
+}
