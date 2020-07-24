@@ -6,3 +6,5 @@
 * `npm install`
 * `node .\index.js`
 * Browse `http://localhost:3000`
+* Browse also in another tab / browser
+* Now chat 😀
