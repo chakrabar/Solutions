@@ -1,7 +1,7 @@
 {
     "name": "simple-video-chat",
     "version": "1.0.0",
-    "description": "",
+    "description": "Experimental, free, peer-2-peer video chat system",
     "main": "index.js",
     "scripts": {
         "start": "nodemon index.js"

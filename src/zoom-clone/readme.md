@@ -8,10 +8,10 @@ Reference: This great [YouTube tutorial](https://www.youtube.com/watch?v=DvlyzDZ
 
 1. `npm install`
 2. Globally install peerjs `npm install peer -g`
-3. Run peerjs server `peerjs --port 3001` (a custom perJS server might be run at, say http://localhost:3001/peerjsserver)
+3. Run peerjs server `peerjs --port 3001` (a custom perJS server might be run at, say http://localhost:3001/peerjsserver). Note, setup this peerjs server connection details in `script.js` which will be used at client front-end
 4. Browse to http://localhost:3000
 5. Copy generated URI and open another tab/window of the browser and paste URI
-6. Currently it works only on `Chrome` or `Chromium base Edge`, but not on both on same client at same time
+6. It **currently works only on** `Chrome` or `Chromium base Edge`, but not on both, in same client, at same time
 
 ## Tips to successfully deploy to Azure App Service
 
@@ -24,4 +24,4 @@ Reference: This great [YouTube tutorial](https://www.youtube.com/watch?v=DvlyzDZ
 7. When `peerJS server` is secured (https), configure accordingly in client JS ([doc](https://peerjs.com/docs.html#start))
 8. Deploy to the App Service (can be done from `VS Code` with `Azure App Service` extension)
 
-> NOTE: Apparently, WebRTC connection is quite unreliable over Mobile 4G connections!
+> **NOTE:** Apparently, `WebRTC` connection is quite unreliable over Mobile (4G) connections! What's even more weird, this problems on mobile-to-pc connections seem to increase when 'controls' are added to 'video' elements. **AND...** the reliability falls fast with increasing distance, mixed networks!!!

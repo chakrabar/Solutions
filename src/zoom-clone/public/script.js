@@ -30,12 +30,19 @@ try {
     // start my own stream by capturing my device audio+video and get ready for calls
     const getUserMedia = navigator.mediaDevices.getUserMedia
     getUserMedia({
-        video: true,
+        video: {
+            width: { exact: 270 },
+            height: { exact: 270 },
+            frameRate: {
+                ideal: 10,
+                max: 15
+            }
+        },
         audio: true
     }).then((myStream) => {
         // show my own video stream on a video element
         addVideoStream(myVideo, myStream)
-    
+
         // if get a call from peerjs peer, answer the call with own stream
         myPeer.on('call', (call) => {
             console.log('Got call from: ')
@@ -46,7 +53,7 @@ try {
                 addVideoStream(peerVideo, peerVideoStream)
             })
         })
-    
+
         // when another user joins the same socket room => add them to call
         socket.on('user-connected', (peerUserId) => {
             connectToNewUser(peerUserId, myStream)
