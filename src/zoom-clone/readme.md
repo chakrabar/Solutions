@@ -23,3 +23,5 @@ Reference: This great [YouTube tutorial](https://www.youtube.com/watch?v=DvlyzDZ
 6. Make sure main entry file is correct in `package.json` like `"main": "index.js"`
 7. When `peerJS server` is secured (https), configure accordingly in client JS ([doc](https://peerjs.com/docs.html#start))
 8. Deploy to the App Service (can be done from `VS Code` with `Azure App Service` extension)
+
+> NOTE: Apparently, WebRTC connection is quite unreliable over Mobile 4G connections!
