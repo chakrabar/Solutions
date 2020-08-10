@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/8e346e72-1237-4ba0-b40e-51bab197bf0d/resourceGroups/AC-IDC-StudioWeb-02/providers/Microsoft.Web/sites/simple-video-chat",
+    "appService.deploySubpath": "."
+}

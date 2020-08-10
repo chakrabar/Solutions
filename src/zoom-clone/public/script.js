@@ -5,8 +5,9 @@ const myVideoGrid = document.querySelector('#video-grid') // get reference to ou
 // IMP: NOTE: Following setup currently works only in Chrome and Chrome based Edge
 // ALSO NOTE: It does NOT work for Chrome & Edge at the same time, for client on same machine
 const myPeer = new Peer(undefined, { // ID is kept undefind for peerjs server to create
-    host: '/', // back-end peer server host
-    port: '3001' // peer server port
+    host: 'localhost', // back-end peer server host
+    port: '3001', // peer server port (http://localhost:3001/peerjsserver)
+    path: 'peerjsserver'
 }) // peerjs will take all the WebRTC info from browser, and relate that to newly created ID
 
 const myVideo = document.createElement('video') // create a video element
