@@ -5,12 +5,21 @@ const myVideoGrid = document.querySelector('#video-grid') // get reference to ou
 // IMP: NOTE: Following setup currently works only in Chrome and Chrome based Edge
 // ALSO NOTE: It does NOT work for Chrome & Edge at the same time, for client on same machine
 const myPeer = new Peer(undefined, { // ID is kept undefind for peerjs server to create
-    host: 'localhost', // back-end peer server host
-    port: '3001', // peer server port (http://localhost:3001/peerjsserver)
-    path: 'peerjsserver'
+    host: 'peerjs-webrtc.azurewebsites.net', // back-end peer server host
+    // port: 3001, // peer server port (http://localhost:3001/peerjsserver) (https://peerjs-webrtc.azurewebsites.net/peerjsserver)
+    path: 'peerjsserver',
+    secure: true // https://peerjs.com/docs.html#start
 }) // peerjs will take all the WebRTC info from browser, and relate that to newly created ID
 
-const myVideo = document.createElement('video') // create a video element
+const createVidElement = () => {
+    const vid = document.createElement('video')
+    // vid.className = 'video-box'
+    // vid.setAttribute('controls', 'controls')
+    // vid.setAttribute('autoplay', 'autoplay')
+    return vid;
+}
+
+const myVideo = createVidElement(); // document.createElement('video') // create a video element
 myVideo.muted = true // make this video muted, that is it PLAYS without sound (video can record sound)
 
 // a mapping of connected peers and their peerjs call object
@@ -21,7 +30,7 @@ const peers = {}
 const getUserMedia = navigator.mediaDevices.getUserMedia
 getUserMedia({
     video: true,
-    audio: false
+    audio: true
 }).then((myStream) => {
     // show my own video stream on a video element
     addVideoStream(myVideo, myStream, myVideoGrid)
@@ -31,7 +40,7 @@ getUserMedia({
         console.log('Got call from: ')
         call.answer(myStream)
         // when peer starts to stream, show their video
-        const peerVideo = document.createElement('video')
+        const peerVideo = createVidElement(); // document.createElement('video')
         call.on('stream', (peerVideoStream) => {
             addVideoStream(peerVideo, peerVideoStream, myVideoGrid)
         })
@@ -75,7 +84,7 @@ const addVideoStream = (videoEl, stream, videoGrid) => {
         videoEl.play()
     })
     videoGrid.append(videoEl)
-    videoEl.load()
+    videoEl.load() // not sure if this is required
 }
 
 // call the new user with my own stream, show their video when they start to stream
@@ -83,7 +92,7 @@ const connectToNewUser = (peerUserId, myStream) => {
     // call the peer with my stream
     const call = myPeer.call(peerUserId, myStream)
     // show their video when they start to stream
-    const peerVideo = document.createElement('video')
+    const peerVideo = createVidElement(); // document.createElement('video')
     call.on('stream', (peerVideoStream) => {
         console.log('Peer started to stream: ' + peerUserId)
         addVideoStream(peerVideo, peerVideoStream, myVideoGrid)

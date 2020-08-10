@@ -1,8 +1,8 @@
 const { PeerServer } = require('peer');
 
 const peerServer = PeerServer({
-    port: 3001,
+    port: 8080,
     path: '/peerjsserver'
 });
 
-console.log('Running peerJS server @ http://localhost:3001/peerjsserver')
+console.log('Running peerJS server @ http://localhost:8080/peerjsserver', peerServer)

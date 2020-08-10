@@ -3,6 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Arghya Chakrabarty">
+        <meta name="description" content="Experimental, free, peer-2-peer video chat system">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="/message_icon.jpg">
+        <meta property="og:image" content="/message_icon.jpg" />
         <script>
             const ROOM_ID = "<%= roomId %>" // roomId passed by express
         </script>
@@ -16,17 +21,19 @@
                 display: grid;
                 grid-template-columns: repeat(auto-fill, 300px);
                 grid-auto-rows: 300px;
-                background-color: brown;
             }
 
             video {
                 height: 100%;
                 width: 100%;
                 object-fit: cover;
+                /* // margin: 20px;
+                // border: grey 1px solid; */
             }
         </style>
     </head>
     <body>
+        <h2>Free Video Chat, room: <%= roomId %></h2>
         <div id="video-grid"></div>
     </body>
 </html>

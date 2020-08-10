@@ -33,7 +33,7 @@ io.on('connection', (socket) => {
 })
 
 // start the server
-server.listen(3000)
+server.listen(8080)
 
 // to start a gloabl peerjs server: peerjs --port 3001
 // or run a separate custom peerJS server
