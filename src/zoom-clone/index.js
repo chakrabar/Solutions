@@ -9,17 +9,17 @@ app.use(express.static('public')) // keep static files in folder 'public', using
 
 // set up app fucntion for the server
 // the routes OR response for GET requests, for different paths
-app.get('/', (req, res) => {
+app.get('/', (req, res) => { // when a request comes to home page (there's no such page actually)
     res.redirect(`/${uuidV4()}`) // generate a new room id and redirect to parameterized page
 })
 app.get('/:room', (req, res) => { // parameterized room page (basically still the home page)
-    // render view and pass roomId as data i.e. basically pass template & data
+    // render view and pass roomId as data i.e. basically concept of pass template & data
     res.render('room', { roomId: req.params.room })
 })
 
 // setup socket.io
 io.on('connection', (socket) => {
-    // let new users connect them to a room (a specific user for a specific room)
+    // let new users connect them to a room (a specific user and a specific room)
     socket.on('join-room', (roomId, userId) => {
         console.log(roomId, userId)
         socket.join(roomId)
@@ -29,11 +29,15 @@ io.on('connection', (socket) => {
         socket.on('disconnect', () => {
             socket.to(roomId).broadcast.emit('user-disconnected', userId)
         })
+        // for NEW text message, forward message to other users in the room
+        socket.on('chat-message', (userId, message) => {
+            socket.to(roomId).broadcast.emit('chat-message', userId, message)
+        })
     })
 })
 
 // start the server
 server.listen(8080)
 
-// to start a gloabl peerjs server: peerjs --port 3001
-// or run a separate custom peerJS server
+// to start a local peerjs server: peerjs --port 3001
+// or run a separate custom peerJS server, see readme

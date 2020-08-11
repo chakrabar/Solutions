@@ -24,6 +24,7 @@ myVideo.muted = true // make this video muted, that is it PLAYS without sound (v
 
 // a mapping of connected peers and their peerjs call object
 const peers = {}
+let myUserId;
 
 try {
     // this is a problem in different browsers, and docs does not help much
@@ -69,11 +70,17 @@ try {
         }
     })
 
+    // NEW chat message
+    socket.on('chat-message', (peerUserId, message) => {
+        appendChatMessage(peerUserId, message)
+    })
+
     // as soon as it connects to peerjs server (above), it'll come back with it's own ID
     myPeer.on('open', (id) => { // and we're gonna use this id as our standard user ID
         // we could very well have used socket.id as userId, but we'll need peerjs ids later anyway
         // now
         // join socket room with roomId & userId
+        myUserId = id;
         socket.emit('join-room', ROOM_ID, id)
     })
 } catch (error) {
@@ -118,3 +125,26 @@ const connectToNewUser = (peerUserId, myStream) => {
     // keep reference to call for this peer, so that can be disconnected later
     peers[peerUserId] = call
 }
+
+const appendChatMessage = (user, message) => {
+    const chatDisplay = document.querySelector('#chat-display')
+    
+    const msgSpan = document.createElement('span')
+    msgSpan.innerHTML = `${user}: ${message}`
+    chatDisplay.appendChild(msgSpan)
+}
+
+const sendText = (e) => {
+    e.preventDefault();
+
+    const message = document.querySelector('#msg-txt').value
+    
+    appendChatMessage('me', message)
+
+    document.querySelector('#msg-txt').value = ''
+    
+    socket.emit('chat-message', myUserId, message)
+}
+
+const form = document.getElementById('chat-form');
+form.addEventListener('submit', sendText);

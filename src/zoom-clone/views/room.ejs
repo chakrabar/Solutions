@@ -30,10 +30,34 @@
                 margin: 15px;
                 border: grey 1px solid;
             }
+
+            #chat-form {
+                padding: 10px;
+                border: grey 1px solid;
+                border-radius: 5px;
+            }
+
+            #chat-display {
+                width: 100%;
+                min-height: 30px;
+                max-height: 250px;
+                overflow-y: scroll;
+                border: grey 1px solid;
+                border-radius: 5px;
+            }
+
+            #chat-display span {
+                display: block;
+            }
         </style>
     </head>
     <body>
         <h2>Free Video Chat, room: <%= roomId %></h2>
         <div id="video-grid"></div>
+        <div id="chat-display"></div>
+        <form id="chat-form">
+            <input id="msg-txt" type="text" autocomplete="off" />
+            <button type="submit">Send</button>
+        </form>
     </body>
 </html>
