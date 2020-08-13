@@ -32,3 +32,15 @@ The basic infrastructure was referred from this great [YouTube tutorial](https:/
 8. Now, deploy to the App Service (can be done easily from `VS Code` with `Azure App Service` extension)
 
 > **NOTE:** Apparently, `WebRTC` connection is quite unreliable over Mobile (4G) connections! What's even more weird, this problems on mobile-to-pc connections seem to increase when 'controls' are added to 'video' elements. And the reliability falls fast with increasing distance, mixed networks!!! **Finally,** The only setup where it works within usable standards is, on Chrome (desktop or mobile), when clients are on same (WAN/LAN) network, like using the same wifi connection!
+
+## TURN server
+
+Oh a high level, a `WebRTC` connection needs help of a `STUN` and/or `TURN` server to work
+
+STUN: At core, it helps the clients to figure out their public IP, so that other clients to can connect to them when invited. Then the signalling process happens that inlucdes content format negotiation and other agreements.
+
+TURN: Even after using STUN, sometime clients cannot connect to each other for `Symmetric NAT` and other restrictions. In such cases TURN server can help by working as a proxy server in between, so that the clients can pass data through them. See more details [here](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API).
+
+The current code does not work across networks. There are some discussions in StackOverflow [here](https://stackoverflow.com/questions/43992334/why-my-webrtc-connection-works-only-at-local-network), [here](https://stackoverflow.com/questions/25546098/installing-a-turn-server-on-ubuntu-for-webrtc) and [here](https://stackoverflow.com/questions/22233980/implementing-our-own-stun-turn-server-for-webrtc-application/35452566#35452566).
+
+The [PeerJS docs](https://peerjs.com/docs.html) says the PeerJS [cloud server](https://peerjs.com/) provides a free TURN server by default (just use `new Peer()` in code), so it should solve the problem. But that did not work either!
