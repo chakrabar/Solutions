@@ -17,21 +17,32 @@ app.get('/:room', (req, res) => { // parameterized room page (basically still th
     res.render('room', { roomId: req.params.room })
 })
 
+// mapping of userId vs username, may need in future
+const users = {}
+
 // setup socket.io
 io.on('connection', (socket) => {
     // let new users connect them to a room (a specific user and a specific room)
-    socket.on('join-room', (roomId, userId) => {
-        console.log(roomId, userId)
+    socket.on('join-room', (roomId, userId, username) => {
+        console.log(roomId, userId, username)
+        users[userId] = username
+
+        // TODO: We are now using username for userId, it may have conflict & other issues
         socket.join(roomId)
         // let other members in the room know a new user has connected
-        socket.to(roomId).broadcast.emit('user-connected', userId)
+        socket.to(roomId).broadcast.emit('user-connected', userId, username)
         // let other users in a room know when a user disconnects from socket server
         socket.on('disconnect', () => {
             socket.to(roomId).broadcast.emit('user-disconnected', userId)
+            users[userId] = undefined
         })
         // for NEW text message, forward message to other users in the room
         socket.on('chat-message', (userId, message) => {
             socket.to(roomId).broadcast.emit('chat-message', userId, message)
+        })
+        // when a connection queries for an user id
+        socket.on('user-query', (queryUserId) => {
+            socket.emit('user-query', queryUserId, users[queryUserId]) // reply to that connection, with username
         })
     })
 })

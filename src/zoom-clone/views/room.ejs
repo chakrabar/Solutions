@@ -17,6 +17,7 @@
         <script src="script.js" defer></script>
         <title>Simple VidChat</title>
         <style>
+
             #video-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, 300px);
@@ -52,12 +53,30 @@
         </style>
     </head>
     <body>
-        <h2>Free Video Chat, room: <%= roomId %></h2>
-        <div id="video-grid"></div>
-        <div id="chat-display"></div>
-        <form id="chat-form">
-            <input id="msg-txt" type="text" autocomplete="off" />
-            <button type="submit">Send</button>
-        </form>
+        <h2>Simple VidChat: Free P2P Video Chat</h2>
+        <h3>Room ID: <%= roomId %></h3>
+
+        <h4 id="name-label">Enter you name and start call:</h4>
+        <div id="options-section"> <!-- NOTE: screen share MAY NOT work in MOBILE -->         
+            <input id="name" type="text" />
+            <br />
+            <input type="radio" id="opt-video" name="vidoption" value="video" checked="checked">
+            <label for="male">Share Video</label><br>
+            <input type="radio" id="opt-screen" name="vidoption" value="screen">
+            <label for="female">Share Screen</label><br>
+            <br/>
+            <button onclick="start()">Start</button>
+        </div>
+        
+        <div id="video-grid" style="display: none;"></div>
+
+        <div id="chat-section" style="display: none;">
+            <div id="chat-display"></div>
+            <form id="chat-form">
+                <input id="msg-txt" type="text" autocomplete="off" />
+                <button type="submit">Send</button>
+            </form>
+        </div>
+        
     </body>
 </html>
